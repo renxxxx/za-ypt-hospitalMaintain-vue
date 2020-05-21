@@ -28,11 +28,11 @@ const mainRoutes = [
     path: '/',
     redirect:'/login'
   },
-  // {
-  //   path: '/index',
-  //   name: '/index',
-  //   component: _import( 'index')
-  // },
+  {
+    path: '/index',
+    name: '/index',
+    component: _import( 'index')
+  },
   // {
   //   path: '/history-detail',
   //   name: '/history-detail',

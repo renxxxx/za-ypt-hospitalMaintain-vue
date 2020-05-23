@@ -9,6 +9,10 @@ console.log(process.env.NODE_ENV)
 //登录及其全局页面
 const globalRoutes = [
   {
+    path:'/',
+    redirect:'/login',
+  },
+  {
     path: '/login',
     name: '/login',
     component: _import( 'login')
@@ -23,30 +27,41 @@ console.dir(_import)
 
 //页面
 const mainRoutes = [
-  
-  {
-    path: '/',
-    redirect:'/login'
-  },
+
+
   {
     path: '/index',
     name: '/index',
     component: _import( 'index')
   },
-  // {
-  //   path: '/history-detail',
-  //   name: '/history-detail',
-  //   component: _import( 'history-detail')
-    
-  // },
+  {
+  	path: '/view',
+  	component: _import( 'view'),
+  	// meta: {auth:true},
+  	redirect:'/view/index',
+  	children:[
+      {
+        path: 'index',
+        name: '/index',
+        component: _import( 'index')
+
+      },
+      {
+        path: 'hosIndex',
+        name: '/hosIndex',
+        component: _import( 'hosIndex')
+      
+      },
+    ],
+  }
   // {
   //   path: '/add-hos',
   //   name: '/add-hos',
   //   component: _import( 'add-hos')
-    
+
   // }
 ]
-
+// console.log(_import( 'view'))
 const router = new Router({
   routes: globalRoutes.concat(mainRoutes)
 })

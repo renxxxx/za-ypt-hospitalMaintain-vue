@@ -70,7 +70,7 @@
 
             } else if (res.data.code == 0) {
               //    			 this.$message.success('入驻申请已提交，请耐心等待审核')
-                 			this.$router.push({path:'/index'});
+                 			this.$router.push({path:'/view/index'});
             } else {
               this.$message.error(res.data.codeMsg);
             }

@@ -1,0 +1,18 @@
+<template>
+  <div id='hosIndex'>
+    123132123132132112313212313213211231321231321321123132123132132112313212313213211231321231321321123132123132132112313212313213211231321231321321123132123132132112313212313213211231321231321321
+  </div>
+</template>
+
+<script>
+</script>
+
+<style scoped>
+  #hosIndex{
+    width:calc(100% - 200px);
+    /* width: calc(100% -200px); */
+     min-width: 800px;
+    display: inline-block;
+    float: left;
+  }
+</style>

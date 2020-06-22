@@ -29,11 +29,11 @@ console.dir(_import)
 const mainRoutes = [
 
 
-  {
-    path: '/index',
-    name: '/index',
-    component: _import( 'index')
-  },
+  // {
+  //   path: '/index',
+  //   name: '/index',
+  //   component: _import( 'index')
+  // },
   {
   	path: '/view',
   	component: _import( 'view'),

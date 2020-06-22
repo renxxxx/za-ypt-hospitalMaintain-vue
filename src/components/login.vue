@@ -4,20 +4,32 @@
        <div class="login_white">
           <p class="login_title">欢迎登录</p>
           <p class="login_deline"></p>
-          <div class="login_line" style="margin-top: 60px;">
+          <div class="login_line line_result" style="margin-top: 60px;">
             <i class="el-icon-office-building"></i>
-            <input type="text">
-
+            <el-autocomplete  :fetch-suggestions="focusFn" @select="confirmFn"
+            clearable clear="searchClearFn" 
+            v-model="loginData.hospitalName" placeholder="请选择登录的医院"></el-autocomplete >
+             <!-- @keyup="serachFn" @focus="focusFn" @blur="loseFocusFn" -->
+            <!-- <div class="searchResults" v-if='searchResultsState'>
+              <ul class="infinite-list" v-infinite-scroll="loadFn">
+                <li v-for="(item,inx) in searchResultsList" :key="inx" @click="confirmFn(item)">
+                  {{item.name}}
+                </li>
+              </ul>
+            </div> -->
           </div>
           <div class="login_line">
             <i class="el-icon-user"></i>
-            <input type="text">
-
+            
+            <el-input clearable v-model="loginData.account" placeholder="请输入账号"></el-input>
           </div>
           <div class="login_line">
             <i class="el-icon-unlock"></i>
-            <input type="text">
+            <el-input show-password clearable v-model="loginData.pwd" placeholder="请输入密码"></el-input>
 
+          </div>
+          <div class="login_submit">
+            <button @click="submitFn">登录</button>
           </div>
        </div>
     </div>
@@ -25,7 +37,133 @@
 </template>
 
 <script>
+import qs from 'qs';
+export default {
+	name: 'login',
+	data () {
+		return {
+			loginData:{
+        hospitalId:'',
+        hospitalName:'',
+        account:'',
+        pwd:'',
+      },
+      searchResultsState:false,
+      searchResultsList:[],
+      HospitalNamePage:0,
+		}
+	},
+	computed:{
+		
+	},
+	components:{
 
+	},
+	beforeCreate(){
+
+	},
+	created(){
+
+	},
+	mounted(){
+	},
+	activated(){
+		// console.dir(JSON.stringify(this.$route.query.query))
+		let query = {}
+		if(this.$route.query.query){
+			query = JSON.parse(this.$route.query.query)
+		}
+		debugger
+	},
+	methods: {
+    submitFn(){
+      this.$axios.post('/hospital-maintain/login',qs.stringify({
+        loginHospitalId : this.loginData.hospitalId,
+        account : this.loginData.account,
+        password : this.loginData.pwd,
+      }))
+        .then(res=>{
+          if(res.data.codeMsg){
+            this.$message(res.data.codeMsg);
+          }
+          if(res.data.code == 0){
+            this.$router.push({path:'/view/index',query:{time : new Date().getTime()}})
+          }
+        })
+        
+    },
+    searchClearFn(){
+      this.HospitalNamePage=0;
+      this.searchResultsList=[];
+      this.loadFn()
+    },
+    //确认医院
+    confirmFn(_item){
+      this.loginData.hospitalName = _item.name
+      this.loginData.hospitalId = _item.hospitalId
+      console.dir(this.loginData.hospitalId)
+      this.loginData.hospitalId = _item.hospitalId
+    },
+    //获取焦点事件打开下拉菜单
+     focusFn(queryString, cb){
+      this.searchResultsState = true;
+      this.HospitalNamePage=0;
+      this.searchResultsList=[];
+      this.loadFn(queryString, cb)
+    },
+    //失去焦点事件关闭下拉菜单
+    loseFocusFn(){
+      setTimeout(()=>{
+        this.searchResultsState = false;
+        this.HospitalNamePage=0;
+      },100)
+    },
+    //搜索医院名称
+		serachFn(){
+      this.searchResultsState = true;
+        this.HospitalNamePage = 0;
+        this.searchResultsList=[];
+        this.loadFn();
+    },
+    loadFn(queryString, cb){
+      this.HospitalNamePage++
+      this.getHospitalName(queryString, cb);
+    },
+    createFilter(queryString) {
+      return (restaurant) => {
+        debugger
+        return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+      };
+    },
+    // 搜索医院名称请求
+    getHospitalName(queryString, cb){
+      this.$axios.get('/hospitals?'+qs.stringify({  
+          kw:this.loginData.hospitalName,
+          pn:this.HospitalNamePage,
+          ps:15
+        }))
+        .then(res=>{
+          if(res.data.codeMsg)
+            this.$message(res.data.codeMsg);
+          if(res.data.data.rows.length>0){
+            
+            for(let i in res.data.data.rows){
+              this.searchResultsList.push({
+                value:res.data.data.rows[i].name,
+                id:res.data.data.rows[i].hospitalId,
+                cover:res.data.data.rows[i].cover,
+              })
+            }
+           
+          }
+          let results = queryString ? this.searchResultsList.filter(this.createFilter(queryString)) : this.searchResultsList;
+            console.log(results)
+            // console.log(this.searchResultsList.filter(this.searchResultsList.name.toLowerCase().indexOf(queryString.toLowerCase()) === 0))
+            cb(this.searchResultsList)
+        })
+    }
+	},
+}
 </script>
 
 <style scoped>
@@ -85,11 +223,101 @@
     margin: 15px auto 0;
     border-bottom: 1px solid rgba(0,0,0,0.35);
   }
-  .login_line input{
-    width:80% ;
+   >>>.el-input{
+     width:80% 
+   }
+  >>>.el-input input{
+    width: 100%;
     border: 0;
     height: 41px;
     outline: none;
     margin-left: 20px;
+  }
+  >>>.el-input__suffix{
+      left: 100%;
+  }
+  >>>.el-input__suffix-inner{
+    width: 50px;
+    display: inline-block;
+  } 
+  >>>.el-autocomplete{
+    width: 80%
+  }
+  /* >>>.el-icon-circle-close {
+    color: #909399;
+    margin-right: -50px;
+  } */
+  .line_result{
+    position: relative;
+  }
+  .searchResults{
+    position: absolute;
+    top: 47px;
+    width: 24vw;
+    min-width: 280px;
+    background-color: #FFFFFF;
+    border: 1px solid rgb(169, 169, 169);
+    border-top: none;
+    z-index: 9;
+  }
+  .searchResults ul{
+    list-style: none;
+    max-height: 270px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+    padding-inline-start: 0px;
+  } 
+  .searchResults ul li {
+    list-style: none;
+    height: 38px;
+    line-height: 38px;
+    box-sizing: border-box;
+    padding-left: 20px;
+    cursor: pointer;
+  }
+  .searchResults ul::-webkit-scrollbar {
+    width: 4px;
+    /* border-radius: 50px; */
+  }
+  .searchResults ul::-webkit-scrollbar-track {
+    background-color: #e0e0e0;
+    /* border-radius: 50px; */
+  }
+  .searchResults ul::-webkit-scrollbar-thumb {
+    background-color: #b3b3b3;
+    /* border-radius: 50px; */
+  }
+  .searchResults ul::-webkit-scrollbar-thumb:hover {
+    background-color:  #b3b3b3;
+    /* border-radius: 50px; */
+  }
+  .searchResults ul::-webkit-scrollbar-thumb:active {
+    background-color: #b3b3b3;
+    /* border-radius: 50px; */
+  }
+  .searchResults::-webkit-scrollbar-thumb:active {
+    background-color: #e0e0e0;
+    /* border-radius: 50px; */
+  }
+  .login_submit{
+    width: 24vw;
+    min-width: 280px;
+    width: 88%;
+    height: auto;
+    margin: 90px auto 0;
+  }
+  .login_submit button{
+    width: 100%;
+    height: 62px;
+    min-width: 280px;
+    margin: 0px auto;
+    background-color: #1890FF;
+    color: #FFFFFF;
+    font-size: 18px;
+    border: none;
+    box-shadow: 0px 3px 8px #135C9F;
+    cursor: pointer;
   }
 </style>

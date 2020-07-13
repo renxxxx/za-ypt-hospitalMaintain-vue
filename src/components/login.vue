@@ -4,23 +4,16 @@
        <div class="login_white">
           <p class="login_title">欢迎登录</p>
           <p class="login_deline"></p>
-          <div class="login_line line_result" style="margin-top: 60px;">
+          <!-- <div class="login_line line_result" style="margin-top: 60px;">
             <i class="el-icon-office-building"></i>
             <el-autocomplete  :fetch-suggestions="focusFn" @select="confirmFn"
-            clearable clear="searchClearFn" 
+            clearable clear="searchClearFn"
             v-model="loginData.hospitalName" placeholder="请选择登录的医院"></el-autocomplete >
-             <!-- @keyup="serachFn" @focus="focusFn" @blur="loseFocusFn" -->
-            <!-- <div class="searchResults" v-if='searchResultsState'>
-              <ul class="infinite-list" v-infinite-scroll="loadFn">
-                <li v-for="(item,inx) in searchResultsList" :key="inx" @click="confirmFn(item)">
-                  {{item.name}}
-                </li>
-              </ul>
-            </div> -->
-          </div>
-          <div class="login_line">
+
+          </div> -->
+          <div class="login_line" >
             <i class="el-icon-user"></i>
-            
+
             <el-input clearable v-model="loginData.account" placeholder="请输入账号"></el-input>
           </div>
           <div class="login_line">
@@ -54,7 +47,7 @@ export default {
 		}
 	},
 	computed:{
-		
+
 	},
 	components:{
 
@@ -70,10 +63,31 @@ export default {
 	activated(){
 		// console.dir(JSON.stringify(this.$route.query.query))
 		let query = {}
+    // console.log(1111)
+    // if(this.$route.query.id){
+    //   this.hospitalId=this.$route.query.id
+    //   console.log(this.hospitalId)
+    // }
 		if(this.$route.query.query){
 			query = JSON.parse(this.$route.query.query)
 		}
 		debugger
+    this.$axios.get('/hospital-maintain/hospital-name',qs.stringify({
+      hospitalId : this.loginData.hospitalId,
+      account : this.loginData.account,
+      password : this.loginData.pwd,
+    }))
+      .then(res=>{
+        if(res.data.codeMsg){
+          this.$message(res.data.codeMsg);
+        }
+        if(res.data.code == 0){
+          // data.data.hospitalName
+          // this.$router.push({path:'/view/index',query:{time : new Date().getTime()}})
+        }
+      })
+
+
 	},
 	methods: {
     submitFn(){
@@ -90,7 +104,7 @@ export default {
             this.$router.push({path:'/view/index',query:{time : new Date().getTime()}})
           }
         })
-        
+
     },
     searchClearFn(){
       this.HospitalNamePage=0;
@@ -137,7 +151,7 @@ export default {
     },
     // 搜索医院名称请求
     getHospitalName(queryString, cb){
-      this.$axios.get('/hospitals?'+qs.stringify({  
+      this.$axios.get('/hospitals?'+qs.stringify({
           kw:this.loginData.hospitalName,
           pn:this.HospitalNamePage,
           ps:15
@@ -146,7 +160,7 @@ export default {
           if(res.data.codeMsg)
             this.$message(res.data.codeMsg);
           if(res.data.data.rows.length>0){
-            
+
             for(let i in res.data.data.rows){
               this.searchResultsList.push({
                 value:res.data.data.rows[i].name,
@@ -154,7 +168,7 @@ export default {
                 cover:res.data.data.rows[i].cover,
               })
             }
-           
+
           }
           let results = queryString ? this.searchResultsList.filter(this.createFilter(queryString)) : this.searchResultsList;
             console.log(results)
@@ -213,7 +227,7 @@ export default {
     width:84px;
     height:3px;
     background:rgba(24,144,255,1);
-    margin: 5px auto;
+    margin: 5px auto 60px;
   }
   .login_line{
     width: 24vw;
@@ -224,7 +238,7 @@ export default {
     border-bottom: 1px solid rgba(0,0,0,0.35);
   }
    >>>.el-input{
-     width:80% 
+     width:80%
    }
   >>>.el-input input{
     width: 100%;
@@ -239,7 +253,7 @@ export default {
   >>>.el-input__suffix-inner{
     width: 50px;
     display: inline-block;
-  } 
+  }
   >>>.el-autocomplete{
     width: 80%
   }
@@ -268,7 +282,7 @@ export default {
     margin-block-start: 0px;
     margin-block-end: 0px;
     padding-inline-start: 0px;
-  } 
+  }
   .searchResults ul li {
     list-style: none;
     height: 38px;

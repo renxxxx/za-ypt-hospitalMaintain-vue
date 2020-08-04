@@ -59,24 +59,23 @@ export default {
 
 	},
 	mounted(){
+     // console.log(123123)
+     // console.log(this.$route.query.id)
 	},
 	activated(){
-		// console.dir(JSON.stringify(this.$route.query.query))
+    console.log(123123)
+		console.log(this.$route.query.id)
 		let query = {}
     // console.log(1111)
-    // if(this.$route.query.id){
-    //   this.hospitalId=this.$route.query.id
-    //   console.log(this.hospitalId)
-    // }
+    if(this.$route.query.id){
+      this.loginData.hospitalId=this.$route.query.id
+      console.log(this.loginData.hospitalId)
+    }
 		if(this.$route.query.query){
 			query = JSON.parse(this.$route.query.query)
 		}
 		debugger
-    this.$axios.get('/hospital-maintain/hospital-name',qs.stringify({
-      hospitalId : this.loginData.hospitalId,
-      account : this.loginData.account,
-      password : this.loginData.pwd,
-    }))
+    this.$axios.get('/hospital-maintain/hospital-name?hospitalId='+this.$route.query.id)
       .then(res=>{
         if(res.data.codeMsg){
           this.$message(res.data.codeMsg);

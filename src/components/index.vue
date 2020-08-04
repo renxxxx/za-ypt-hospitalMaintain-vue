@@ -1,13 +1,14 @@
 <template>
   <div id='index_contain'>
-    <div class="index_top">
+    <!-- <div class="index_top">
       <i class="el-icon-s-fold"></i>
       <span>创建时间: 2020-5-22</span>
-    </div>
+    </div> -->
+    <topLine></topLine>
     <div class="index_title">
       <el-breadcrumb class="index_title_bread" separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">医院信息</el-breadcrumb-item>
-        <el-breadcrumb-item><a href="/">用户管理</a></el-breadcrumb-item>
+        <el-breadcrumb-item><a href="/user">用户管理</a></el-breadcrumb-item>
       </el-breadcrumb>
       <div class="index_title_div">
         <img src="../assets/Bitmap.svg" alt="">
@@ -34,7 +35,6 @@
           </div>
         </div>
       </div>
-
     </div>
     <!-- 下面的详情 -->
     <div class="index_detail">
@@ -92,7 +92,12 @@
 </template>
 
 <script>
+  import topLine from './topLine.vue'
+
   export default {
+    components:{
+      topLine,
+    },
     methods: {
       handleOpen(key, keyPath) {
         console.log(key, keyPath);

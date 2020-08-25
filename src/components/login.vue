@@ -1,31 +1,34 @@
 <template>
   <div id="login">
     <div class="login_index">
+      <div class="login_logo">
+        <img src="../assets/logo.svg" alt="">
+      </div>
        <div class="login_white">
           <p class="login_title">欢迎登录</p>
           <p class="login_deline"></p>
           <div class="login_line line_result" style="margin-top: 60px;">
             <i class="el-icon-office-building"></i>
-            <el-autocomplete  :fetch-suggestions="focusFn" @select="confirmFn"
-            clearable clear="searchClearFn" 
-            v-model="loginData.hospitalName" placeholder="请选择登录的医院"></el-autocomplete >
-             <!-- @keyup="serachFn" @focus="focusFn" @blur="loseFocusFn" -->
-            <!-- <div class="searchResults" v-if='searchResultsState'>
+            <!-- <el-autocomplete  :fetch-suggestions="focusFn" @select="confirmFn"
+            clearable clear="searchClearFn"
+            v-model="loginData.hospitalName" placeholder="请选择登录的医院"></el-autocomplete > -->
+             <!-- @blur="loseFocusFn" -->
+             <el-input v-model="loginData.hospitalName" @input="serachFn" @focus="focusFn" clearable></el-input>
+             <div class="searchResults" v-if='searchResultsState'>
               <ul class="infinite-list" v-infinite-scroll="loadFn">
                 <li v-for="(item,inx) in searchResultsList" :key="inx" @click="confirmFn(item)">
-                  {{item.name}}
+                  {{item.value}}
                 </li>
               </ul>
-            </div> -->
+            </div>
           </div>
           <div class="login_line">
             <i class="el-icon-user"></i>
-            
-            <el-input clearable v-model="loginData.account" placeholder="请输入账号"></el-input>
+            <el-input v-model="loginData.account" placeholder="请输入账号" clearable></el-input>
           </div>
           <div class="login_line">
             <i class="el-icon-unlock"></i>
-            <el-input show-password clearable v-model="loginData.pwd" placeholder="请输入密码"></el-input>
+            <el-input show-password  v-model="loginData.pwd" placeholder="请输入密码" clearable></el-input>
 
           </div>
           <div class="login_submit">
@@ -99,10 +102,12 @@ export default {
     },
     //确认医院
     confirmFn(_item){
-      this.loginData.hospitalName = _item.name
-      this.loginData.hospitalId = _item.hospitalId
-      console.dir(this.loginData.hospitalId)
-      this.loginData.hospitalId = _item.hospitalId
+      debugger
+      this.searchResultsState = false;
+      this.loginData.hospitalName = _item.value
+      this.loginData.hospitalId = _item.id
+      console.dir(this.loginData.hospitalName)
+      this.loginData.hospitalId = _item.id
     },
     //获取焦点事件打开下拉菜单
      focusFn(queryString, cb){
@@ -121,9 +126,9 @@ export default {
     //搜索医院名称
 		serachFn(){
       this.searchResultsState = true;
-        this.HospitalNamePage = 0;
-        this.searchResultsList=[];
-        this.loadFn();
+      this.HospitalNamePage = 0;
+      this.searchResultsList=[];
+      this.loadFn();
     },
     loadFn(queryString, cb){
       this.HospitalNamePage++
@@ -156,10 +161,10 @@ export default {
             }
            
           }
-          let results = queryString ? this.searchResultsList.filter(this.createFilter(queryString)) : this.searchResultsList;
-            console.log(results)
+          // let results = queryString ? this.searchResultsList.filter(this.createFilter(queryString)) : this.searchResultsList;
+            // console.log(results)
             // console.log(this.searchResultsList.filter(this.searchResultsList.name.toLowerCase().indexOf(queryString.toLowerCase()) === 0))
-            cb(this.searchResultsList)
+            // cb(this.searchResultsList)
         })
     }
 	},
@@ -190,6 +195,11 @@ export default {
     min-width: 1120px;
     /* opacity: 0.4; */
   }
+  .login_logo{
+    position: absolute;
+    top: 24px;
+    left: 38px;
+  }
   .login_white{
     width: 32vw;
     min-width: 360px;
@@ -200,7 +210,6 @@ export default {
   .login_title{
     width:100%;
     text-align: center;
-
     height:37px;
     font-size:26px;
     font-family:PingFangSC-Regular,PingFang SC;
@@ -243,18 +252,22 @@ export default {
   >>>.el-autocomplete{
     width: 80%
   }
-  /* >>>.el-icon-circle-close {
-    color: #909399;
-    margin-right: -50px;
-  } */
+  >>>.el-icon-circle-close{
+    float: right;
+  }
+  >>>.popper__arrow{
+    display: none;
+  }
   .line_result{
     position: relative;
   }
   .searchResults{
     position: absolute;
     top: 47px;
-    width: 24vw;
-    min-width: 280px;
+    left: 35px;
+    width: 75%;
+    min-width: 200px;
+    max-height: 270px;
     background-color: #FFFFFF;
     border: 1px solid rgb(169, 169, 169);
     border-top: none;

@@ -27,25 +27,26 @@ console.dir(_import)
 
 //页面
 const mainRoutes = [
-
-
-  // {
-  //   path: '/index',
-  //   name: '/index',
-  //   component: _import( 'index')
-  // },
+  {
+    path: '/adminView',
+    name: 'adminView',
+    component: _import( '/adminView/adminView'),
+    meta: {auth:true},
+    redirect:'/adminView/index',
+    children:[
+      {
+        path: 'index',
+        name: 'index',
+        component: _import( '/adminView/page/index'),
+        meta: {auth:true,indexHide:true},
+      },
+    ]
+  },
   {
   	path: '/view',
   	component: _import( 'view'),
-  	// meta: {auth:true},
   	redirect:'/view/index',
   	children:[
-      {
-        path: 'index',
-        name: '/index',
-        component: _import( 'index')
-
-      },
       {
         path: 'hosIndex',
         name: '/hosIndex',

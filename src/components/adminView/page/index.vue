@@ -10,7 +10,7 @@
         <el-breadcrumb-item><a href="/">用户管理</a></el-breadcrumb-item>
       </el-breadcrumb>
       <div class="index_title_div">
-        <img src="../assets/Bitmap.svg" alt="">
+        <img src="../../../assets/Bitmap.svg" alt="">
         <div class="index_title_nameIntro">
           <h3>忠安医疗医院</h3>
           <div><span>三甲</span><span>龙头</span></div>
@@ -45,7 +45,7 @@
               <span class="index_hosDetail">医院信息</span><span class="index_editDetail">修改信息</span>
             </div>
             <div>
-              <img src="../assets/hosPic.jpg" alt="">
+              <img src="../../../assets/hosPic.jpg" alt="">
               <p>忠安医疗，2011年成立，于2016年在江苏股交所挂牌，代码：690881；公司是一家集研发、生产和销售为一体得高科技医疗服务企业，现有员工百余人，主要从事：疼痛科全套设备及耗材，疼痛科整体解决方案，研发了多项医疗互联网软件（医查查、医师互联、中安大健康、共享医连体等），其中国内首次提出民营医院“两权分离”理论，并在此基础上研发了“共享医连体”系统，获得国内民营医疗的高度评价并同时获得南京青年创业大赛优秀奖；公司坐落在六朝古都的南京，南京是国家重要的科教中心，自古以来就是一座崇文重教的城市，有“天下文枢”、“东南第一学”的美誉。</p>
             </div>
           </div>
@@ -55,7 +55,7 @@
             <div class="index_VR">
               <p>VR地址</p>
               <div>
-                <img src="../assets/vr.svg" alt="">
+                <img src="../../../assets/vr.svg" alt="">
                 <p>/oss/static/vr-beginning/earth/index.html?url=https://fnrpbjvfrg.720yun.com/t/d2vkn98h0q9</p>
               </div>
             </div>
@@ -63,24 +63,24 @@
               <p>医生团队</p>
               <div>
                 <ul>
-                  <li><img src="../assets/doc.svg" alt=""><span>赵医生</span></li>
-                  <li><img src="../assets/doc.svg" alt=""><span>赵医生</span></li>
+                  <li><img src="../../../assets/doc.svg" alt=""><span>赵医生</span></li>
+                  <li><img src="../../../assets/doc.svg" alt=""><span>赵医生</span></li>
                 </ul>
                 <ul>
-                  <li><img src="../assets/doc.svg" alt=""><span>赵医生</span></li>
-                  <li><img src="../assets/doc.svg" alt=""><span>赵医生</span></li>
+                  <li><img src="../../../assets/doc.svg" alt=""><span>赵医生</span></li>
+                  <li><img src="../../../assets/doc.svg" alt=""><span>赵医生</span></li>
                 </ul>
                 <ul>
-                  <li><img src="../assets/doc.svg" alt=""><span>赵医生</span></li>
-                  <li><img src="../assets/doc.svg" alt=""><span>赵医生</span></li>
+                  <li><img src="../../../assets/doc.svg" alt=""><span>赵医生</span></li>
+                  <li><img src="../../../assets/doc.svg" alt=""><span>赵医生</span></li>
                 </ul>
                 <ul>
-                  <li><img src="../assets/doc.svg" alt=""><span>赵医生</span></li>
-                  <li><img src="../assets/doc.svg" alt=""><span>赵医生</span></li>
+                  <li><img src="../../../assets/doc.svg" alt=""><span>赵医生</span></li>
+                  <li><img src="../../../assets/doc.svg" alt=""><span>赵医生</span></li>
                 </ul>
                 <ul>
-                  <li><img src="../assets/doc.svg" alt=""><span>赵医生</span></li>
-                  <li><img src="../assets/doc.svg" alt=""><span>赵医生</span></li>
+                  <li><img src="../../../assets/doc.svg" alt=""><span>赵医生</span></li>
+                  <li><img src="../../../assets/doc.svg" alt=""><span>赵医生</span></li>
                 </ul>
               </div>
             </div>

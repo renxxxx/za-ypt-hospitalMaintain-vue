@@ -30,14 +30,14 @@ const mainRoutes = [
   {
     path: '/adminView',
     name: 'adminView',
-    component: _import( '/adminView/adminView'),
+    component: _import( 'adminView/adminView'),
     meta: {auth:true},
     redirect:'/adminView/index',
     children:[
       {
         path: 'index',
         name: 'index',
-        component: _import( '/adminView/page/index'),
+        component: _import( 'adminView/page/index'),
         meta: {auth:true,indexHide:true},
       },
     ]

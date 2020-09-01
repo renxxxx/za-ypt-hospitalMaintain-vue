@@ -4,7 +4,7 @@
       <el-aside width="200px">
          <el-col style="width: 100%;">
             <div class="index_logo">
-              <img src="../assets/logo.svg" alt="">
+              <img src="assets/logo.svg" alt="">
               <!-- <span>医品通</span> -->
             </div>
             <el-menu
@@ -64,7 +64,7 @@ background-color="#001529"
 <style scoped>
   #index_contain{
     width:200px;
-    height: 100vh;
+    height: 100%;
     float: left;
     /* min-width: 1200px; */
   }

@@ -13,10 +13,10 @@
             clearable clear="searchClearFn"
             v-model="loginData.hospitalName" placeholder="请选择登录的医院"></el-autocomplete > -->
              <!-- @blur="loseFocusFn" -->
-             <el-input v-model="loginData.hospitalName" @input="serachFn" @focus="focusFn" clearable></el-input>
+             <el-input v-model="loginData.hospitalName" @blur="loseFocusFn" @input="serachFn" @focus="focusFn" clearable></el-input>
              <div class="searchResults" v-if='searchResultsState'>
               <ul class="infinite-list" v-infinite-scroll="loadFn">
-                <li v-for="(item,inx) in searchResultsList" :key="inx" @click="confirmFn(item)">
+                <li v-for="(item,inx) in searchResultsList" :key="inx" @mouseover="confirmFn(item)">
                   {{item.value}}
                 </li>
               </ul>
@@ -90,7 +90,19 @@ export default {
             this.$message(res.data.codeMsg);
           }
           if(res.data.code == 0){
-            this.$router.push({path:'/view/index',query:{time : new Date().getTime()}})
+            this.$axios.post('/hospital-maintain/login-refresh')
+            .then(res=>{
+               if(res.data.codeMsg){
+                  this.$message(res.data.codeMsg);
+                }
+                if(res.data.code == 0){
+                  debugger
+                  this.$store.state.account = res.data.data;
+                  this.$router.push({path:'adminView/index',query:{time : new Date().getTime()}})
+                }
+
+            })
+            
           }
         })
         
@@ -103,7 +115,7 @@ export default {
     //确认医院
     confirmFn(_item){
       debugger
-      this.searchResultsState = false;
+      // this.searchResultsState = false;
       this.loginData.hospitalName = _item.value
       this.loginData.hospitalId = _item.id
       console.dir(this.loginData.hospitalName)

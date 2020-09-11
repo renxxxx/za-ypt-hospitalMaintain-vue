@@ -76,11 +76,11 @@ export default {
 		if(this.$route.query.query){
 			query = JSON.parse(this.$route.query.query)
 		}
-		debugger
+		
 	},
 	methods: {
     submitFn(){
-      this.$axios.post('/hospital-maintain/login',qs.stringify({
+      this.$axios.post('/hospital-maintain/login',this.$qs.stringify({
         loginHospitalId : this.loginData.hospitalId,
         account : this.loginData.account,
         password : this.loginData.pwd,
@@ -96,7 +96,7 @@ export default {
                   this.$message(res.data.codeMsg);
                 }
                 if(res.data.code == 0){
-                  debugger
+                  
                   this.$store.state.account = res.data.data;
                   this.$router.push({path:'adminView/index',query:{time : new Date().getTime()}})
                 }
@@ -114,7 +114,7 @@ export default {
     },
     //确认医院
     confirmFn(_item){
-      debugger
+      
       // this.searchResultsState = false;
       this.loginData.hospitalName = _item.value
       this.loginData.hospitalId = _item.id
@@ -123,6 +123,7 @@ export default {
     },
     //获取焦点事件打开下拉菜单
      focusFn(queryString, cb){
+       console.log(123)
       this.searchResultsState = true;
       this.HospitalNamePage=0;
       this.searchResultsList=[];
@@ -148,13 +149,13 @@ export default {
     },
     createFilter(queryString) {
       return (restaurant) => {
-        debugger
+        
         return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
       };
     },
     // 搜索医院名称请求
     getHospitalName(queryString, cb){
-      this.$axios.get('/hospitals?'+qs.stringify({  
+      this.$axios.get('/hospitals?'+this.$qs.stringify({  
           kw:this.loginData.hospitalName,
           pn:this.HospitalNamePage,
           ps:15

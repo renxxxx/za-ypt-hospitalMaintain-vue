@@ -59,7 +59,7 @@
         this.$axios
           .post(
             '/hospital-maintain/login?',
-            qs.stringify({
+            this.$qs.stringify({
               loginHospitalId: this.loginHospitalId,
               account: this.account,
               password: this.password,

@@ -23,8 +23,6 @@ const globalRoutes = [
     component:  _import( 'tihuan'),
   },
 ]
-console.dir(_import)
-
 //页面
 const mainRoutes = [
   {
@@ -40,6 +38,31 @@ const mainRoutes = [
         component: _import( 'adminView/page/index'),
         meta: {auth:true,indexHide:true},
       },
+      {
+        path: 'userManagement',
+        name: 'userManagement',
+        component: _import( 'adminView/page/userManagement'),
+        meta: {auth:true,indexHide:true},
+      },
+      {
+        path: 'managementDepartment',
+        name: 'managementDepartment',
+        component: _import( 'adminView/page/managementDepartment'),
+        meta: {auth:true,indexHide:true},
+      },
+      {
+        path: 'doctorManagement',
+        name: 'doctorManagement',
+        component: _import( 'adminView/page/doctorManagement'),
+        meta: {auth:true,indexHide:true},
+      },
+      {
+        path: 'doctorEvaluation',
+        name: 'doctorEvaluation',
+        component: _import( 'adminView/page/doctorEvaluation'),
+        meta: {auth:true,indexHide:true},
+      },
+      
     ]
   },
   {
@@ -68,10 +91,10 @@ const router = new Router({
 })
 
 router.afterEach((to,from) =>{
-  debugger
+  
   if(to.path == from.path){
     // next({path:'/tihuan',query:to.query})
-    router.replace({path:'/tihuan',query:{query:JSON.stringify(to.query),path:to.path}})
+    router.push({path:'/tihuan',query:{query:JSON.stringify(to.query),path:to.path}})
   }
 })
 

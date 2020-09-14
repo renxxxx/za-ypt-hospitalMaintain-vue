@@ -257,7 +257,7 @@ export default {
         initData(){
             Object.assign(this.$data, this.$options.data());
         },
-        getOfficeFn(){
+        getOfficeFn(_value){
             this.$axios.get('/hospital-maintain/office-list')
             .then(res => {
                 if(res.data.codeMsg){
@@ -270,6 +270,9 @@ export default {
                             label : res.data.data.rows[i].name
                         })
                     }
+                }
+                if(_value){
+                    this.getModifyDetails(_value);
                 }
             })
         },
@@ -401,6 +404,36 @@ export default {
                 }
             })
         },
+        getModifyDetails(_value){
+            this.$axios.get('hospital-maintain/doctor-'+_value.doctorId)
+            .then(res =>{
+                if(res.data.codeMsg){
+                    this.$message(res.data.codeMsg)
+                }
+                if(res.data.code == 0){
+                    this.modifyData = {
+                        doctorId:res.data.data.doctorId,
+                        name: res.data.data.name,
+                        cover: res.data.data.cover,
+                        video: res.data.data.video,
+                        hospitalId: res.data.data.hospitalId,
+                        hospitalName: res.data.data.hospitalName,
+                        tag: res.data.data.tag,
+                        intro: res.data.data.intro,
+                        officeId:res.data.data.officeId,
+                        officeName:res.data.data.officeName,
+                        createTime: res.data.data.createTime,
+                        nowCreateTime: this.moment(res.data.data.createTime).format('YYYY-MM-DD HH-mm-ss'),
+                        updateTime: res.data.data.updateTime,
+                        nowUpdateTime: this.moment(res.data.data.updateTime).format('YYYY-MM-DD HH-mm-ss'),
+                        orderNo: res.data.data.orderNo,
+                        frozen: res.data.data.frozen,
+                        frozenReason: res.data.data.frozenReason,
+                        remark: res.data.data.remark,
+                    }
+                }
+            })
+        },
         pageFn(_value){
             // console.log(_value);
             this.tableDataList = []
@@ -415,7 +448,8 @@ export default {
             this.modifyData = _value
             this.modifyState = true;
             this.userState = false;
-            this.getOfficeFn()
+            this.typeOptions=[]
+            this.getOfficeFn(_value)
         },
         delFn(_value){
             if(_value){
@@ -448,6 +482,7 @@ export default {
             }
             this.modifyState = true;
             this.userState = true;
+            this.typeOptions=[]
             this.getOfficeFn();
             this.addSubmitDialogState = true;
         },
@@ -535,8 +570,7 @@ export default {
                     }
                 })
             }else{
-                console.dir(this.modifyData)
-                
+                // console.dir(this.modifyData)
                 this.$axios.post('hospital-maintain/update-doctor',this.$qs.stringify({
                     doctorId : this.modifyData.doctorId,
                     name : this.modifyData.name,
@@ -553,7 +587,9 @@ export default {
                         this.$message(res.data.codeMsg)
                     }
                     if(res.data.code == 0){
-                        this.modifyState = false
+                        this.modifyState = false;
+                        this.tableDataList = []
+                        this.getDataSum();
                         this.$message("操作成功")
                     }
                 })

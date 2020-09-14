@@ -41,7 +41,8 @@ export default {
     height: 100%;
     width: 100%;
     overflow: hidden;
-    /* min-width: 1100px; */
+    min-width: 1185px;
+    /* overflow-y: scroll; */
 }
 
 </style>

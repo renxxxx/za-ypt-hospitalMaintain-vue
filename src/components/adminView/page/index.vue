@@ -58,7 +58,7 @@
               <p>VR地址</p>
               <div>
                 <img src="../../../assets/vr.svg" alt="">
-                <p>{{hospitalAboutData.contentUrl}}</p>
+                <p class="line-1">{{hospitalAboutData.contentUrl}}</p>
               </div>
             </div>
             <div class="index_doclist">
@@ -345,7 +345,7 @@ export default {
 #index_contain {
   background: rgba(240, 242, 245, 1);
   width: calc(100% - 200px);
-  min-width: 900px;
+  min-width: 985px;
   height: 100%;
   float: left;
   overflow: scroll;

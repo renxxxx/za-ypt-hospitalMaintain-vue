@@ -130,12 +130,12 @@
                         </div>
                         <div class="modifySelectClass" style="float: right;">
                             <span>医生：</span>
-                            <el-select v-model="doctorOptions" placeholder="请选择">
+                            <el-select v-model="modifyData.type1DoctorId" placeholder="请选择">
                                 <el-option
                                 v-for="item in doctorOptions"
-                                :key="item.value"
+                                :key="item.doctorId"
                                 :label="item.label"
-                                :value="item.value">
+                                :value="item.doctorId">
                                 </el-option>
                             </el-select>
                         </div>
@@ -303,11 +303,40 @@ export default {
                 }
             })
         },
-        getDoctor(){
-            
-            this.$axios.get('/hospital-maintain/doctors' + this.$qs.stringify({
-                hospitalId : this.$store.state.common.hospitalAboutData.hospitalId
-            }))
+        getModifyDetails(_value){
+            this.$axios.get('hospital-maintain/user-'+_value.userId)
+            .then(res =>{
+                if(res.data.codeMsg){
+                    this.$message(res.data.codeMsg)
+                }
+                if(res.data.code == 0){
+                    this.modifyData = {
+                        userId:res.data.data.userId,
+                        name: res.data.data.name,
+                        phone: res.data.data.phone,
+                        cover: res.data.data.cover,
+                        point: res.data.data.point,
+                        money: res.data.data.money,
+                        hospitalId: res.data.data.hospitalId,
+                        hospitalName: res.data.data.hospitalName,
+                        type: res.data.data.type,
+                        type1DoctorId: res.data.data.type1DoctorId,
+                        type1DoctorName:res.data.data.type1DoctorName,
+                        type2NurseId:res.data.data.type2NurseId,
+                        type2NurseName:res.data.data.type2NurseName,
+                        createTime: res.data.data.createTime,
+                        nowCreateTime: this.moment(res.data.data.createTime).format('YYYY-MM-DD HH-mm-ss'),
+                        updateTime: res.data.data.updateTime,
+                        nowUpdateTime: this.moment(res.data.data.updateTime).format('YYYY-MM-DD HH-mm-ss'),
+                        frozen: res.data.data.frozen,
+                        frozenReason: res.data.data.frozenReason,
+                        remark: res.data.data.remark,
+                    }
+                }
+            })
+        },
+        getDoctor(_value){
+            this.$axios.get('/hospital-maintain/doctors' )
             .then(res=>{
                  if(res.data.codeMsg){
                     this.$message(res.data.codeMsg)
@@ -319,6 +348,9 @@ export default {
                         doctorId:res.data.data.rows[i].doctorId,
                         label:res.data.data.rows[i].name,
                     })
+                }
+                if(_value){
+                    this.getModifyDetails(_value)
                 }
                 
             })
@@ -334,9 +366,11 @@ export default {
         },
         modifyFn(_value){
             this.doctorOptions = []
-            this.getDoctor();
+            // this.getDoctor();
             console.log(_value)
-            this.modifyData = _value
+            // this.modifyData = _value;
+            this.getDoctor(_value);
+          
             this.modifyState = true;
             this.userState = false;
         },
@@ -408,6 +442,8 @@ export default {
         modifySubmitDialogShowFn(_valueData,_value){
             if(this.addSubmitDialogState){
                 this.addSubmitDialogState = false;
+                this.tableDataList = [];
+                this.getDataSum();
                 this.modifySubmitFn()
                 return ''
             }
@@ -422,6 +458,8 @@ export default {
         },
         modifySubmitDialogFn(){
             if(this.modifySubmitDialogState){
+                this.tableDataList = [];
+                this.getDataSum();
                 this.modifySubmitFn();
             }else{
                 this.delFn(this.modifySubmitDialogData)
@@ -435,6 +473,7 @@ export default {
                     phone : this.modifyData.phone,
                     cover : this.modifyData.cover,
                     type : this.modifyData.type,
+                    type1DoctorId:this.modifyData.type1DoctorId,
                     createTime : new Date().getTime(),
                     remark : this.modifyData.remark,
                 }))
@@ -456,6 +495,7 @@ export default {
                     name : this.modifyData.name,
                     phone : this.modifyData.phone,
                     cover : this.modifyData.cover,
+                    type1DoctorId:this.modifyData.type1DoctorId,
                     type : this.modifyData.type,
                     createTime : this.modifyData.createTime,
                     remark : this.modifyData.remark,

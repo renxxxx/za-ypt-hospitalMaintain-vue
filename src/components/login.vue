@@ -4,7 +4,8 @@
       <div class="login_logo">
         <img src="../assets/logo.svg" alt="">
       </div>
-       <div class="login_white">
+      <div class="login_box">
+        <div class="login_white">
           <p class="login_title">欢迎登录</p>
           <p class="login_deline"></p>
           <div class="login_line line_result" style="margin-top: 60px;">
@@ -34,7 +35,8 @@
           <div class="login_submit">
             <button @click="submitFn">登录</button>
           </div>
-       </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -213,12 +215,24 @@ export default {
     top: 24px;
     left: 38px;
   }
-  .login_white{
+  .login_box{
+    max-width: 420px;
     width: 32vw;
     min-width: 360px;
     height: 100%;
     float: right;
     background: #FFFFFF;
+    position: relative;
+  }
+  .login_white{
+    width: 100%;
+    height: 420px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto 0px;
   }
   .login_title{
     width:100%;

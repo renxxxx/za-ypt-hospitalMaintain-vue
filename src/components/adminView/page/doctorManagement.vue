@@ -48,8 +48,8 @@
                 <el-table ref="singleTable" :data="tableDataList" highlight-current-row  
                     style="width: 100%" 
                     >
-                    <el-table-column prop="serialNumber" width="80"></el-table-column>
-                    <el-table-column prop="cover" width="72">
+                    <el-table-column prop="serialNumber" width="70"></el-table-column>
+                    <el-table-column prop="cover" width="62">
                         <template slot-scope="scope">
                             <img :src="scope.row.cover" style="cursor: pointer;" alt="" @click="enlargeImagesFn(scope.row.cover)">
                         </template>
@@ -66,19 +66,19 @@
                         </template>
                     </el-table-column>
                     
-                    <el-table-column width="264">
+                    <el-table-column width="190">
                         <template slot-scope="scope" >
                             <div>标签</div>
                             <div class="line-1">{{scope.row.tag}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column width="224">
+                    <el-table-column width="200">
                         <template slot-scope="scope" >
                             <div>创建时间</div>
                             <div>{{scope.row.nowCreateTime}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="修改" width="124">
+                    <el-table-column prop="修改" width="100">
                         <template slot-scope="scope">
                            <span style="cursor: pointer;color: #1890FF" @click="modifyFn(scope.row)">修改</span>
                            <span style="color : #E9E9E9"> | </span>
@@ -601,7 +601,8 @@ export default {
 <style scoped>
 .doctorManagement {
     background: rgba(240, 242, 245, 1);
-    width: calc(100% - 200px);
+    /* width: calc(100% - 200px); */
+    width: 100%;
     min-width: 900px;
     height: 100%;
     float: left;

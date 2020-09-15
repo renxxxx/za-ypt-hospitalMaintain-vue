@@ -1,9 +1,12 @@
 <template>
     <div id="adminView" v-if="isRouterAlive">
         <leftNav></leftNav>
-        <keep-alive>
-            <router-view ></router-view>
-        </keep-alive>
+        <div class="right scrollStyle">
+            <keep-alive>
+                <router-view ></router-view>
+            </keep-alive>
+        </div>
+        
     </div>
 </template>
 <script>
@@ -41,8 +44,17 @@ export default {
     height: 100%;
     width: 100%;
     overflow: hidden;
-    min-width: 1185px;
+    /* min-width: 1185px; */
     /* overflow-y: scroll; */
 }
-
+.right{
+    background: rgba(240, 242, 245, 1);
+    width: calc(100% - 200px);
+    height: 100%;
+    float: left;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 'DINPro' !important;
+}
 </style>

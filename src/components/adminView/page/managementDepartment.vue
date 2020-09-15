@@ -409,7 +409,8 @@ export default {
 <style scoped>
 .userManagement {
     background: rgba(240, 242, 245, 1);
-    width: calc(100% - 200px);
+    /* width: calc(100% - 200px); */
+    width: 100%;
     min-width: 900px;
     height: 100%;
     float: left;

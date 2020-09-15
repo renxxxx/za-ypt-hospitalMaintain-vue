@@ -11,7 +11,7 @@
               background-color="#001529"
               text-color="#ffffff"
               class="el-menu-vertical-demo"
-              
+              active-text-color="#e91e63"
               @open="handleOpen"
               @close="handleClose" 
               router

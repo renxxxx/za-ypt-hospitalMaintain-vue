@@ -204,8 +204,8 @@ export default {
         }
         if(res.data.code == 0){
           this.hospitalAboutData = res.data.data;
-          // if(this.hospitalAboutData){
-            // this.hospitalAboutData.tag = res.data.data.tag.split(',');
+          if(this.hospitalAboutData){
+            this.hospitalAboutData.tag = res.data.data.tag.split(',');
             console.log(this.hospitalAboutData.tag)
             if(this.hospitalAboutData.createTime){
               this.hospitalAboutData.createTime = this.moment(this.hospitalAboutData.createTime).format('YYYY-MM-DD')
@@ -263,7 +263,7 @@ export default {
               cQ.remove()  
             })
             
-            
+          }
             
             // console.log(this.hospitalQrCode)
             // cQ.remove()  
@@ -344,7 +344,8 @@ export default {
 <style scoped>
 #index_contain {
   background: rgba(240, 242, 245, 1);
-  width: calc(100% - 200px);
+  /* width: calc(100% - 200px); */
+  width: 100%;
   min-width: 985px;
   height: 100%;
   float: left;

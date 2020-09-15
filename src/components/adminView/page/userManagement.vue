@@ -48,14 +48,14 @@
                 <el-table ref="singleTable" :data="tableDataList" highlight-current-row  
                     style="width: 100%" 
                     >
-                    <el-table-column label="序号" prop="serialNumber"  width="80"></el-table-column>
+                    <el-table-column label="序号" prop="serialNumber"  width="70"></el-table-column>
                     <el-table-column label="昵称" prop="name"></el-table-column>
-                    <el-table-column label="头像" prop="cover" width="153">
+                    <el-table-column label="头像" prop="cover" width="143">
                         <template slot-scope="scope">
                             <img :src="scope.row.cover" style="cursor: pointer;" alt="" @click="enlargeImagesFn(scope.row.cover)">
                         </template>
                     </el-table-column>  
-                    <el-table-column label="类型" width="147">
+                    <el-table-column label="类型" width="137">
                         <template slot-scope="scope">
                             {{(scope.row.type == 0? '普通':'') + (scope.row.type == 1? '医生':'' ) + (scope.row.type == 2? '医护':'')}}
                         </template>
@@ -67,7 +67,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column label="创建时间" prop="nowCreateTime" ></el-table-column>
-                    <el-table-column label="操作" prop="修改" width="124">
+                    <el-table-column label="操作" prop="修改" width="114">
                         <template slot-scope="scope">
                            <span style="cursor: pointer;color: #1890FF" @click="modifyFn(scope.row)">修改</span>
                            <span style="color : #E9E9E9"> | </span>
@@ -517,7 +517,8 @@ export default {
 <style scoped>
 .userManagement {
     background: rgba(240, 242, 245, 1);
-    width: calc(100% - 200px);
+    /* width: calc(100% - 200px); */
+    width: 100%;
     min-width: 900px;
     height: 100%;
     float: left;

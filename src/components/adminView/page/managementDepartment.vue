@@ -345,7 +345,7 @@ export default {
         },
         modifySubmitDialogShowFn(_valueData,_value){
             if(this.addSubmitDialogState){
-                this.addSubmitDialogState = false;
+                
                 this.modifySubmitFn()
                 return ''
             }
@@ -379,7 +379,8 @@ export default {
                         this.$message(res.data.codeMsg)
                     }
                     if(res.data.code == 0){
-                        this.modifyState = false
+                        this.modifyState = false;
+                        this.addSubmitDialogState = false;
                         this.$message("操作成功")
                         this.tableDataList = []
                         this.getDataSum();

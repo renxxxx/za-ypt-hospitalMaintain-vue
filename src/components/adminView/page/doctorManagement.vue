@@ -524,7 +524,7 @@ export default {
         },
         modifySubmitDialogShowFn(_valueData,_value){
             if(this.addSubmitDialogState){
-                this.addSubmitDialogState = false;
+                
                 this.modifySubmitFn()
                 return ''
             }
@@ -546,7 +546,9 @@ export default {
             this.modifySubmitState = false;
         },
         modifySubmitFn(){
-            let offic = this.typeOptions.find(res => this.modifyData.officeId == res.value);
+            let offic = ''
+            if(this.modifyData.officeId)
+                offic = this.typeOptions.find(res => this.modifyData.officeId == res.value);
             if(this.userState){
 
                 this.$axios.post('hospital-maintain/create-doctor',this.$qs.stringify({
@@ -564,7 +566,8 @@ export default {
                         this.$message(res.data.codeMsg)
                     }
                     if(res.data.code == 0){
-                        this.modifyState = false
+                        this.modifyState = false;
+                        this.addSubmitDialogState = false;
                         this.tableDataList = []
                         this.getDataSum();
                         this.$message("操作成功")

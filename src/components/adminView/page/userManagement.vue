@@ -406,9 +406,9 @@ export default {
                 remark : '',
             }
             this.getDoctor();
+            this.addSubmitDialogState = true;
             this.modifyState = true;
             this.userState = true;
-            this.addSubmitDialogState = true;
         },
         handleCurrentChange(_value){
             this.modifyData = _value
@@ -451,9 +451,8 @@ export default {
         },
         modifySubmitDialogShowFn(_valueData,_value){
             if(this.addSubmitDialogState){
-                this.addSubmitDialogState = false;
+                
                 this.tableDataList = [];
-                this.getDataSum();
                 this.modifySubmitFn()
                 return ''
             }
@@ -469,7 +468,6 @@ export default {
         modifySubmitDialogFn(){
             if(this.modifySubmitDialogState){
                 this.tableDataList = [];
-                this.getDataSum();
                 this.modifySubmitFn();
             }else{
                 this.delFn(this.modifySubmitDialogData)
@@ -494,9 +492,11 @@ export default {
                     if(res.data.code == 0){
                         this.modifyState = false;
                         this.modifySubmitState = false;
-                        this.tableDataList = []
+                        this.tableDataList = [];
+                        this.addSubmitDialogState = false;
                         this.getDataSum();
                         this.$message("操作成功")
+                        this.getDataSum();
                     }
                 })
             }else{
@@ -517,6 +517,7 @@ export default {
                     if(res.data.code == 0){
                         this.modifyState = false
                         this.$message("操作成功")
+                        this.getDataSum();
                     }
                 })
             }
@@ -868,4 +869,12 @@ export default {
     border-color: #ffb3b7;
     background-color: #ffefef;
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+input[type="number"]{
+    -moz-appearance: textfield;
+}
+
 </style>

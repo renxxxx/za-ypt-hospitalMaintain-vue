@@ -117,7 +117,9 @@
                 </div>
             </el-dialog>
             <!-- 新增/修改用户列表 -->
-            <el-dialog :visible.sync="modifyState" class="modifyDialog" width="62.2%">
+            <el-dialog :visible.sync="modifyState" class="modifyDialog" width="62.2%"
+            @closed="addSubmitDialogState = false;modifyState = false"
+            >
                 <div slot="title">
                     <div class="modifyBoxTitle">
                     <h3>修改信息</h3>
@@ -194,7 +196,7 @@
                         </li>
                     </ul>
                     <div class="modifyBoxFooter">
-                    <button @click="modifyState = false" style="cursor:pointer;">取消</button>
+                    <button @click="modifyState = false;addSubmitDialogState = false" style="cursor:pointer;">取消</button>
                     <button @click="modifySubmitDialogShowFn(true,'')" style="cursor:pointer;">提交</button>
                     </div>
                 </div>

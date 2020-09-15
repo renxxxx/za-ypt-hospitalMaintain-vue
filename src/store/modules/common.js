@@ -4,7 +4,10 @@ Vue.use(Vuex)
 
 const state={
 	hospitalAboutData:{},
-	
+	nowRouter:{
+		to:'',
+		from:'',
+	}
 }
 const getters={
 }

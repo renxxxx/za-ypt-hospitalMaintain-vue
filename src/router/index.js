@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+import Store from '../store'
 Vue.use(Router)
 // const _import = require('./_import_' + process.env.NODE_ENV + '.js')
 // 开发环境不使用懒加载, 因为懒加载页面太多的话会造成webpack热更新太慢, 所以只有生产环境使用懒加载
@@ -91,7 +91,8 @@ const router = new Router({
 })
 
 router.afterEach((to,from) =>{
-  
+  Store.state.common.nowRouter.to = to;
+  Store.state.common.nowRouter.from = from;
   if(to.path == from.path){
     // next({path:'/tihuan',query:to.query})
     router.push({path:'/tihuan',query:{query:JSON.stringify(to.query),path:to.path}})

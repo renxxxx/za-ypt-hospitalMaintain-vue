@@ -54,7 +54,7 @@
                             <img :src="scope.row.cover" style="cursor: pointer;" alt="" @click="enlargeImagesFn(scope.row.cover)">
                         </template>
                     </el-table-column> 
-                    <el-table-column >
+                    <el-table-column>
                         <template slot-scope="scope">
                             <div class="line-1">{{scope.row.name}}</div>
                             <div class="line-2">{{scope.row.intro}}</div>
@@ -66,13 +66,13 @@
                         </template>
                     </el-table-column>
                     
-                    <el-table-column width="190">
+                    <el-table-column>
                         <template slot-scope="scope" >
                             <div>标签</div>
                             <div class="line-1">{{scope.row.tag}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column width="200">
+                    <el-table-column>
                         <template slot-scope="scope" >
                             <div>创建时间</div>
                             <div>{{scope.row.nowCreateTime}}</div>
@@ -89,7 +89,7 @@
             </div>
             <div class="doctorManagement_table_page">
                 <el-pagination
-                    hide-on-single-page = "true"
+                    :hide-on-single-page = "hideOnSinglePageValue"
                     background
                     :current-page = "tabelNowPage"
                     layout="prev, pager, next,jumper"
@@ -102,14 +102,14 @@
         
         
         <!-- <div class="dialogView"> -->
-            <el-dialog :visible.sync="enlargeImagesValue" class="enlargeImagesBox" show-close="false">
+            <el-dialog :visible.sync="enlargeImagesValue" class="enlargeImagesBox">
                 <div slot="title">
                 </div>
                 <div class="enlargeImagesClass">
                     <img :src="enlargeImagesSrc" alt="">
                 </div>
             </el-dialog>
-            <el-dialog :visible.sync="qrCodeValue" class="enlargeImagesBox" show-close="false">
+            <el-dialog :visible.sync="qrCodeValue" class="enlargeImagesBox">
                 <div slot="title">
                 </div>
                 <div class="qrCodeImagesClass">
@@ -117,7 +117,7 @@
                 </div>
             </el-dialog>
             <!-- 新增/修改用户列表 -->
-            <el-dialog :visible.sync="modifyState" class="modifyDialog" width="62.2%" show-close="false">
+            <el-dialog :visible.sync="modifyState" class="modifyDialog" width="62.2%">
                 <div slot="title">
                     <div class="modifyBoxTitle">
                     <h3>修改信息</h3>
@@ -194,8 +194,8 @@
                         </li>
                     </ul>
                     <div class="modifyBoxFooter">
-                    <button @click="modifyState = false">取消</button>
-                    <button @click="modifySubmitDialogShowFn(true,'')">提交</button>
+                    <button @click="modifyState = false" style="cursor:pointer;">取消</button>
+                    <button @click="modifySubmitDialogShowFn(true,'')" style="cursor:pointer;">提交</button>
                     </div>
                 </div>
             </el-dialog>
@@ -220,6 +220,7 @@ export default {
     data(){
         return {
             query:'',
+            hideOnSinglePageValue:true,
             typeSelectValue:null,
             doctorSelectValue:null,
             typeOptions:[],
@@ -346,26 +347,26 @@ export default {
                             }
                             qrCodeImg.remove()
                             cQ.remove()  
-                            this.tableDataList.push({
-                                qrcode:dataUrl,
-                                serialNumber:(_page - 1) * 10 + parseInt(i)+1,
-                                doctorId: res.data.data.rows[i].doctorId,
-                                name: res.data.data.rows[i].name,
-                                hospitalId: res.data.data.rows[i].hospitalId,
-                                hospitalName: res.data.data.rows[i].hospitalName,
-                                cover: res.data.data.rows[i].cover,
-                                tag: res.data.data.rows[i].tag,
-                                intro: res.data.data.rows[i].intro,
-                                createTime: res.data.data.rows[i].createTime,
-                                nowCreateTime: this.moment(res.data.data.rows[i].createTime).format('YYYY-MM-DD HH-mm-ss'),
-                                updateTime: res.data.data.rows[i].updateTime,
-                                nowUpdateTime: this.moment(res.data.data.rows[i].updateTime).format('YYYY-MM-DD HH-mm-ss'),
-                                frozen: res.data.data.rows[i].frozen,
-                                remark: res.data.data.rows[i].remark,
-                                orderNo: res.data.data.rows[i].orderNo,
-                            })
+                            this.tableDataList[i].qrcode = dataUrl
                         })
-
+                        this.tableDataList.push({
+                            qrcode:dataUrl,
+                            serialNumber:(_page - 1) * 10 + parseInt(i)+1,
+                            doctorId: res.data.data.rows[i].doctorId,
+                            name: res.data.data.rows[i].name,
+                            hospitalId: res.data.data.rows[i].hospitalId,
+                            hospitalName: res.data.data.rows[i].hospitalName,
+                            cover: res.data.data.rows[i].cover,
+                            tag: res.data.data.rows[i].tag,
+                            intro: res.data.data.rows[i].intro,
+                            createTime: res.data.data.rows[i].createTime,
+                            nowCreateTime: this.moment(res.data.data.rows[i].createTime).format('YYYY-MM-DD HH-mm-ss'),
+                            updateTime: res.data.data.rows[i].updateTime,
+                            nowUpdateTime: this.moment(res.data.data.rows[i].updateTime).format('YYYY-MM-DD HH-mm-ss'),
+                            frozen: res.data.data.rows[i].frozen,
+                            remark: res.data.data.rows[i].remark,
+                            orderNo: res.data.data.rows[i].orderNo,
+                        })
 
                         // ctx.drawImage(qrCodeImg[0],0,60,280,280);
                         // qrCodeImg.remove()
@@ -545,7 +546,7 @@ export default {
             this.modifySubmitState = false;
         },
         modifySubmitFn(){
-            let offic = this.typeOptions.find(res => this.modifyData.officeId = res.value);
+            let offic = this.typeOptions.find(res => this.modifyData.officeId == res.value);
             if(this.userState){
 
                 this.$axios.post('hospital-maintain/create-doctor',this.$qs.stringify({

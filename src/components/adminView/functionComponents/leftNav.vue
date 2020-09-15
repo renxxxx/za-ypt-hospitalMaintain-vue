@@ -12,34 +12,30 @@
               text-color="#ffffff"
               class="el-menu-vertical-demo"
               active-text-color="#e91e63"
-              @open="handleOpen"
-              @close="handleClose" 
-              router
-              :default-active="$route.path"
               >
-              <el-menu-item :index="{path:'/adminView/index',query:{time:new Date().getTime().toString()}}">
+              <el-menu-item  :class="[reversedMessage == '/adminView/index'? 'menuColor':'']" @click="select('/adminView/index')">
                 <!-- <template slot="title"> -->
                   <i class="el-icon-odometer"></i>
                   <span>医院信息</span>
                 <!-- </template> -->
               </el-menu-item>
-              <el-menu-item :index="{path:'/adminView/userManagement',query:{time:new Date().getTime().toString()}}">
+              <el-menu-item index="1" :class="[reversedMessage == '/adminView/userManagement'? 'menuColor':'']" @click="select('/adminView/userManagement')">
                 <i class="el-icon-edit-outline"></i>
                 <span slot="title">用户管理</span>
               </el-menu-item>
-              <el-menu-item :index="{path:'/adminView/managementDepartment',query:{time:new Date().getTime().toString()}}">
+              <el-menu-item index="2" :class="[reversedMessage == '/adminView/managementDepartment'? 'menuColor':'']" @click="select('/adminView/managementDepartment')">
                 <i class="el-icon-edit-outline"></i>
                 <span slot="title">科室管理</span>
               </el-menu-item>
-              <el-menu-item :index="{path:'/adminView/doctorManagement',query:{time:new Date().getTime().toString()}}">
+              <el-menu-item index="3" :class="[reversedMessage == '/adminView/doctorManagement'? 'menuColor':'']" @click="select('/adminView/doctorManagement')">
                 <i class="el-icon-edit-outline"></i>
                 <span slot="title">医生管理</span>
               </el-menu-item>
-              <el-menu-item :index="{path:'/adminView/doctorEvaluation',query:{time:new Date().getTime().toString()}}">
+              <el-menu-item index="4" :class="[reversedMessage == '/adminView/doctorEvaluation'? 'menuColor':'']" @click="select('/adminView/doctorEvaluation')">
                 <i class="el-icon-chat-line-square"></i>
                 <span slot="title">医生评价</span>
               </el-menu-item>
-              <el-menu-item index="6" @click="exitFn">
+              <el-menu-item index="5" @click="exitDialogFn">
                 <i class="el-icon-user"></i>
                 <span slot="title">退出登录</span>
               </el-menu-item>
@@ -48,13 +44,41 @@
       </el-aside>
       <!-- <el-main>Main</el-main> -->
     </el-container>
+    <el-dialog
+      class="exitDialog"
+      :visible.sync="exitState"
+      width="30%"
+      center>
+      <img style="height:22px;width:22px;float:left;margin-right:16px" src="../../../assets/detele.png" alt="">
+      <span style="font-size:18px">是否退出当前登录账号？</span>
+      <span slot="footer" class="dialog-footer">
+          <el-button @click="exitState = false">取 消</el-button>
+          <el-button class="exitSubmit" @click="exitFn">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 export default {
   inject: ['reload'],
+  data(){
+    return {
+      exitState:false
+    }
+  },
+   computed: {
+    // 计算属性的 getter
+    reversedMessage: function () {
+      // `this` 指向 vm 实例
+      console.log(this.$store.state.common.nowRouter.to.path)
+      return this.$store.state.common.nowRouter.to.path;
+    }
+  },
   methods: {
+    exitDialogFn(){
+      this.exitState = true
+    },
     exitFn(){
       
       // this.$router.go(0)
@@ -70,11 +94,34 @@ export default {
         }
       })
     },
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
+    select(_value){
+      let that = this
+      console.dir(_value)
+      if(_value)
+        that.activityPageState = {
+        doctorEvaluation : false,
+        doctorManagement : false,
+        index : false,
+        managementDepartment : false,
+        userManagement : false,
+      }
+      switch(_value){
+        case "/adminView/index":
+          that.$router.push({path:'/adminView/index',query:{time:new Date().getTime().toString()}})
+        break;
+        case "/adminView/userManagement":
+          that.$router.push({path:'/adminView/userManagement',query:{time:new Date().getTime().toString()}})
+        break;
+        case "/adminView/managementDepartment":
+          that.$router.push({path:'/adminView/managementDepartment',query:{time:new Date().getTime().toString()}})
+        break;
+        case "/adminView/doctorManagement":
+          that.$router.push({path:'/adminView/doctorManagement',query:{time:new Date().getTime().toString()}})
+        break;
+        case "/adminView/doctorEvaluation":
+          that.$router.push({path:'/adminView/doctorEvaluation',query:{time:new Date().getTime().toString()}})
+        break;
+      }
     }
   }
 }
@@ -110,7 +157,7 @@ export default {
   line-height: 54px;
 }
 >>>.el-menu-item.is-active{
-  background-color: #1890FF !important;
+  /* background-color: #1890FF !important; */
   color: #FFFFFF !important;
   font-weight: bolder;
 }
@@ -132,6 +179,19 @@ export default {
 }
 >>>.el-menu-item:focus, .el-menu-item:hover {
     outline: 0;
-    background-color: #1890FF!important;
+    /* background-color: #1890FF!important; */
+}
+.menuColor{
+  background-color: #1890FF!important ;
+}
+.modifySubmitDialog >>>.el-dialog__header{
+  padding:0px;
+}
+.modifySubmitDialog >>>.el-dialog__header{
+  display: none;
+}
+.modifyDialog >>>.el-dialog__body{
+  padding:0px
+  
 }
 </style>

@@ -57,7 +57,8 @@
                     </el-table-column>  
                     <el-table-column label="类型" width="137">
                         <template slot-scope="scope">
-                            {{(scope.row.type == 0? '普通':'') + (scope.row.type == 1? '医生':'' ) + (scope.row.type == 2? '医护':'')}}
+                            <!-- + (scope.row.type == 2? '医护':'') -->
+                            {{(scope.row.type == 0? '普通':'') + (scope.row.type == 1? '医生':'' ) }}
                         </template>
                     </el-table-column>
                     <el-table-column label="医院" prop="hospitalName" ></el-table-column>
@@ -78,7 +79,7 @@
             </div>
             <div class="userManagement_table_page">
                 <el-pagination
-                    hide-on-single-page = "true"
+                    :hide-on-single-page = "hideOnSinglePageValue"
                     background
                     :current-page = "tabelNowPage"
                     layout="prev, pager, next,jumper"
@@ -91,7 +92,7 @@
         
         
         <!-- <div class="dialogView"> -->
-            <el-dialog :visible.sync="enlargeImagesValue" class="enlargeImagesBox" show-close="false">
+            <el-dialog :visible.sync="enlargeImagesValue" class="enlargeImagesBox">
                 <div slot="title">
                 </div>
                 <div class="enlargeImagesClass">
@@ -99,7 +100,7 @@
                 </div>
             </el-dialog>
             <!-- 新增/修改用户列表 -->
-            <el-dialog class="modifyHospitalDialog" :visible.sync="modifyState"  width="62.2%" show-close="false">
+            <el-dialog class="modifyHospitalDialog" :visible.sync="modifyState"  width="62.2%">
                 <div slot="title">
                     <div class="modifyBoxTitle">
                     <h3>修改信息</h3>
@@ -114,12 +115,12 @@
                     </li>
                     <li>
                         <span>手机：</span>
-                        <input v-model="modifyData.phone" type="text">
+                        <input v-model="modifyData.phone" type="number">
                     </li>
                     <li>
                         <div class="modifySelectClass">
                             <span>类型：</span>
-                            <el-select v-model="modifyData.type" placeholder="请选择">
+                            <el-select v-model="modifyData.type" placeholder="请选择" @change="uesrTypeChooseFn">
                                 <el-option
                                 v-for="item in typeOptions"
                                 :key="item.value"
@@ -130,7 +131,7 @@
                         </div>
                         <div class="modifySelectClass" style="float: right;">
                             <span>医生：</span>
-                            <el-select v-model="modifyData.type1DoctorId" placeholder="请选择">
+                            <el-select v-model="modifyData.type1DoctorId" placeholder="请选择" @change="uesrDoctorChooseFn">
                                 <el-option
                                 v-for="item in doctorOptions"
                                 :key="item.doctorId"
@@ -168,8 +169,8 @@
                     </li>
                     </ul>
                     <div class="modifyBoxFooter">
-                    <button @click="modifyState = false">取消</button>
-                    <button @click="modifySubmitDialogShowFn(true,'')">提交</button>
+                    <button @click="modifyState = false" style="cursor:pointer;">取消</button>
+                    <button @click="modifySubmitDialogShowFn(true,'')" style="cursor:pointer;">提交</button>
                     </div>
                 </div>
             </el-dialog>
@@ -195,6 +196,7 @@ export default {
     name : 'userManagement',
     data(){
         return {
+            hideOnSinglePageValue:true,
             query:'',
             typeSelectValue:null,
             doctorSelectValue:null,
@@ -207,10 +209,10 @@ export default {
                     value : 1,
                     label : '医生'
                 },
-                {
-                    value : 2,
-                    label : '医护'
-                },
+                // {
+                //     value : 2,
+                //     label : '医护'
+                // },
             ],
             doctorOptions:[],
             tabelSum:1,
@@ -414,6 +416,14 @@ export default {
         enlargeImagesFn(_value){
             this.enlargeImagesValue = true
             this.enlargeImagesSrc = _value
+        },
+        uesrTypeChooseFn(_value){
+            if(_value == 0){
+                this.modifyData.type1DoctorId = ''
+            }
+        },
+        uesrDoctorChooseFn(_value){
+            this.modifyData.type = 1
         },
         addImg(_fileLIst){
 			var file = _fileLIst.target.files[0]

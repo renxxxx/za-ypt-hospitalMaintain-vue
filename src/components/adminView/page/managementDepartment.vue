@@ -74,7 +74,7 @@
             </div>
             <div class="userManagement_table_page">
                 <el-pagination
-                    hide-on-single-page = "true"
+                    :hide-on-single-page = "hideOnSinglePageValue"
                     background
                     :current-page = "tabelNowPage"
                     layout="prev, pager, next,jumper"
@@ -87,7 +87,7 @@
         
         
         <!-- <div class="dialogView"> -->
-            <el-dialog :visible.sync="enlargeImagesValue" class="enlargeImagesBox" show-close="false">
+            <el-dialog :visible.sync="enlargeImagesValue" class="enlargeImagesBox">
                 <div slot="title">
                 </div>
                 <div class="enlargeImagesClass">
@@ -95,7 +95,7 @@
                 </div>
             </el-dialog>
             <!-- 新增/修改用户列表 -->
-            <el-dialog :visible.sync="modifyState" class="modifyDialog" width="62.2%" show-close="false">
+            <el-dialog :visible.sync="modifyState" class="modifyDialog" width="62.2%">
                 <div slot="title">
                     <div class="modifyBoxTitle">
                     <h3>修改信息</h3>
@@ -136,8 +136,8 @@
                     </li>
                     </ul>
                     <div class="modifyBoxFooter">
-                    <button @click="modifyState = false">取消</button>
-                    <button @click="modifySubmitDialogShowFn(true,'')">提交</button>
+                    <button @click="modifyState = false" style="cursor:pointer;">取消</button>
+                    <button @click="modifySubmitDialogShowFn(true,'')" style="cursor:pointer;">提交</button>
                     </div>
                 </div>
             </el-dialog>
@@ -162,6 +162,7 @@ export default {
     data(){
         return {
             query:'',
+            hideOnSinglePageValue:true,
             typeSelectValue:null,
             doctorSelectValue:null,
             typeOptions:[

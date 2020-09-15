@@ -83,7 +83,7 @@
           </div>
           <div class="doctorEvaluation_table_page">
               <el-pagination
-                  hide-on-single-page = "true"
+                  :hide-on-single-page = "hideOnSinglePageValue"
                   background
                   :current-page = "tabelNowPage"
                   layout="prev, pager, next,jumper"
@@ -102,6 +102,7 @@ export default {
         return {
             query:'',
             typeSelectValue:null,
+            hideOnSinglePageValue:true,
             doctorSelectValue:null,
             typeOptions:[
                 {

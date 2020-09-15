@@ -13,7 +13,7 @@
 import leftNav from "./functionComponents/leftNav"
 export default {
     name: 'outpatient',
-     provide(){
+    provide(){
         return{
             reload:this.reload
         }
@@ -26,8 +26,12 @@ export default {
     components:{
         leftNav
     },
-    mounted(){},
+    mounted(){
+        debugger
+        this.$store.state.common.hospitalAboutData = JSON.parse(localStorage.getItem('hospital'))
+    },
     activated(){
+        
     },
     methods:{
         reload(){

@@ -13,7 +13,7 @@
         <img src="../../../assets/Bitmap.svg" alt="">
         <div class="index_title_nameIntro">
           <h3>{{hospitalAboutData.name||''}}</h3>
-          <div><span>{{hospitalAboutData.tag[0]}}</span><span>{{hospitalAboutData.tag[1]}}</span></div>
+          <div><span>{{hospitalAboutDataShowData[0]}}</span><span>{{hospitalAboutDataShowData[1]}}</span></div>
           
         </div>
         <img class="hospitalQrCode" @click="qrCodeImagesFn(hospitalQrCode)" :src="hospitalQrCode" alt="">
@@ -40,7 +40,7 @@
     </div>
     <!-- 下面的详情 -->
     <div class="index_detail">
-      <el-cow style="height: 100%;">
+      <el-row style="height: 100%;">
         <el-col style="height: 100%;" :span="16">
           <div class="index_detail_lf">
             <div>
@@ -57,18 +57,22 @@
             <div class="index_VR">
               <p>VR地址</p>
               <div>
-                <img src="../../../assets/vr.svg" alt="">
-                <p class="line-1">{{hospitalAboutData.contentUrl}}</p>
+                <a :href="hospitalAboutData.contentUrl">
+                  <img src="../../../assets/vr.svg" alt="">
+                </a>
+                <a :href="hospitalAboutData.contentUrl" class="line-1">{{hospitalAboutData.contentUrl}}</a>
               </div>
             </div>
             <div class="index_doclist">
               <p>医生团队</p>
               <div>
                 <ul>
-                  <li  v-for="(item,inx) in doctorList" :key="inx">
-                    <img :src="item.cover" alt="">
-                    <span>{{item.name}}</span>
-                  </li>
+                  <router-link :to="{path:'/adminView/doctorManagement',query:{time:new Date().getTime().toString()}}" v-for="(item,inx) in doctorList" :key="inx">
+                    <li  >
+                      <img :src="item.cover" alt="">
+                      <span>{{item.name}}</span>
+                    </li>
+                  </router-link>
                 </ul>
                 <!-- <ul>
                   <li><img src="../../../assets/doc.svg" alt=""><span>赵医生</span></li>
@@ -90,13 +94,12 @@
             </div>
           </div>
         </el-col>
-      </el-cow>
+      </el-row>
     </div>
     <el-dialog
       class="hospitalMessageDialog"
       :visible.sync="modifyState"
-      width="62.2%"
-      show-close="false">
+      width="62.2%">
       <div slot="title">
         <div class="modifyBoxTitle">
           <h3>修改信息</h3>
@@ -139,8 +142,8 @@
           </li>
         </ul>
         <div class="modifyBoxFooter">
-          <button @click="modifyState = false" style="cursor:  pointer;">取消</button>
-          <button @click="modifySubmitState = true" style="cursor: pointer;">提交</button>
+          <button @click="modifyState = false" style="cursor:pointer;">取消</button>
+          <button @click="modifySubmitState = true" style="cursor:pointer;">提交</button>
         </div>
       </div>
      
@@ -151,13 +154,13 @@
       width="30%"
       center>
       <img style="height:22px;width:22px;float:left;margin-right:16px" src="../../../assets/detele.png" alt="">
-      <span style="font-size:18px">确认要删除这条信息吗？</span>
+      <span style="font-size:18px">确认要修改这条信息吗？</span>
       <span slot="footer" class="dialog-footer">
           <el-button @click="modifySubmitState = false">取 消</el-button>
           <el-button class="modifySubmitDialogSubmit" @click="modifySubmitFn">确 定</el-button>
       </span>
     </el-dialog>
-    <el-dialog :visible.sync="qrCodeValue" class="enlargeImagesBox" show-close="false">
+    <el-dialog :visible.sync="qrCodeValue" class="enlargeImagesBox">
         <div slot="title">
         </div>
         <div class="qrCodeImagesClass">
@@ -174,6 +177,7 @@ export default {
     return {
       query : '',
       hospitalAboutData:{},
+      hospitalAboutDataShowData:['',''],
       doctorList:[],
       modifyState:false,
       modifyData:{},
@@ -206,6 +210,7 @@ export default {
           this.hospitalAboutData = res.data.data;
           if(this.hospitalAboutData){
             this.hospitalAboutData.tag = res.data.data.tag.split(',');
+            this.hospitalAboutDataShowData = this.hospitalAboutData.tag
             console.log(this.hospitalAboutData.tag)
             if(this.hospitalAboutData.createTime){
               this.hospitalAboutData.createTime = this.moment(this.hospitalAboutData.createTime).format('YYYY-MM-DD')
@@ -213,6 +218,7 @@ export default {
               this.hospitalAboutData.createTime = ''
             }
             this.$store.state.common.hospitalAboutData = this.hospitalAboutData
+            localStorage.setItem('hospital',JSON.stringify(this.$store.state.common.hospitalAboutData))
             this.modifyData = this.hospitalAboutData
             let cQ= $('<canvas  width="280" height="340" style="display:block;"></canvas>').appendTo('body');
             let c=cQ[0];
@@ -425,6 +431,7 @@ export default {
   width: 72px!important;
   height: 87px!important;
   margin: 0 24px 0px 32px!important;
+  cursor: pointer;
 }
 .index_title_div>div {
   display: inline-block;
@@ -622,6 +629,7 @@ ul,li{
   vertical-align: middle;
   line-height: 24px;
   height: 24px;
+  cursor: pointer;
 }
 .index_doclist ul li img{
   width: 22px;

@@ -20,19 +20,19 @@
         <div class="index_title_vistorNum">
           <div>
             <p>近一小时访问</p>
-            <p>125</p>
+            <p>{{overviewDate.requestCountOfOneHourRecently}}</p>
           </div>
           <div>
             <p>近一天访问</p>
-            <p>1350</p>
+            <p>{{overviewDate.requestCountOfOneDayRecently}}</p>
           </div>
           <div>
             <p>近一周访问</p>
-            <p>9899</p>
+            <p>{{overviewDate.requestCountOfOneWeekRecently}}</p>
           </div>
           <div>
             <p>历史访问</p>
-            <p>25015</p>
+            <p>{{overviewDate.requestCountOfHistory}}</p>
           </div>
         </div>
       </div>
@@ -185,6 +185,12 @@ export default {
       hospitalQrCode:'',
       qrCodeValue:false,
       qrCodeSrc:'',
+      overviewDate:{
+        requestCountOfOneWeekRecently:'',
+        requestCountOfOneWeekRecently:'',
+        requestCountOfOneHourRecently:'',
+        requestCountOfHistory:''
+      }
     }
   },
   activated(){
@@ -248,8 +254,8 @@ export default {
             ctx.lineWidth = 1;          //设置线宽状态
             ctx.strokeStyle = '#e6e6e6' ;  //设置线的颜色状态
             ctx.stroke();
-            let getUrl = '/wxminqrcode?path=' + encodeURIComponent('pages/evaNowShare/evaNowShare?type=1&isfrom=1&id='
-            +res.data.data.doctorId +'&hospitalid='+res.data.data.hospitalId)+'&width=280'
+            let getUrl = '/wxminqrcode?path=' + encodeURIComponent('pages/index/index?hospitalid='+res.data.data.hospitalId
+            +res.data.data.doctorId +'&hospitalname='+res.data.data.hospitalname)+'&width=280'
             Promise.all([
               new Promise((resolve)=>{
                 const img = new Image();
@@ -288,6 +294,20 @@ export default {
             for(let i in res.data.data.rows){
               this.doctorList.push(res.data.data.rows[i])
             }
+          }
+        }
+      })
+      this.$axios.get('/hospital-maintain/overview')
+      .then(res=>{
+        if(res.data.codeMsg){
+          this.$message(res.data.codeMsg)
+        }
+        if(res.data.code == 0){
+          this.overviewDate = {
+            requestCountOfOneWeekRecently : res.data.data.requestCountOfOneWeekRecently,
+            requestCountOfOneDayRecently : res.data.data.requestCountOfOneDayRecently,
+            requestCountOfOneHourRecently : res.data.data.requestCountOfOneHourRecently,
+            requestCountOfHistory : res.data.data.requestCountOfHistory,
           }
         }
       })
@@ -352,7 +372,7 @@ export default {
   background: rgba(240, 242, 245, 1);
   /* width: calc(100% - 200px); */
   width: 100%;
-  min-width: 1010px;
+  min-width: 1020px;
   height: 100%;
   float: left;
   overflow: scroll;

@@ -41,6 +41,7 @@
               </el-menu-item>
             </el-menu>
           </el-col>
+          
       </el-aside>
       <!-- <el-main>Main</el-main> -->
     </el-container>
@@ -56,6 +57,7 @@
           <el-button class="exitSubmit" @click="exitFn">确 定</el-button>
       </span>
     </el-dialog>
+    <div class="versionClass">ver : {{$version}}</div>
   </div>
 </template>
 
@@ -131,6 +133,7 @@ export default {
   width:200px;
   height: 100%;
   float: left;
+  position: relative;
   /* min-width: 1200px; */
 }
 .el-aside {
@@ -193,4 +196,11 @@ export default {
   padding:0px
   
 }
+.versionClass{
+    text-align: center;
+    position: absolute;
+    bottom: 55px;
+    width: 100%;
+    color: #a9a0a0;
+  }
 </style>

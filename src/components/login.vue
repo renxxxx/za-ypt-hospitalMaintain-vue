@@ -34,6 +34,7 @@
           <div class="login_submit">
             <button @click="submitFn">登录</button>
           </div>
+          <div class="versionClass">ver : {{$version}}</div>
         </div>
       </div>
     </div>
@@ -227,7 +228,7 @@ export default {
   }
   .login_white{
     width: 100%;
-    height: 420px;
+    height: 492px;
     position: absolute;
     top: 0;
     right: 0;
@@ -361,5 +362,13 @@ export default {
     border: none;
     box-shadow: 0px 3px 8px #135C9F;
     cursor: pointer;
+  }
+  .versionClass{
+    text-align: center;
+    /* position: absolute; */
+    /* bottom: 55px; */
+    margin-top: 50px;
+    width: 100%;
+    color: #a9a0a0;
   }
 </style>

@@ -44,7 +44,7 @@
         <el-col style="height: 100%;" :span="16">
           <div class="index_detail_lf">
             <div>
-              <span class="index_hosDetail">医院信息</span><span class="index_editDetail" @click="modifyState = true">修改信息</span>
+              <span class="index_hosDetail">医院信息</span><span class="index_editDetail" @click="modifyFn">修改信息</span>
             </div>
             <div style="height: 545px;overflow: hidden;margin-bottom: 35px;">
               <img style="height: 280px;margin-bottom: 24px;" :src="hospitalAboutData.cover" alt="">
@@ -70,7 +70,7 @@
                   <router-link :to="{path:'/adminView/doctorManagement',query:{time:new Date().getTime().toString()}}" v-for="(item,inx) in doctorList" :key="inx">
                     <li  >
                       <img :src="item.cover" alt="">
-                      <span>{{item.name}}</span>
+                      <span class="line-1">{{item.name}}</span>
                     </li>
                   </router-link>
                 </ul>
@@ -103,7 +103,7 @@
       <div slot="title">
         <div class="modifyBoxTitle">
           <h3>修改信息</h3>
-          <span @click="modifyState = false">返回</span>
+          <span @click="modifyState = false;">返回</span>
         </div>
       </div>
       <div class="modifyBox"> 
@@ -225,7 +225,6 @@ export default {
             }
             this.$store.state.common.hospitalAboutData = this.hospitalAboutData
             localStorage.setItem('hospital',JSON.stringify(this.$store.state.common.hospitalAboutData))
-            this.modifyData = this.hospitalAboutData
             let cQ= $('<canvas  width="280" height="340" style="display:block;"></canvas>').appendTo('body');
             let c=cQ[0];
             let ctx=c.getContext("2d");
@@ -312,6 +311,11 @@ export default {
         }
       })
     },
+    modifyFn(){
+      debugger
+      this.modifyState = true;
+      this.modifyData = JSON.parse(JSON.stringify(this.hospitalAboutData));
+    },
     qrCodeImagesFn(_value){
       this.qrCodeValue = true
       this.qrCodeSrc = _value
@@ -353,6 +357,7 @@ export default {
         if(res.data.code == 0){
           this.modifyState = false;
           this.modifySubmitState = false;
+          this.hospitalAboutData = JSON.parse(JSON.stringify(this.modifyData));
           this.$message("操作成功")
         }
       })
@@ -660,12 +665,13 @@ ul,li{
 }
 .index_doclist ul li span{
   line-height: 24px;
-  display: inline-block;
+  /* display: inline-block; */
   font-size:14px;
   font-family:PingFangSC-Regular,PingFang SC;
   font-weight:400;
   color:rgba(0,0,0,0.65);
-  float: left;
+  /* float: left; */
+  width: calc(100% - 60px);
 }
 .hospitalMessageDialog >>>.el-dialog{
   position: absolute;

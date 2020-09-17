@@ -448,7 +448,7 @@ export default {
         },
         modifyFn(_value){
             console.log(_value)
-            this.modifyData = _value
+            this.query = JSON.stringify(this.$route.query);
             this.modifyState = true;
             this.userState = false;
             this.typeOptions=[]

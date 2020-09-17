@@ -49,7 +49,13 @@
                     style="width: 100%" 
                     >
                     <el-table-column label="序号" prop="serialNumber"  width="70"></el-table-column>
-                    <el-table-column label="昵称" prop="name"></el-table-column>
+                    <el-table-column label="昵称">
+                         <template slot-scope="scope" >
+                             <div class="line-2">
+                                {{scope.row.name}}
+                             </div>
+                        </template>
+                    </el-table-column>
                     <el-table-column label="头像" prop="cover" width="143">
                         <template slot-scope="scope">
                             <img :src="scope.row.cover" style="cursor: pointer;" alt="" @click="enlargeImagesFn(scope.row.cover)">
@@ -373,7 +379,7 @@ export default {
             console.log(_value)
             // this.modifyData = _value;
             this.getDoctor(_value);
-          
+            this.modifyData = JSON.parse(JSON.stringify(_value));
             this.modifyState = true;
             this.userState = false;
         },

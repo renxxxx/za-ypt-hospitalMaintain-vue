@@ -48,7 +48,13 @@
                     style="width: 100%" 
                     >
                     <el-table-column label="序号" prop="serialNumber" width="80"></el-table-column>
-                    <el-table-column label="名称" prop="name"></el-table-column>
+                    <el-table-column label="名称">
+                        <template slot-scope="scope" >
+                             <div class="line-2">
+                                {{scope.row.name}}
+                             </div>
+                        </template>
+                    </el-table-column>
                     <el-table-column label="封面" prop="cover" width="153">
                         <template slot-scope="scope">
                             <img :src="scope.row.cover" style="cursor: pointer;" alt="" @click="enlargeImagesFn(scope.row.cover)">
@@ -276,7 +282,7 @@ export default {
         },
         modifyFn(_value){
             console.log(_value)
-            this.modifyData = _value
+            this.modifyData = JSON.parse(JSON.stringify(_value));
             this.modifyState = true;
             this.userState = false;
         },
@@ -321,6 +327,7 @@ export default {
             this.enlargeImagesSrc = _value
         },
         addImg(_fileLIst){
+            console.log(_fileLIst)
 			var file = _fileLIst.target.files[0]
 			// 
 			if(file.type.indexOf('image') > -1){
@@ -400,7 +407,9 @@ export default {
                         this.$message(res.data.codeMsg)
                     }
                     if(res.data.code == 0){
-                        this.modifyState = false
+                        this.modifyState = false;
+                        this.tableDataList = []
+                        this.getDataSum();
                         this.$message("操作成功")
                     }
                 })

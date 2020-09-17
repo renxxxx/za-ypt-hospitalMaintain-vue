@@ -190,7 +190,7 @@ export default {
   activated(){
     if(this.query != JSON.stringify(this.$route.query)){
       this.initData();
-      this.$common.checkLogin()
+      this.$common.checkLogin(this.$route.query.hospitalId)
       this.query = JSON.stringify(this.$route.query);
       this.getData();
     }

@@ -80,16 +80,15 @@ export default {
       this.exitState = true
     },
     exitFn(){
-      
       // this.$router.go(0)
-      this.$axios.post('/hospital-maintain/logout ')
+      this.$axios.post('/hospital-maintain/logout')
       .then(res=>{
         if(res.data.codeMsg){
           this.$message(res.data.codeMsg)
         }
         if(res.data.code == 0){ 
           
-          this.$router.push({path:'/login'})
+          this.$router.push({path:'/login',query:{hospitalId:this.$route.query.hospitalId}})
           this.reload();
         }
       })
@@ -107,19 +106,19 @@ export default {
       }
       switch(_value){
         case "/adminView/index":
-          that.$router.push({path:'/adminView/index',query:{time:new Date().getTime().toString()}})
+          that.$router.push({path:'/adminView/index',query:{hospitalId:this.$route.query.hospitalId,time:new Date().getTime().toString()}})
         break;
         case "/adminView/userManagement":
-          that.$router.push({path:'/adminView/userManagement',query:{time:new Date().getTime().toString()}})
+          that.$router.push({path:'/adminView/userManagement',query:{hospitalId:this.$route.query.hospitalId,time:new Date().getTime().toString()}})
         break;
         case "/adminView/managementDepartment":
-          that.$router.push({path:'/adminView/managementDepartment',query:{time:new Date().getTime().toString()}})
+          that.$router.push({path:'/adminView/managementDepartment',query:{hospitalId:this.$route.query.hospitalId,time:new Date().getTime().toString()}})
         break;
         case "/adminView/doctorManagement":
-          that.$router.push({path:'/adminView/doctorManagement',query:{time:new Date().getTime().toString()}})
+          that.$router.push({path:'/adminView/doctorManagement',query:{hospitalId:this.$route.query.hospitalId,time:new Date().getTime().toString()}})
         break;
         case "/adminView/doctorEvaluation":
-          that.$router.push({path:'/adminView/doctorEvaluation',query:{time:new Date().getTime().toString()}})
+          that.$router.push({path:'/adminView/doctorEvaluation',query:{hospitalId:this.$route.query.hospitalId,time:new Date().getTime().toString()}})
         break;
       }
     }

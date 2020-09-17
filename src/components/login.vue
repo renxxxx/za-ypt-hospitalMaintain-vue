@@ -8,13 +8,12 @@
         <div class="login_white">
           <p class="login_title">欢迎登录</p>
           <p class="login_deline"></p>
-          <div class="login_line line_result" style="margin-top: 60px;">
-            <i class="el-icon-office-building"></i>
+          <!-- <div class="login_line line_result" style="margin-top: 60px;">
+            <i class="el-icon-office-building"></i> -->
             <!-- <el-autocomplete  :fetch-suggestions="focusFn" @select="confirmFn"
             clearable clear="searchClearFn"
             v-model="loginData.hospitalName" placeholder="请选择登录的医院"></el-autocomplete > -->
-             <!-- @blur="loseFocusFn" -->
-             <el-input v-model="loginData.hospitalName" @blur="loseFocusFn" @input="serachFn" @focus="focusFn" clearable></el-input>
+             <!-- <el-input v-model="loginData.hospitalName" @blur="loseFocusFn" @input="serachFn" @focus="focusFn" clearable></el-input>
              <div class="searchResults" v-if='searchResultsState'>
               <ul class="infinite-list" v-infinite-scroll="loadFn">
                 <li v-for="(item,inx) in searchResultsList" :key="inx" @mouseover="confirmFn(item)">
@@ -22,8 +21,8 @@
                 </li>
               </ul>
             </div>
-          </div>
-          <div class="login_line">
+          </div> -->
+          <div class="login_line" style="margin-top: 60px;">
             <i class="el-icon-user"></i>
             <el-input v-model="loginData.account" placeholder="请输入账号" clearable></el-input>
           </div>
@@ -71,9 +70,21 @@ export default {
 
 	},
 	mounted(){
+    console.log('-------------')
+    console.log(window.location.href.split('?'))
+    if(window.location.href.split('?').length>1){
+      if(window.location.href.split('?')[1].split('=')[0] == 'hospitalId' || window.location.href.split('?')[1].split('=')[0] == 'loginHospitalId'){
+        this.loginData.hospitalId = window.location.href.split('?')[1].split('=')[1]
+      }else{
+        this.$message('该url链接无效，请重新获取')
+      }
+    }else{
+      this.$message('该url链接无效，请重新获取')
+    }
 	},
 	activated(){
-		// console.dir(JSON.stringify(this.$route.query.query))
+    // console.dir(JSON.stringify(this.$route.query.query))
+    
 		let query = {}
 		if(this.$route.query.query){
 			query = JSON.parse(this.$route.query.query)
@@ -87,27 +98,27 @@ export default {
         account : this.loginData.account,
         password : this.loginData.pwd,
       }))
-        .then(res=>{
-          if(res.data.codeMsg){
-            this.$message(res.data.codeMsg);
-          }
-          if(res.data.code == 0){
-            this.$axios.post('/hospital-maintain/login-refresh')
-            .then(res=>{
-               if(res.data.codeMsg){
-                  this.$message(res.data.codeMsg);
-                }
-                if(res.data.code == 0){
-                  
-                  this.$store.state.account = res.data.data;
-                  this.$router.push({path:'adminView/index',query:{time : new Date().getTime()}})
-                }
+      .then(res=>{
+        if(res.data.codeMsg){
+          this.$message(res.data.codeMsg);
+        }
+        if(res.data.code == 0){
+          this.$axios.post('/hospital-maintain/login-refresh')
+          .then(res=>{
+              if(res.data.codeMsg){
+                this.$message(res.data.codeMsg);
+              }
+              if(res.data.code == 0){
+                
+                this.$store.state.account = res.data.data;
+                this.$router.push({path:'adminView/index',query:{hospitalId:this.loginData.hospitalId,time : new Date().getTime()}})
+              }
 
-            })
-            
-          }
-        })
-        
+          })
+          
+        }
+      })
+      
     },
     searchClearFn(){
       this.HospitalNamePage=0;
@@ -116,7 +127,6 @@ export default {
     },
     //确认医院
     confirmFn(_item){
-      
       // this.searchResultsState = false;
       this.loginData.hospitalName = _item.value
       this.loginData.hospitalId = _item.id
@@ -149,12 +159,6 @@ export default {
       this.HospitalNamePage++
       this.getHospitalName(queryString, cb);
     },
-    createFilter(queryString) {
-      return (restaurant) => {
-        
-        return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-      };
-    },
     // 搜索医院名称请求
     getHospitalName(queryString, cb){
       this.$axios.get('/hospitals?'+this.$qs.stringify({  
@@ -176,10 +180,6 @@ export default {
             }
            
           }
-          // let results = queryString ? this.searchResultsList.filter(this.createFilter(queryString)) : this.searchResultsList;
-            // console.log(results)
-            // console.log(this.searchResultsList.filter(this.searchResultsList.name.toLowerCase().indexOf(queryString.toLowerCase()) === 0))
-            // cb(this.searchResultsList)
         })
     }
 	},
@@ -208,6 +208,7 @@ export default {
     z-index: 2;
     background:rgba(81,112,214,0.4);
     min-width: 1120px;
+    min-height: 510px;
     /* opacity: 0.4; */
   }
   .login_logo{
@@ -252,6 +253,7 @@ export default {
     margin: 5px auto;
   }
   .login_line{
+    max-width: 352px;
     width: 24vw;
     min-width: 280px;
     height: 45px;

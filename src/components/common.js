@@ -3,7 +3,7 @@ import Vue from 'vue';
 import router from '../router'
 import store from '../store'
 let vue = new Vue();
-function checkLogin(){
+function checkLogin(_hospitalId){
     axios.post('/hospital-maintain/login-refresh')
     .then(res=>{
       if(res.data.codeMsg){
@@ -17,7 +17,11 @@ function checkLogin(){
             message:'暂未登录！',
             duration:1240,
             onClose:()=>{
-              router.push({path:'/login'})
+              if(_hospitalId){
+                router.push({path:'/login',query:{hospitalId:_hospitalId}})
+              }else{
+                router.push({path:'/login'})
+              }
             }
           })
         }

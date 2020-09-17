@@ -6,8 +6,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # Editor directories and files
-.idea
-.vscode
 *.suo
 *.ntvs*
 *.njsproj
@@ -30,15 +28,7 @@ bin/
 build/
 target/
 
-.classpath
-.project
-.settings/
 .svn/
 
-.idea/
 
-<<<<<<< HEAD
 node_modules/
-=======
-node_modules/
->>>>>>> eed9bb1702bd35055a998d5b3eb27d2a76f0622f

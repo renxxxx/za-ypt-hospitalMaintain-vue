@@ -401,6 +401,7 @@ export default {
         resertSearchFn(){
             this.kw = '';
             this.timeSearch = [];
+            this.timeSearch = '';
             this.typeSelectValue = ''
             this.tabelNowPage = 1
             this.getDataSum()

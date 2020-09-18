@@ -16,7 +16,7 @@
                   <span>关键字：</span>
                   <el-input v-model="kw" placeholder="请输入"></el-input>
               </div>
-              <div class="doctorEvaluation_screening_options">
+              <!-- <div class="doctorEvaluation_screening_options">
                   <span>类型：</span>
                   <el-select v-model="typeSelectValue" placeholder="请选择">
                       <el-option
@@ -37,7 +37,7 @@
                       :value="item.value">
                       </el-option>
                   </el-select>
-              </div>
+              </div> -->
               <el-button type="primary" @click="searchFn">查 询</el-button>
           </div>
       </div>

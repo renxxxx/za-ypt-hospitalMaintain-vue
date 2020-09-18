@@ -401,6 +401,7 @@ export default {
                     // }
                     this.tabelSum = res.data.data.rowCount
                     // console.log(this.tabelSum)
+                    this.tableDataList = []
                     if(this.tabelSum > 0){
                         this.pageFn(1)
                     }
@@ -439,7 +440,7 @@ export default {
         },
         pageFn(_value){
             // console.log(_value);
-            this.tableDataList = []
+            
             this.getData(_value)
         },
         searchFn(){

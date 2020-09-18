@@ -264,6 +264,7 @@ export default {
                     //     this.tabelSum =parseInt(String(res.data.data.rowCount/10).split(".")[0]) + 1
                     // }
                     this.tabelSum = res.data.data.rowCount
+                    this.tableDataList = [] 
                     // console.log(this.tabelSum)
                     if(this.tabelSum > 0){
                         this.pageFn(1)
@@ -274,7 +275,7 @@ export default {
         },
         pageFn(_value){
             // console.log(_value);
-            this.tableDataList = []
+            
             this.getData(_value)
         },
         searchFn(){

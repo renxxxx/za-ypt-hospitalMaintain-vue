@@ -306,6 +306,7 @@ export default {
                     // }
                     this.tabelSum = res.data.data.rowCount
                     // console.log(this.tabelSum)
+                    this.tableDataList = []
                     if(this.tabelSum > 0){
                         this.pageFn(1)
                     }
@@ -367,7 +368,7 @@ export default {
         },
         pageFn(_value){
             // console.log(_value);
-            this.tableDataList = []
+            
             this.getData(_value)
         },
         searchFn(){
@@ -505,7 +506,6 @@ export default {
                         this.modifySubmitState = false;
                         this.tableDataList = [];
                         this.addSubmitDialogState = false;
-                        this.getDataSum();
                         this.$message("操作成功")
                         this.getDataSum();
                     }

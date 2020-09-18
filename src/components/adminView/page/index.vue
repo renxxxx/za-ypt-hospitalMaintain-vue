@@ -214,8 +214,10 @@ export default {
         if(res.data.code == 0){
           this.hospitalAboutData = res.data.data;
           if(this.hospitalAboutData){
-            if(res.data.data.tag.split(',').length>0){
+            if(this.hospitalAboutData.tag){
               this.hospitalAboutData.tag = res.data.data.tag.split(',');
+            }else{
+              this.hospitalAboutData.tag=['','']
             }
             this.hospitalAboutDataShowData = this.hospitalAboutData.tag
             console.log(this.hospitalAboutData.tag)

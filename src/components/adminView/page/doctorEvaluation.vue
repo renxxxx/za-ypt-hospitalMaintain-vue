@@ -181,7 +181,7 @@ export default {
             })
         },
         getDataSum(){
-            this.$axios.get('hospital-maintain/doctor-comments-sum?'+ this.$qs.stringify({
+            this.$axios.get('/hospital-maintain/doctor-comments-sum?'+ this.$qs.stringify({
                 kw : this.kw,
             }))
             .then(res => {

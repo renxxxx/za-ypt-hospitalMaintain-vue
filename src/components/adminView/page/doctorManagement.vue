@@ -408,7 +408,7 @@ export default {
             })
         },
         getModifyDetails(_value){
-            this.$axios.get('hospital-maintain/doctor-'+_value.doctorId)
+            this.$axios.get('/hospital-maintain/doctor-'+_value.doctorId)
             .then(res =>{
                 if(res.data.codeMsg){
                     this.$message(res.data.codeMsg)
@@ -456,7 +456,7 @@ export default {
         },
         delFn(_value){
             if(_value){
-                this.$axios.post('hospital-maintain/update-doctors',this.$qs.stringify({
+                this.$axios.post('/hospital-maintain/update-doctors',this.$qs.stringify({
                     doctorId : _value.doctorId,
                     delNew : '1',
                     expectedRowCount:'1'
@@ -556,7 +556,7 @@ export default {
                 offic = this.typeOptions.find(res => this.modifyData.officeId == res.value);
             if(this.userState){
 
-                this.$axios.post('hospital-maintain/create-doctor',this.$qs.stringify({
+                this.$axios.post('/hospital-maintain/create-doctor',this.$qs.stringify({
                     name : this.modifyData.name,
                     tag : this.modifyData.tag,
                     intro : this.modifyData.intro,
@@ -580,7 +580,7 @@ export default {
                 })
             }else{
                 // console.dir(this.modifyData)
-                this.$axios.post('hospital-maintain/update-doctor',this.$qs.stringify({
+                this.$axios.post('/hospital-maintain/update-doctor',this.$qs.stringify({
                     doctorId : this.modifyData.doctorId,
                     name : this.modifyData.name,
                     tag : this.modifyData.tag,

@@ -397,7 +397,7 @@ export default {
                     }
                 })
             }else{
-                this.$axios.post('hospital-maintain/update-office',this.$qs.stringify({
+                this.$axios.post('/hospital-maintain/update-office',this.$qs.stringify({
                     officeId : this.modifyData.officeId,
                     name : this.modifyData.name,
                     cover : this.modifyData.cover,

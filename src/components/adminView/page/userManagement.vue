@@ -313,7 +313,7 @@ export default {
             })
         },
         getModifyDetails(_value){
-            this.$axios.get('hospital-maintain/user-'+_value.userId)
+            this.$axios.get('/hospital-maintain/user-'+_value.userId)
             .then(res =>{
                 if(res.data.codeMsg){
                     this.$message(res.data.codeMsg)

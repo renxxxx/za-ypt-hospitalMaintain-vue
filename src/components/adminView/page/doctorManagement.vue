@@ -440,7 +440,7 @@ export default {
         },
         pageFn(_value){
             // console.log(_value);
-            
+            this.tableDataList = []
             this.getData(_value)
         },
         searchFn(){

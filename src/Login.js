@@ -1,9 +1,9 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-Vue.version='1.0.2009181118'
+Vue.version='1.0.2009171452'
 Vue.versionIntro='修复了发现的BUG, 优化了部分体验.'
-import App from './App'
+import login from './login.vue'
 import router from './router'
 import store from './store'
 import ElementUI from 'element-ui';
@@ -30,6 +30,6 @@ new Vue({
   el: '#app',
   router,
   store,
-  components: { App },
-  template: '<App/>'
+  components: { login },
+  template: '<login/>'
 })

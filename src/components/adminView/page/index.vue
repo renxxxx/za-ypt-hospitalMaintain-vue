@@ -113,7 +113,7 @@
           </li>
           <li>
             <span>VR地址：</span>
-            <input v-model="modifyData.contentUrl" type="text">
+            <input v-model="modifyData.panoramaVrUrl" type="text">
           </li>
           <li>
             <span>标签：</span>

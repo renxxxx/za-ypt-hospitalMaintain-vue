@@ -14,7 +14,6 @@
         <div class="index_title_nameIntro">
           <h3>{{hospitalAboutData.name||''}}</h3>
           <div><span v-if="hospitalAboutDataShowData[0]">{{hospitalAboutDataShowData[0]}}</span><span v-if="hospitalAboutDataShowData[1]">{{hospitalAboutDataShowData[1]}}</span></div>
-          
         </div>
         <img class="hospitalQrCode" @click="qrCodeImagesFn(hospitalQrCode)" :src="hospitalQrCode" alt="">
         <div class="index_title_vistorNum">
@@ -60,7 +59,7 @@
                 <a :href="hospitalAboutData.panoramaVrUrl">
                   <img src="../../../assets/vr.svg" alt="">
                 </a>
-                <a :href="hospitalAboutData.panoramaVrUrl" class="line-1">{{hospitalAboutData.panoramaVrUrl}}</a>
+                <a :href="hospitalAboutData.panoramaVrUrl" class="line-1">{{hospitalAboutData.panoramaVrUrl? hospitalAboutData.panoramaVrUrl:'暂未设置VR'}}</a>
               </div>
             </div>
             <div class="index_doclist">
@@ -215,7 +214,9 @@ export default {
         if(res.data.code == 0){
           this.hospitalAboutData = res.data.data;
           if(this.hospitalAboutData){
-            this.hospitalAboutData.tag = res.data.data.tag.split(',');
+            if(res.data.data.tag.split(',').length>0){
+              this.hospitalAboutData.tag = res.data.data.tag.split(',');
+            }
             this.hospitalAboutDataShowData = this.hospitalAboutData.tag
             console.log(this.hospitalAboutData.tag)
             if(this.hospitalAboutData.createTime){
@@ -317,19 +318,20 @@ export default {
       this.modifyData = JSON.parse(JSON.stringify(this.hospitalAboutData));
     },
     qrCodeImagesFn(_value){
-      this.qrCodeValue = true
-      this.qrCodeSrc = _value
+      if(_value){
+        this.qrCodeValue = true
+        this.qrCodeSrc = _value
+      }
     },
     modifyHospitalFn(){
 
     },
     addImg(_fileLIst){
 			var file = _fileLIst.target.files[0]
-			// 
 			if(file.type.indexOf('image') > -1){
 				let formData = new FormData();
 				formData.append('file', file)
-				this.$axios.post('upload-file?',formData,{headers: {'Content-Type': 'multipart/form-data'
+				this.$axios.post('/upload-file',formData,{headers: {'Content-Type': 'multipart/form-data'
 				}})
 				.then(res =>{
 					if(!res.data.codeMsg){

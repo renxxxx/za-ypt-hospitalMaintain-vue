@@ -493,8 +493,11 @@ export default {
             this.modifyData = _value
         },
         enlargeImagesFn(_value){
-            this.enlargeImagesValue = true
-            this.enlargeImagesSrc = _value
+            if(_value){
+                this.enlargeImagesValue = true
+                this.enlargeImagesSrc = _value
+            }
+            
         },
         qrCodeImagesFn(_value){
             this.qrCodeValue = true
@@ -506,7 +509,7 @@ export default {
 			if(file.type.indexOf('image') > -1){
 				let formData = new FormData();
 				formData.append('file', file)
-				this.$axios.post('upload-file?',formData,{headers: {'Content-Type': 'multipart/form-data'
+				this.$axios.post('/upload-file',formData,{headers: {'Content-Type': 'multipart/form-data'
 				}})
 				.then(res =>{
 					if(!res.data.codeMsg){

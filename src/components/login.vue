@@ -8,6 +8,7 @@
         <div class="login_white">
           <p class="login_title">欢迎登录</p>
           <p class="login_deline"></p>
+          <div style="width: 100%;height: auto;text-align: center;font-size: 17px;margin-top: 5px;display: block;">{{loginData.hospitalName}}</div>
           <!-- <div class="login_line line_result" style="margin-top: 60px;">
             <i class="el-icon-office-building"></i> -->
             <!-- <el-autocomplete  :fetch-suggestions="focusFn" @select="confirmFn"
@@ -76,23 +77,35 @@ export default {
     if(window.location.href.split('?').length>1){
       if(window.location.href.split('?')[1].split('=')[0] == 'hospitalId' || window.location.href.split('?')[1].split('=')[0] == 'loginHospitalId'){
         this.loginData.hospitalId = window.location.href.split('?')[1].split('=')[1]
+        this.getData()
       }else{
         this.$message('该url链接无效，请重新获取')
       }
     }else{
       this.$message('该url链接无效，请重新获取')
     }
+    
 	},
 	activated(){
     // console.dir(JSON.stringify(this.$route.query.query))
     
-		let query = {}
-		if(this.$route.query.query){
-			query = JSON.parse(this.$route.query.query)
-		}
+		
 		
 	},
 	methods: {
+    getData(){
+      this.$axios.get('/hospital-maintain/hospital-name?'+this.$qs.stringify({
+        hospitalId:this.loginData.hospitalId
+      }))
+      .then(res =>{
+        if(res.data.codeMsg){
+          this.$message(res.data.codeMsg);
+        }
+        if(res.data.code == 0){
+          this.loginData.hospitalName = res.data.data.hospitalName
+        }
+      })
+    },
     submitFn(){
       this.$axios.post('/hospital-maintain/login',this.$qs.stringify({
         loginHospitalId : this.loginData.hospitalId,

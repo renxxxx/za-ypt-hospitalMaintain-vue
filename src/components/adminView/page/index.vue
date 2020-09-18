@@ -13,7 +13,7 @@
         <img src="../../../assets/Bitmap.svg" alt="">
         <div class="index_title_nameIntro">
           <h3>{{hospitalAboutData.name||''}}</h3>
-          <div><span>{{hospitalAboutDataShowData[0]}}</span><span>{{hospitalAboutDataShowData[1]}}</span></div>
+          <div><span v-if="hospitalAboutDataShowData[0]">{{hospitalAboutDataShowData[0]}}</span><span v-if="hospitalAboutDataShowData[1]">{{hospitalAboutDataShowData[1]}}</span></div>
           
         </div>
         <img class="hospitalQrCode" @click="qrCodeImagesFn(hospitalQrCode)" :src="hospitalQrCode" alt="">
@@ -57,10 +57,10 @@
             <div class="index_VR">
               <p>VR地址</p>
               <div>
-                <a :href="hospitalAboutData.contentUrl">
+                <a :href="hospitalAboutData.panoramaVrUrl">
                   <img src="../../../assets/vr.svg" alt="">
                 </a>
-                <a :href="hospitalAboutData.contentUrl" class="line-1">{{hospitalAboutData.contentUrl}}</a>
+                <a :href="hospitalAboutData.panoramaVrUrl" class="line-1">{{hospitalAboutData.panoramaVrUrl}}</a>
               </div>
             </div>
             <div class="index_doclist">
@@ -345,7 +345,7 @@ export default {
     modifySubmitFn(){
       this.$axios.post('/update-hospital',this.$qs.stringify({
         name:this.modifyData.name,
-        panoramaVrUrl:this.modifyData.contentUrl,
+        panoramaVrUrl:this.modifyData.panoramaVrUrl,
         tag:this.modifyData.tag,
         cover:this.modifyData.cover,
         intro:this.modifyData.intro,

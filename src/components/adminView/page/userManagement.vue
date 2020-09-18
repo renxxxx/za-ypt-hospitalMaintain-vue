@@ -6,17 +6,30 @@
                 <span>创建时间: {{$store.state.common.hospitalAboutData.createTime || ''}}</span>
             </div>
             <div class="userManagement_title">
-                <router-link :to="{path: '/adminView/userManagement',query:{time:new Date().getTime().toString()}}">
+                <div>
+                    <router-link :to="{path: '/adminView/userManagement',query:{time:new Date().getTime().toString()}}">
                     <span>用户管理</span>
                 </router-link>
+                </div>
                 
-            </div>
-            <div class="userManagement_screening">
+                
+            <!-- </div> -->
+            <!-- <div class="userManagement_screening"> -->
                 <div class="userManagement_screening_options">
                     <span>关键字：</span>
                     <el-input v-model="kw" placeholder="请输入"></el-input>
                 </div>
-                <!-- <div class="userManagement_screening_options">
+                <div class="userManagement_screening_options">
+                    <el-date-picker
+                        v-model="timeSearch"
+                        type="datetimerange"
+                        range-separator="至"
+                        start-placeholder="开始时间"
+                        end-placeholder="结束时间"
+                        :default-time="['00:00:00','23:59:59']">
+                    </el-date-picker>
+                </div>
+                <div class="userManagement_screening_options">
                     <span>类型：</span>
                     <el-select v-model="typeSelectValue" placeholder="请选择">
                         <el-option
@@ -27,18 +40,9 @@
                         </el-option>
                     </el-select>
                 </div>
-                <div class="userManagement_screening_options">
-                    <span>医生：</span>
-                    <el-select v-model="doctorSelectValue" placeholder="请选择">
-                        <el-option
-                        v-for="item in doctorOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                        </el-option>
-                    </el-select>
-                </div> -->
-                <el-button type="primary" @click="searchFn">查 询</el-button>
+                <el-button style="margin-top: 10px;" type="primary" @click="searchFn">查 询</el-button>
+                <el-button type="info" @click="resertSearchFn">重 置</el-button>
+                <div style="height: 40px;line-height: 40px;">总数：{{tabelSum}}</div>
             </div>
         </div>
         <div class="userManagement_table">
@@ -206,7 +210,6 @@ export default {
             hideOnSinglePageValue:true,
             query:'',
             typeSelectValue:null,
-            doctorSelectValue:null,
             typeOptions:[
                 {
                     value : 0,
@@ -236,7 +239,8 @@ export default {
             modifySubmitDialogState:false,
             modifySubmitDialogData:{},
             addSubmitDialogState:false,
-            kw:''
+            kw:'',
+            timeSearch:''
         }
     },
     activated(){
@@ -252,10 +256,19 @@ export default {
             Object.assign(this.$data, this.$options.data());
         },
         getData(_page){
+            let createTimeFrom = '';
+            let createTimeTo = '';
+            if(this.timeSearch){
+                createTimeFrom = this.moment(this.timeSearch[0]).valueOf()
+                createTimeTo = this.moment(this.timeSearch[1]).valueOf()
+            }
             this.$axios.get('/hospital-maintain/users?' + this.$qs.stringify({
                 kw : this.kw,
                 ps : 10,
                 pn : _page,
+                createTimeFrom : createTimeFrom,
+                createTimeTo : createTimeTo,
+                type: this.typeSelectValue,
             }))
             .then(res => {
                 if(res.data.codeMsg){
@@ -278,9 +291,9 @@ export default {
                            point: res.data.data.rows[i].point,
                            type: res.data.data.rows[i].type,
                            createTime: res.data.data.rows[i].createTime,
-                           nowCreateTime: this.moment(res.data.data.rows[i].createTime).format('YYYY-MM-DD HH-mm-ss'),
+                           nowCreateTime: this.moment(res.data.data.rows[i].createTime).format('YYYY-MM-DD HH:mm:ss'),
                            updateTime: res.data.data.rows[i].updateTime,
-                           nowUpdateTime: this.moment(res.data.data.rows[i].updateTime).format('YYYY-MM-DD HH-mm-ss'),
+                           nowUpdateTime: this.moment(res.data.data.rows[i].updateTime).format('YYYY-MM-DD HH:mm:ss'),
                            frozen: res.data.data.rows[i].frozen,
                            remark: res.data.data.rows[i].remark,
                            orderNo: res.data.data.rows[i].orderNo,
@@ -291,8 +304,17 @@ export default {
             })
         },
         getDataSum(){
+            let createTimeFrom = '';
+            let createTimeTo = '';
+            if(this.timeSearch){
+                createTimeFrom = this.moment(this.timeSearch[0]).valueOf()
+                createTimeTo = this.moment(this.timeSearch[1]).valueOf()
+            }
             this.$axios.get('/hospital-maintain/users-sum?'+ this.$qs.stringify({
                 kw : this.kw,
+                createTimeFrom : createTimeFrom,
+                createTimeTo : createTimeTo,
+                type: this.typeSelectValue,
             }))
             .then(res => {
                 if(res.data.codeMsg){
@@ -375,6 +397,13 @@ export default {
             this.tabelNowPage = 1
             this.getDataSum();
             
+        },
+        resertSearchFn(){
+            this.kw = '';
+            this.timeSearch = [];
+            this.typeSelectValue = ''
+            this.tabelNowPage = 1
+            this.getDataSum()
         },
         modifyFn(_value){
             this.doctorOptions = []
@@ -583,7 +612,7 @@ export default {
 }
 .userManagement_title{
     width: 100%;
-    height: 150px;
+    height: auto;
     background: rgba(255, 255, 255, 1);
     margin-top: 4px;
     box-sizing: border-box;
@@ -598,10 +627,12 @@ export default {
     position: absolute;
     bottom: 19px;
     left: 32px;
+    
 }
 .userManagement_screening_options{
     display: inline-block;
-    margin-right: 30px;
+    margin-right: 20px;
+    margin-top: 10px;
 }
 .userManagement_screening_options >>>.el-input{
     width: 180px
@@ -887,5 +918,7 @@ input::-webkit-inner-spin-button {
 input[type="number"]{
     -moz-appearance: textfield;
 }
-
+>>>.el-range-editor{
+    width: 380px;
+}
 </style>

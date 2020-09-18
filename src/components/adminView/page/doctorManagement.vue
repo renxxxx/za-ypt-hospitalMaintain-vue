@@ -6,19 +6,32 @@
                 <span>创建时间: {{$store.state.common.hospitalAboutData.createTime || ''}}</span>
             </div>
             <div class="doctorManagement_title">
-                <router-link :to="{path: '/adminView/doctorManagement',query:{time:new Date().getTime().toString()}}">
-                    <span>医生管理</span>
-                </router-link>
+                <div>
+                    <router-link :to="{path: '/adminView/doctorManagement',query:{time:new Date().getTime().toString()}}">
+                        <span>医生管理</span>
+                    </router-link>
+                </div>
                 
-            </div>
-            <div class="doctorManagement_screening">
+                
+            <!-- </div> -->
+            <!-- <div class="doctorManagement_screening"> -->
                 <div class="doctorManagement_screening_options">
                     <span>关键字：</span>
                     <el-input v-model="kw" placeholder="请输入"></el-input>
                 </div>
-                <!-- <div class="doctorManagement_screening_options">
-                    <span>类型：</span>
-                    <el-select v-model="typeSelectValue" placeholder="请选择">
+                <div class="doctorManagement_screening_options">
+                    <el-date-picker
+                        v-model="timeSearch"
+                        type="datetimerange"
+                        range-separator="至"
+                        start-placeholder="开始时间"
+                        end-placeholder="结束时间"
+                        :default-time="['00:00:00','23:59:59']">
+                    </el-date-picker>
+                </div>
+                <div class="doctorManagement_screening_options">
+                    <span>科室：</span>
+                    <el-select v-model="officeId" placeholder="请选择">
                         <el-option
                         v-for="item in typeOptions"
                         :key="item.value"
@@ -27,7 +40,7 @@
                         </el-option>
                     </el-select>
                 </div>
-                <div class="doctorManagement_screening_options">
+                <!-- <div class="doctorManagement_screening_options">
                     <span>医生：</span>
                     <el-select v-model="doctorSelectValue" placeholder="请选择">
                         <el-option
@@ -38,7 +51,9 @@
                         </el-option>
                     </el-select>
                 </div> -->
-                <el-button type="primary" @click="searchFn">查 询</el-button>
+                <el-button style="margin-top: 10px;" type="primary" @click="searchFn">查 询</el-button>
+                <el-button type="info" @click="resertSearchFn">重 置</el-button>
+                <div style="height: 40px;line-height: 40px;">总数：{{tabelSum}}</div>
             </div>
         </div>
         <div class="doctorManagement_table">
@@ -224,7 +239,7 @@ export default {
             query:'',
             hideOnSinglePageValue:true,
             typeSelectValue:null,
-            doctorSelectValue:null,
+            officeSelectValue:[],
             typeOptions:[],
             doctorOptions:[
                 {}
@@ -246,6 +261,8 @@ export default {
             modifySubmitDialogState:false,
             addSubmitDialogState:false,
             modifySubmitDialogData:{},
+            timeSearch:'',
+            officeId:''
         }
     },
     activated(){
@@ -254,6 +271,7 @@ export default {
             this.$common.checkLogin(this.$route.query.hospitalId)
             this.query = JSON.stringify(this.$route.query);
             this.getDataSum();
+            this.getOfficeFn()
         }
     },
     methods:{
@@ -274,16 +292,22 @@ export default {
                         })
                     }
                 }
-                if(_value){
-                    this.getModifyDetails(_value);
-                }
             })
         },
         getData(_page){
+            let createTimeFrom = '';
+            let createTimeTo = '';
+            if(this.timeSearch){
+                createTimeFrom = this.moment(this.timeSearch[0]).valueOf()
+                createTimeTo = this.moment(this.timeSearch[1]).valueOf()
+            }
             this.$axios.get('/hospital-maintain/doctors?' + this.$qs.stringify({
                 kw : this.kw,
                 ps : 10,
                 pn : _page,
+                createTimeFrom : createTimeFrom,
+                createTimeTo : createTimeTo,
+                officeId : this.officeId,
             }))
             .then(res => {
                 if(res.data.codeMsg){
@@ -362,9 +386,9 @@ export default {
                             tag: res.data.data.rows[i].tag,
                             intro: res.data.data.rows[i].intro,
                             createTime: res.data.data.rows[i].createTime,
-                            nowCreateTime: this.moment(res.data.data.rows[i].createTime).format('YYYY-MM-DD HH-mm-ss'),
+                            nowCreateTime: this.moment(res.data.data.rows[i].createTime).format('YYYY-MM-DD HH:mm:ss'),
                             updateTime: res.data.data.rows[i].updateTime,
-                            nowUpdateTime: this.moment(res.data.data.rows[i].updateTime).format('YYYY-MM-DD HH-mm-ss'),
+                            nowUpdateTime: this.moment(res.data.data.rows[i].updateTime).format('YYYY-MM-DD HH:mm:ss'),
                             frozen: res.data.data.rows[i].frozen,
                             remark: res.data.data.rows[i].remark,
                             orderNo: res.data.data.rows[i].orderNo,
@@ -386,8 +410,17 @@ export default {
             })
         },
         getDataSum(){
+            let createTimeFrom = '';
+            let createTimeTo = '';
+            if(this.timeSearch){
+                createTimeFrom = this.moment(this.timeSearch[0]).valueOf()
+                createTimeTo = this.moment(this.timeSearch[1]).valueOf()
+            }
             this.$axios.get('/hospital-maintain/doctors-sum?'+ this.$qs.stringify({
                 kw : this.kw,
+                createTimeFrom : createTimeFrom,
+                createTimeTo : createTimeTo,
+                officeId : this.officeId,
             }))
             .then(res => {
                 if(res.data.codeMsg){
@@ -447,13 +480,19 @@ export default {
             this.tabelNowPage = 1
             this.getDataSum();
         },
+        resertSearchFn(){
+            this.kw = '';
+            this.officeId = '';
+            this.timeSearch = '';
+            this.tabelNowPage = 1
+            this.getDataSum()
+        },
         modifyFn(_value){
             console.log(_value)
             this.query = JSON.stringify(this.$route.query);
             this.modifyState = true;
             this.userState = false;
             this.typeOptions=[]
-            this.getOfficeFn(_value)
         },
         delFn(_value){
             if(_value){
@@ -487,7 +526,6 @@ export default {
             this.modifyState = true;
             this.userState = true;
             this.typeOptions=[]
-            this.getOfficeFn();
             this.addSubmitDialogState = true;
         },
         handleCurrentChange(_value){
@@ -655,7 +693,7 @@ export default {
 }
 .doctorManagement_title{
     width: 100%;
-    height: 150px;
+    height: auto;
     background: rgba(255, 255, 255, 1);
     margin-top: 4px;
     box-sizing: border-box;
@@ -673,7 +711,7 @@ export default {
 }
 .doctorManagement_screening_options{
     display: inline-block;
-    margin-right: 30px;
+    margin-right: 20px;
 }
 .doctorManagement_screening_options >>>.el-input{
     width: 180px

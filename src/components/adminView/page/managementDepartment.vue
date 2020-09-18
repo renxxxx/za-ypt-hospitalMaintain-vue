@@ -38,6 +38,8 @@
                     </el-select>
                 </div> -->
                 <el-button type="primary" @click="searchFn">查 询</el-button>
+                <el-button type="info" @click="resertSearchFn">重 置</el-button>
+                <div style="height: 40px;line-height: 40px;">总数：{{tabelSum}}</div>
             </div>
         </div>
         <div class="userManagement_table">
@@ -240,9 +242,9 @@ export default {
                            intro: res.data.data.rows[i].intro,
                            orderNoInHospital: res.data.data.rows[i].orderNoInHospital,
                            createTime: res.data.data.rows[i].createTime,
-                           nowCreateTime: this.moment(res.data.data.rows[i].createTime).format('YYYY-MM-DD HH-mm-ss'),
+                           nowCreateTime: this.moment(res.data.data.rows[i].createTime).format('YYYY-MM-DD HH:mm:ss'),
                            updateTime: res.data.data.rows[i].updateTime,
-                           nowUpdateTime: this.moment(res.data.data.rows[i].updateTime).format('YYYY-MM-DD HH-mm-ss'),
+                           nowUpdateTime: this.moment(res.data.data.rows[i].updateTime).format('YYYY-MM-DD HH:mm:ss'),
                         })
                     }
                     console.log(this.tableDataList)
@@ -279,6 +281,11 @@ export default {
             this.getData(_value)
         },
         searchFn(){
+            this.tabelNowPage = 1;
+            this.getDataSum();
+        },
+        resertSearchFn(){
+            this.kw = '';
             this.tabelNowPage = 1;
             this.getDataSum();
         },

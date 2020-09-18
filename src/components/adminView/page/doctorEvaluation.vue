@@ -6,39 +6,55 @@
               <span>创建时间: {{$store.state.common.hospitalAboutData.createTime || ''}}</span>
           </div>
           <div class="doctorEvaluation_title">
-              <router-link :to="{path: '/adminView/doctorEvaluation',query:{time:new Date().getTime().toString()}}">
-                  <span>医生评价</span>
-              </router-link>
+              <div>
+                  <router-link :to="{path: '/adminView/doctorEvaluation',query:{time:new Date().getTime().toString()}}">
+                    <span>医生评价</span>
+                </router-link>
+              </div>
               
-          </div>
-          <div class="doctorEvaluation_screening">
+              
+          <!-- </div> -->
+          <!-- <div class="doctorEvaluation_screening"> -->
               <div class="doctorEvaluation_screening_options">
                   <span>关键字：</span>
                   <el-input v-model="kw" placeholder="请输入"></el-input>
               </div>
-              <!-- <div class="doctorEvaluation_screening_options">
-                  <span>类型：</span>
-                  <el-select v-model="typeSelectValue" placeholder="请选择">
-                      <el-option
-                      v-for="item in typeOptions"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                      </el-option>
-                  </el-select>
+              <div class="doctorEvaluation_screening_options">
+                <el-date-picker
+                    v-model="timeSearch"
+                    type="datetimerange"
+                    range-separator="至"
+                    start-placeholder="开始时间"
+                    end-placeholder="结束时间"
+                    :default-time="['00:00:00','23:59:59']">
+                </el-date-picker>
               </div>
               <div class="doctorEvaluation_screening_options">
                   <span>医生：</span>
-                  <el-select v-model="doctorSelectValue" placeholder="请选择">
+                  <el-select v-model="doctorId" placeholder="请选择">
                       <el-option
                       v-for="item in doctorOptions"
+                      :key="item.doctorId"
+                      :label="item.label"
+                      :value="item.doctorId">
+                      </el-option>
+                  </el-select>
+              </div>
+              
+              <!-- <div class="doctorEvaluation_screening_options">
+                  <span>科室：</span>
+                  <el-select v-model="officeId" placeholder="请选择">
+                      <el-option
+                      v-for="item in officeSelectValue"
                       :key="item.value"
                       :label="item.label"
                       :value="item.value">
                       </el-option>
                   </el-select>
               </div> -->
-              <el-button type="primary" @click="searchFn">查 询</el-button>
+              <el-button style="margin-top: 10px;" type="primary" @click="searchFn">查 询</el-button>
+              <el-button type="info" @click="resertSearchFn">重 置</el-button>
+                <div style="height: 40px;line-height: 40px;">总数：{{tabelSum}}</div>
           </div>
       </div>
       <div class="doctorEvaluation_table">
@@ -104,27 +120,16 @@ export default {
             typeSelectValue:null,
             hideOnSinglePageValue:true,
             doctorSelectValue:null,
-            typeOptions:[
-                {
-                    value : 0,
-                    label : '普通'
-                },
-                {
-                    value : 1,
-                    label : '医生'
-                },
-                {
-                    value : 2,
-                    label : '医护'
-                },
-            ],
-            doctorOptions:[
-                {}
-            ],
+            officeId:'',
+            officeSelectValue:[],
+            doctorId:'',
+            doctorOptions:[],
             tabelSum:1,
             tabelNowPage:1,
             tableDataList:[],
-            kw:''
+            kw:'',
+            sum:0,
+            timeSearch:''
         }
     },
     activated(){
@@ -133,6 +138,8 @@ export default {
             this.$common.checkLogin(this.$route.query.hospitalId)
             this.query = JSON.stringify(this.$route.query);
             this.getDataSum();
+            this.getOfficeFn();
+            this.getDoctor();
         }
     },
     methods:{
@@ -140,8 +147,17 @@ export default {
             Object.assign(this.$data, this.$options.data());
         },
         getData(_page){
+            let createTimeFrom = '';
+            let createTimeTo = '';
+            if(this.timeSearch){
+                createTimeFrom = this.moment(this.timeSearch[0]).valueOf()
+                createTimeTo = this.moment(this.timeSearch[1]).valueOf()
+            }
             this.$axios.get('/hospital-maintain/doctor-comments?' + this.$qs.stringify({
                 kw : this.kw,
+                doctorId : this.doctorId,
+                createTimeFrom : createTimeFrom,
+                createTimeTo : createTimeTo,
                 ps : 10,
                 pn : _page,
             }))
@@ -168,9 +184,9 @@ export default {
                             video: res.data.data.rows[i].video,
                             star: res.data.data.rows[i].star,
                             createTime: res.data.data.rows[i].createTime,
-                            nowCreateTime: this.moment(res.data.data.rows[i].createTime).format('YYYY-MM-DD HH-mm-ss'),
+                            nowCreateTime: this.moment(res.data.data.rows[i].createTime).format('YYYY-MM-DD HH:mm:ss'),
                             updateTime: res.data.data.rows[i].updateTime,
-                            nowUpdateTime: this.moment(res.data.data.rows[i].updateTime).format('YYYY-MM-DD HH-mm-ss'),
+                            nowUpdateTime: this.moment(res.data.data.rows[i].updateTime).format('YYYY-MM-DD HH:mm:ss'),
                             frozen: res.data.data.rows[i].frozen,
                             remark: res.data.data.rows[i].remark,
                             orderNo: res.data.data.rows[i].orderNo,
@@ -181,8 +197,18 @@ export default {
             })
         },
         getDataSum(){
+            let createTimeFrom = '';
+            let createTimeTo = '';
+            console.log(this.timeSearch)
+            if(this.timeSearch){
+                createTimeFrom = this.moment(this.timeSearch[0]).valueOf()
+                createTimeTo = this.moment(this.timeSearch[1]).valueOf()
+            }
             this.$axios.get('/hospital-maintain/doctor-comments-sum?'+ this.$qs.stringify({
                 kw : this.kw,
+                createTimeFrom : createTimeFrom,
+                createTimeTo : createTimeTo,
+                doctorId : this.doctorId
             }))
             .then(res => {
                 if(res.data.codeMsg){
@@ -203,12 +229,56 @@ export default {
                 }
             })
         },
+        getOfficeFn(_value){
+            this.$axios.get('/hospital-maintain/office-list')
+            .then(res => {
+                if(res.data.codeMsg){
+                    this.$message(res.data.codeMsg)
+                }
+                if(res.data.code == 0){
+                    this.officeSelectValue = []
+                    for(let i in res.data.data.rows){
+                        this.officeSelectValue.push({
+                            value : res.data.data.rows[i].officeId,
+                            label : res.data.data.rows[i].name
+                        })
+                    }
+                }
+                if(_value){
+                    this.getModifyDetails(_value);
+                }
+            })
+        },
+        getDoctor(_value){
+            this.$axios.get('/hospital-maintain/doctors' )
+            .then(res=>{
+                 if(res.data.codeMsg){
+                    this.$message(res.data.codeMsg)
+                }
+                if(res.data.code == 0){
+                    this.doctorOptions = []
+                    for(let i in res.data.data.rows)
+                    this.doctorOptions.push({
+                        doctorId:res.data.data.rows[i].doctorId,
+                        label:res.data.data.rows[i].name,
+                    })
+                }
+                
+            })
+        },
         pageFn(_value){
             // console.log(_value);
             this.tableDataList = []
             this.getData(_value)
         },
         searchFn(){
+            this.tabelNowPage = 1
+            this.getDataSum();
+        },
+        resertSearchFn(){
+            this.kw = '';
+            this.doctorId = '';
+            this.timeSearch = '';
             this.tabelNowPage = 1
             this.getDataSum();
         },
@@ -281,7 +351,7 @@ export default {
 }
 .doctorEvaluation_title{
     width: 100%;
-    height: 150px;
+    height: auto;
     background: rgba(255, 255, 255, 1);
     margin-top: 4px;
     box-sizing: border-box;

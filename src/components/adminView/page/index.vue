@@ -293,6 +293,7 @@ export default {
         }
         if(res.data.code == 0){
           if(res.data.data.rows.length>0){
+            this.doctorList = []
             for(let i in res.data.data.rows){
               this.doctorList.push(res.data.data.rows[i])
             }

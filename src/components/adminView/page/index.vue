@@ -362,6 +362,7 @@ export default {
           this.modifyState = false;
           this.modifySubmitState = false;
           this.hospitalAboutData = JSON.parse(JSON.stringify(this.modifyData));
+          this.getData();
           this.$message("操作成功")
         }
       })

@@ -85,7 +85,7 @@
               <el-pagination
                   :hide-on-single-page = "hideOnSinglePageValue"
                   background
-                  :current-page = "tabelNowPage"
+                  :current-page.sync = "tabelNowPage"
                   layout="prev, pager, next,jumper"
                   @current-change = "pageFn"
                   :total="tabelSum">
@@ -197,7 +197,7 @@ export default {
                     this.tabelSum = res.data.data.rowCount
                     // console.log(this.tabelSum)
                     if(this.tabelSum > 0){
-                        this.getData(1)
+                        this.pageFn(1)
                     }
                 }
             })
@@ -208,7 +208,7 @@ export default {
             this.getData(_value)
         },
         searchFn(){
-            this.tableDataList = []
+            this.tabelNowPage = 1
             this.getDataSum();
         },
         delFn(_value){

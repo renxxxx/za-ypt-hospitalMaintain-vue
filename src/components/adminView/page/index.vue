@@ -59,7 +59,7 @@
                 <a :href="hospitalAboutData.panoramaVrUrl">
                   <img src="../../../assets/vr.svg" alt="">
                 </a>
-                <a :href="hospitalAboutData.panoramaVrUrl" class="line-1">{{hospitalAboutData.panoramaVrUrl? hospitalAboutData.panoramaVrUrl:'暂未设置VR'}}</a>
+                <a :href="hospitalAboutData.panoramaVrUrl" class="line-1">{{hospitalAboutData.panoramaVrUrl? '点击查看':'暂未设置VR'}}</a>
               </div>
             </div>
             <div class="index_doclist">

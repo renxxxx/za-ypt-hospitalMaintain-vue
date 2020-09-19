@@ -131,7 +131,7 @@ export default {
             kw:'',
             sum:0,
             timeSearch:'',
-            totalStar:''
+            totalStar:0
         }
     },
     activated(){
@@ -222,8 +222,15 @@ export default {
                     // if(String(res.data.data.rowCount/10).split(".").length > 1){
                     //     this.tabelSum =parseInt(String(res.data.data.rowCount/10).split(".")[0]) + 1
                     // }
+                    
                     this.tabelSum = res.data.data.rowCount
                     this.totalStar = res.data.data.totalStar
+                    if(!res.data.data.rowCount){
+                        this.tabelSum = 0
+                    }
+                    if(!res.data.data.totalStar){
+                        this.totalStar = 0
+                    }
                     // console.log(this.tabelSum)
                     this.tableDataList = []
                     if(this.tabelSum > 0){

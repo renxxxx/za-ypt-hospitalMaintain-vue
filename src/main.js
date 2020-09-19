@@ -9,7 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import common from './components/common.js'
 import './assets/rest.css'
 import axios from 'axios' 
-import qs from 'qs'; 
+import qs from 'qs';  
 moment.locale('zh-cn');
 Vue.prototype.moment = moment;
 Vue.prototype.$version = '1.0.2009190840'

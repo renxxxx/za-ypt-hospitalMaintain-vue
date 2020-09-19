@@ -54,7 +54,8 @@
               </div> -->
               <el-button style="margin-top: 10px;" type="primary" @click="searchFn">查 询</el-button>
               <el-button type="info" @click="resertSearchFn">重 置</el-button>
-                <div style="height: 40px;line-height: 40px;">总数：{{tabelSum}}</div>
+                <div style="height: 40px;line-height: 40px;">总数：{{tabelSum}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;评价总分：{{totalStar}}</div>
+                
           </div>
       </div>
       <div class="doctorEvaluation_table">
@@ -129,7 +130,8 @@ export default {
             tableDataList:[],
             kw:'',
             sum:0,
-            timeSearch:''
+            timeSearch:'',
+            totalStar:''
         }
     },
     activated(){
@@ -221,6 +223,7 @@ export default {
                     //     this.tabelSum =parseInt(String(res.data.data.rowCount/10).split(".")[0]) + 1
                     // }
                     this.tabelSum = res.data.data.rowCount
+                    this.totalStar = res.data.data.totalStar
                     // console.log(this.tabelSum)
                     this.tableDataList = []
                     if(this.tabelSum > 0){

@@ -737,7 +737,9 @@ export default {
 .modifyBox>ul>li:nth-child(4) >>>.el-input__icon{
     line-height: 100%
 }
-
+>>>.el-dialog__headerbtn{
+    display: none;
+}
 .enlargeImagesBox >>>.el-dialog{
     background-color: transparent;
     box-shadow:none;
@@ -745,10 +747,13 @@ export default {
     height: 410px;
     min-width: 410px;
 }
+.enlargeImagesBox >>>.el-dialog__header{
+    padding: 0px;
+}
 .enlargeImagesBox >>>.el-dialog__body{
     height: 410px;
     width: 410px;
-    
+    padding: 0px
 }
 .enlargeImagesClass{
     position: relative;

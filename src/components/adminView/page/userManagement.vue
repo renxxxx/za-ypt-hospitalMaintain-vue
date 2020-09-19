@@ -882,12 +882,15 @@ export default {
     box-shadow:none;
     width: 410px;
     height: 410px;
-    min-width: 410px;
+    /* min-width: 410px; */
+}
+.enlargeImagesBox >>>.el-dialog__header{
+    padding: 0px;
 }
 .enlargeImagesBox >>>.el-dialog__body{
     height: 410px;
     width: 410px;
-    
+    padding: 0px;
 }
 .enlargeImagesClass{
     position: relative;

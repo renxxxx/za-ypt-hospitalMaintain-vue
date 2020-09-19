@@ -958,14 +958,20 @@ export default {
 .enlargeImagesBox >>>.el-dialog{
     background-color: transparent;
     box-shadow:none;
-    width: 410px;
-    height: 410px;
-    min-width: 410px;
+    height: 417px;
+    width: 343px;
+    /* min-width: 410px; */
+}
+>>>.el-dialog__headerbtn{
+    display: none;
+}
+.enlargeImagesBox >>>.el-dialog__header{
+    padding: 0px;
 }
 .enlargeImagesBox >>>.el-dialog__body{
-    height: 410px;
-    width: 410px;
-    
+    height: 417px;
+    width: 343px;
+    padding: 0px
 }
 .enlargeImagesClass{
     position: relative;
@@ -984,8 +990,8 @@ export default {
 }
 .qrCodeImagesClass{
     position: relative;
-    height: 410px;
-    width: 410px;
+    height: 417px;
+    width: 343px;
 }
 .qrCodeImagesClass>img{
     height: 417px;

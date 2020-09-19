@@ -701,14 +701,21 @@ ul,li{
 .enlargeImagesBox >>>.el-dialog{
     background-color: transparent;
     box-shadow:none;
-    width: 410px;
-    height: 410px;
-    min-width: 410px;
+    width: 280px;
+    height: 340px;
+    /* min-width: 410px; */
+}
+.enlargeImagesBox >>>.el-dialog__header{
+  padding: 0px;
 }
 .enlargeImagesBox >>>.el-dialog__body{
-    height: 410px;
-    width: 410px;
+    width: 280px;
+    height: 340px;
+    padding: 0px;
     
+}
+>>>.el-dialog__headerbtn{
+  display: none;
 }
 .modifyBoxTitle{
   width: 100%;

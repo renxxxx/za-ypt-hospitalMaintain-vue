@@ -490,9 +490,12 @@ export default {
         modifyFn(_value){
             console.log(_value)
             this.query = JSON.stringify(this.$route.query);
+            
+            // this.modifyData =  JSON.parse(JSON.stringify(_value));
             this.modifyState = true;
             this.userState = false;
-            this.typeOptions=[]
+            this.getModifyDetails(_value)
+            // this.typeOptions=[]
         },
         delFn(_value){
             if(_value){
@@ -525,7 +528,7 @@ export default {
             }
             this.modifyState = true;
             this.userState = true;
-            this.typeOptions=[]
+            // this.typeOptions=[]
             this.addSubmitDialogState = true;
         },
         handleCurrentChange(_value){

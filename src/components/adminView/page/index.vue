@@ -206,7 +206,7 @@ export default {
       Object.assign(this.$data, this.$options.data());
     },
     getData(){
-      this.$axios.get('/hospital-maintain/hospital')
+      this.$axios.get('/ypt/hospital-maintain/hospital')
       .then(res=>{
         if(res.data.codeMsg){
           this.$message(res.data.codeMsg)
@@ -283,7 +283,7 @@ export default {
             // cQ.remove()  
         }
       })
-      this.$axios.get('/hospital-maintain/doctors?'+this.$qs.stringify({
+      this.$axios.get('/ypt/hospital-maintain/doctors?'+this.$qs.stringify({
         pn:1,
         ps:10
       }))
@@ -300,7 +300,7 @@ export default {
           }
         }
       })
-      this.$axios.get('/hospital-maintain/overview')
+      this.$axios.get('/ypt/hospital-maintain/overview')
       .then(res=>{
         if(res.data.codeMsg){
           this.$message(res.data.codeMsg)

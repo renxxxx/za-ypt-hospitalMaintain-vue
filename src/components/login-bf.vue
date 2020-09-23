@@ -58,7 +58,7 @@
       login() {
         this.$axios
           .post(
-            '/hospital-maintain/login?',
+            '/ypt/user/login?',
             this.$qs.stringify({
               loginHospitalId: this.loginHospitalId,
               account: this.account,

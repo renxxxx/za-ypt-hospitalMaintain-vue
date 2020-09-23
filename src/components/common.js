@@ -4,7 +4,7 @@ import router from '../router'
 import store from '../store'
 let vue = new Vue();
 function checkLogin(_hospitalId){
-    axios.post('/hospital-maintain/login-refresh')
+    axios.post('/ypt/user/login-refresh')
     .then(res=>{
       if(res.data.codeMsg){
         vue.$message(res.data.codeMsg);

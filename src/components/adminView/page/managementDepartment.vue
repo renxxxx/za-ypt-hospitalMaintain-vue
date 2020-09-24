@@ -220,7 +220,7 @@ export default {
             Object.assign(this.$data, this.$options.data());
         },
         getData(_page){
-            this.$axios.get('/hospital-maintain/office-list?' + this.$qs.stringify({
+            this.$axios.get('/ypt/hospital-maintain/office-list?' + this.$qs.stringify({
                 kw : this.kw,
                 ps : 10,
                 pn : _page,
@@ -252,7 +252,7 @@ export default {
             })
         },
         getDataSum(){
-            this.$axios.get('/hospital-maintain/office-list-sum?'+ this.$qs.stringify({
+            this.$axios.get('/ypt/hospital-maintain/office-list-sum?'+ this.$qs.stringify({
                 kw : this.kw,
             }))
             .then(res => {
@@ -297,7 +297,7 @@ export default {
         },
         delFn(_value){
             if(_value){
-                this.$axios.post('/hospital-maintain/delete-office-list',this.$qs.stringify({
+                this.$axios.post('/ypt/hospital-maintain/delete-office-list',this.$qs.stringify({
                     officeId : _value.officeId,
                     delNew : '1',
                     expectedRowCount : '1'
@@ -387,7 +387,7 @@ export default {
         },
         modifySubmitFn(){
             if(this.userState){
-                this.$axios.post('/hospital-maintain/create-office',this.$qs.stringify({
+                this.$axios.post('/ypt/hospital-maintain/create-office',this.$qs.stringify({
                      name : this.modifyData.name,
                     cover : this.modifyData.cover,
                     createTime: new Date().getTime(),
@@ -406,7 +406,7 @@ export default {
                     }
                 })
             }else{
-                this.$axios.post('/hospital-maintain/update-office',this.$qs.stringify({
+                this.$axios.post('/ypt/hospital-maintain/update-office',this.$qs.stringify({
                     officeId : this.modifyData.officeId,
                     name : this.modifyData.name,
                     cover : this.modifyData.cover,

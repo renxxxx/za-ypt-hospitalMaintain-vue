@@ -83,7 +83,7 @@ export default {
     },
     exitFn(){
       // this.$router.go(0)
-      this.$axios.post('/hospital-maintain/logout')
+      this.$axios.post('/ypt/user/logout')
       .then(res=>{
         if(res.data.codeMsg){
           this.$message(res.data.codeMsg)

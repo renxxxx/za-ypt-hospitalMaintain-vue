@@ -262,7 +262,7 @@ export default {
                 createTimeFrom = this.moment(this.timeSearch[0]).valueOf()
                 createTimeTo = this.moment(this.timeSearch[1]).valueOf()
             }
-            this.$axios.get('/hospital-maintain/users?' + this.$qs.stringify({
+            this.$axios.get('/ypt/hospital-maintain/users?' + this.$qs.stringify({
                 kw : this.kw,
                 ps : 10,
                 pn : _page,
@@ -310,7 +310,7 @@ export default {
                 createTimeFrom = this.moment(this.timeSearch[0]).valueOf()
                 createTimeTo = this.moment(this.timeSearch[1]).valueOf()
             }
-            this.$axios.get('/hospital-maintain/users-sum?'+ this.$qs.stringify({
+            this.$axios.get('/ypt/hospital-maintain/users-sum?'+ this.$qs.stringify({
                 kw : this.kw,
                 createTimeFrom : createTimeFrom,
                 createTimeTo : createTimeTo,
@@ -337,7 +337,7 @@ export default {
             })
         },
         getModifyDetails(_value){
-            this.$axios.get('/hospital-maintain/user-'+_value.userId)
+            this.$axios.get('/ypt/hospital-maintain/user-'+_value.userId)
             .then(res =>{
                 if(res.data.codeMsg){
                     this.$message(res.data.codeMsg)
@@ -369,7 +369,7 @@ export default {
             })
         },
         getDoctor(_value){
-            this.$axios.get('/hospital-maintain/doctors' )
+            this.$axios.get('/ypt/hospital-maintain/doctors' )
             .then(res=>{
                  if(res.data.codeMsg){
                     this.$message(res.data.codeMsg)
@@ -418,7 +418,7 @@ export default {
         },
         delFn(_value){
             if(_value){
-                this.$axios.post('/hospital-maintain/update-users',this.$qs.stringify({
+                this.$axios.post('/ypt/hospital-maintain/update-users',this.$qs.stringify({
                     userId : _value.userId,
                     delNew : '1',
                     expectedRowCount:'1'
@@ -518,7 +518,7 @@ export default {
         },
         modifySubmitFn(){
             if(this.userState){
-                this.$axios.post('/hospital-maintain/create-user',this.$qs.stringify({
+                this.$axios.post('/ypt/hospital-maintain/create-user',this.$qs.stringify({
                     name : this.modifyData.name,
                     phone : this.modifyData.phone,
                     cover : this.modifyData.cover,
@@ -541,7 +541,7 @@ export default {
                     }
                 })
             }else{
-                this.$axios.post('/hospital-maintain/update-user',this.$qs.stringify({
+                this.$axios.post('/ypt/hospital-maintain/update-user',this.$qs.stringify({
                     userId : this.modifyData.userId,
                     name : this.modifyData.name,
                     phone : this.modifyData.phone,

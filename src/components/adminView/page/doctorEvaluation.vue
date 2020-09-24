@@ -155,7 +155,7 @@ export default {
                 createTimeFrom = this.moment(this.timeSearch[0]).valueOf()
                 createTimeTo = this.moment(this.timeSearch[1]).valueOf()
             }
-            this.$axios.get('/hospital-maintain/doctor-comments?' + this.$qs.stringify({
+            this.$axios.get('/ypt/hospital-maintain/doctor-comments?' + this.$qs.stringify({
                 kw : this.kw,
                 doctorId : this.doctorId,
                 createTimeFrom : createTimeFrom,
@@ -206,7 +206,7 @@ export default {
                 createTimeFrom = this.moment(this.timeSearch[0]).valueOf()
                 createTimeTo = this.moment(this.timeSearch[1]).valueOf()
             }
-            this.$axios.get('/hospital-maintain/doctor-comments-sum?'+ this.$qs.stringify({
+            this.$axios.get('/ypt/hospital-maintain/doctor-comments-sum?'+ this.$qs.stringify({
                 kw : this.kw,
                 createTimeFrom : createTimeFrom,
                 createTimeTo : createTimeTo,
@@ -240,7 +240,7 @@ export default {
             })
         },
         getOfficeFn(_value){
-            this.$axios.get('/hospital-maintain/office-list')
+            this.$axios.get('/ypt/hospital-maintain/office-list')
             .then(res => {
                 if(res.data.codeMsg){
                     this.$message(res.data.codeMsg)
@@ -260,7 +260,7 @@ export default {
             })
         },
         getDoctor(_value){
-            this.$axios.get('/hospital-maintain/doctors' )
+            this.$axios.get('/ypt/hospital-maintain/doctors' )
             .then(res=>{
                  if(res.data.codeMsg){
                     this.$message(res.data.codeMsg)
@@ -294,7 +294,7 @@ export default {
         },
         delFn(_value){
             if(_value){
-                this.$axios.post('/hospital-maintain/update-users',this.$qs.stringify({
+                this.$axios.post('/ypt/hospital-maintain/update-users',this.$qs.stringify({
                     userId : _value.userId,
                     delNew : '1',
                     expectedRowCount:'1'

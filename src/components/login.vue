@@ -94,7 +94,7 @@ export default {
 	},
 	methods: {
     getData(){
-      this.$axios.get('/hospital-maintain/hospital-name?'+this.$qs.stringify({
+      this.$axios.get('/ypt/hospital-maintain/hospital-name?'+this.$qs.stringify({
         hospitalId:this.loginData.hospitalId
       }))
       .then(res =>{
@@ -107,7 +107,7 @@ export default {
       })
     },
     submitFn(){
-      this.$axios.post('/hospital-maintain/login',this.$qs.stringify({
+      this.$axios.post('/ypt/user/login',this.$qs.stringify({
         loginHospitalId : this.loginData.hospitalId,
         account : this.loginData.account,
         password : this.loginData.pwd,
@@ -117,7 +117,7 @@ export default {
           this.$message(res.data.codeMsg);
         }
         if(res.data.code == 0){
-          this.$axios.post('/hospital-maintain/login-refresh')
+          this.$axios.post('/ypt/user/login-refresh')
           .then(res=>{
               if(res.data.codeMsg){
                 this.$message(res.data.codeMsg);

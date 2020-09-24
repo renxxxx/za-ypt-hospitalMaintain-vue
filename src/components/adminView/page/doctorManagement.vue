@@ -245,7 +245,7 @@ export default {
                 {}
             ],
             
-            tabelSum:1,
+            tabelSum:0,
             tabelNowPage:1,
             tableDataList:[],
             modifyState:false,

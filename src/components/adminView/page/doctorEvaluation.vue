@@ -125,7 +125,7 @@ export default {
             officeSelectValue:[],
             doctorId:'',
             doctorOptions:[],
-            tabelSum:1,
+            tabelSum:0,
             tabelNowPage:1,
             tableDataList:[],
             kw:'',

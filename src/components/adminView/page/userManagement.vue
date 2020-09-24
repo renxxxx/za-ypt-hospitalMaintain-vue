@@ -225,7 +225,7 @@ export default {
                 // },
             ],
             doctorOptions:[],
-            tabelSum:1,
+            tabelSum:0,
             tabelNowPage:1,
             tableDataList:[],
             modifyState:false,

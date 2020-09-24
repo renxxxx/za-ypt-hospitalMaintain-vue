@@ -257,7 +257,7 @@ export default {
             ctx.strokeStyle = '#e6e6e6' ;  //设置线的颜色状态
             ctx.stroke();
             let getUrl = '/wxminqrcode?path=' + encodeURIComponent('pages/index/index?hospitalid='+res.data.data.hospitalId
-            +res.data.data.doctorId +'&hospitalname='+res.data.data.hospitalname)+'&width=280'
+            +'&hospitalname='+res.data.data.hospitalname)+'&width=280'
             Promise.all([
               new Promise((resolve)=>{
                 const img = new Image();

@@ -27,8 +27,10 @@ export default {
         leftNav
     },
     mounted(){
-        debugger
         this.$store.state.common.hospitalAboutData = JSON.parse(localStorage.getItem('hospital'))
+        if(!this.$store.state.common.account){
+            this.$common.checkLogin(this.$route.query.account)
+        }
     },
     activated(){
         

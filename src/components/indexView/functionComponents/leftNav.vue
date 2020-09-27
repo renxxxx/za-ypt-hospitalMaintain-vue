@@ -4,7 +4,7 @@
       <el-aside width="200px">
          <el-col style="width: 100%;">
             <div class="index_logo">
-              <img src="assets/logo.svg" alt="">
+              <img src="../../../assets/logo.svg" alt="">
               <!-- <span>医品通</span> -->
             </div>
             <el-menu
@@ -13,25 +13,25 @@
               class="el-menu-vertical-demo"
               active-text-color="#e91e63"
               >
-              <el-menu-item  :class="[reversedMessage == '/adminView/index'? 'menuColor':'']" @click="select('/adminView/index')">
+              <el-menu-item  :class="[reversedMessage == '/index/index'? 'menuColor':'']" @click="select('/index/index')">
                 <!-- <template slot="title"> -->
                   <i class="el-icon-odometer"></i>
                   <span>医院信息</span>
                 <!-- </template> -->
               </el-menu-item>
-              <el-menu-item index="1" :class="[reversedMessage == '/adminView/userManagement'? 'menuColor':'']" @click="select('/adminView/userManagement')">
+              <el-menu-item index="1" :class="[reversedMessage == '/index/userManagement'? 'menuColor':'']" @click="select('/index/userManagement')">
                 <i class="el-icon-edit-outline"></i>
                 <span slot="title">用户管理</span>
               </el-menu-item>
-              <el-menu-item index="2" :class="[reversedMessage == '/adminView/managementDepartment'? 'menuColor':'']" @click="select('/adminView/managementDepartment')">
+              <el-menu-item index="2" :class="[reversedMessage == '/index/managementDepartment'? 'menuColor':'']" @click="select('/index/managementDepartment')">
                 <i class="el-icon-edit-outline"></i>
                 <span slot="title">科室管理</span>
               </el-menu-item>
-              <el-menu-item index="3" :class="[reversedMessage == '/adminView/doctorManagement'? 'menuColor':'']" @click="select('/adminView/doctorManagement')">
+              <el-menu-item index="3" :class="[reversedMessage == '/index/doctorManagement'? 'menuColor':'']" @click="select('/index/doctorManagement')">
                 <i class="el-icon-edit-outline"></i>
                 <span slot="title">医生管理</span>
               </el-menu-item>
-              <el-menu-item index="4" :class="[reversedMessage == '/adminView/doctorEvaluation'? 'menuColor':'']" @click="select('/adminView/doctorEvaluation')">
+              <el-menu-item index="4" :class="[reversedMessage == '/index/doctorEvaluation'? 'menuColor':'']" @click="select('/index/doctorEvaluation')">
                 <i class="el-icon-chat-line-square"></i>
                 <span slot="title">医生评价</span>
               </el-menu-item>
@@ -107,20 +107,20 @@ export default {
         userManagement : false,
       }
       switch(_value){
-        case "/adminView/index":
-          that.$router.push({path:'/adminView/index',query:{hospitalId:this.$route.query.hospitalId,time:new Date().getTime().toString()}})
+        case "/index/index":
+          that.$router.push({path:'/index/index',query:{hospitalId:this.$route.query.hospitalId,time:new Date().getTime().toString()}})
         break;
-        case "/adminView/userManagement":
-          that.$router.push({path:'/adminView/userManagement',query:{hospitalId:this.$route.query.hospitalId,time:new Date().getTime().toString()}})
+        case "/index/userManagement":
+          that.$router.push({path:'/index/userManagement',query:{hospitalId:this.$route.query.hospitalId,time:new Date().getTime().toString()}})
         break;
-        case "/adminView/managementDepartment":
-          that.$router.push({path:'/adminView/managementDepartment',query:{hospitalId:this.$route.query.hospitalId,time:new Date().getTime().toString()}})
+        case "/index/managementDepartment":
+          that.$router.push({path:'/index/managementDepartment',query:{hospitalId:this.$route.query.hospitalId,time:new Date().getTime().toString()}})
         break;
-        case "/adminView/doctorManagement":
-          that.$router.push({path:'/adminView/doctorManagement',query:{hospitalId:this.$route.query.hospitalId,time:new Date().getTime().toString()}})
+        case "/index/doctorManagement":
+          that.$router.push({path:'/index/doctorManagement',query:{hospitalId:this.$route.query.hospitalId,time:new Date().getTime().toString()}})
         break;
-        case "/adminView/doctorEvaluation":
-          that.$router.push({path:'/adminView/doctorEvaluation',query:{hospitalId:this.$route.query.hospitalId,time:new Date().getTime().toString()}})
+        case "/index/doctorEvaluation":
+          that.$router.push({path:'/index/doctorEvaluation',query:{hospitalId:this.$route.query.hospitalId,time:new Date().getTime().toString()}})
         break;
       }
     }
@@ -175,6 +175,9 @@ export default {
   color:rgba(255,255,255,1);
   /* line-height:23px; */
   letter-spacing:2px;
+  text-align: left;
+  padding: 0 0 0 20px;
+  box-sizing: border-box
 }
 .index_logo img{
     height:23px;

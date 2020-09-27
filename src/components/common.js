@@ -10,21 +10,21 @@ function checkLogin(_hospitalId){
         vue.$message(res.data.codeMsg);
       }
       if(res.data.code == 0){
-        
-          store.state.account = res.data.data;
-        }else{
-          vue.$message({
-            message:'暂未登录！',
-            duration:1240,
-            onClose:()=>{
-              if(_hospitalId){
-                router.push({path:'/login',query:{hospitalId:_hospitalId}})
-              }else{
-                router.push({path:'/login'})
-              }
+        store.state.user.account = res.data.data;
+        console.log(store.state.user.account)
+      }else{
+        vue.$message({
+          message:'暂未登录！',
+          duration:1240,
+          onClose:()=>{
+            if(_hospitalId){
+              router.push({path:'/login',query:{hospitalId:_hospitalId}})
+            }else{
+              router.push({path:'/login'})
             }
-          })
-        }
+          }
+        })
+      }
     })
 }
 export default {

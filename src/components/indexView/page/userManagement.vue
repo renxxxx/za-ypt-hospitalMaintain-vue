@@ -1,25 +1,24 @@
 <template>
-    <div class="doctorManagement scrollStyle">
-        <div class="doctorManagement_topTitle">
-            <div class="doctorManagement_top">
+    <div class="userManagement scrollStyle">
+        <div class="userManagement_topTitle">
+            <div class="userManagement_top">
                 <i class="el-icon-s-fold"></i>
+                <div style="display: inline;">姓名：{{$store.state.user.account.name}}&nbsp;&nbsp;&nbsp;&nbsp;手机号：{{$store.state.user.account.phone}}</div>
                 <span>创建时间: {{$store.state.common.hospitalAboutData.createTime || ''}}</span>
             </div>
-            <div class="doctorManagement_title">
+            <div class="userManagement_title">
                 <div>
-                    <router-link :to="{path: '/adminView/doctorManagement',query:{time:new Date().getTime().toString()}}">
-                        <span>医生管理</span>
+                    <router-link :to="{path: '/index/userManagement',query:{time:new Date().getTime().toString()}}">
+                        <span>用户管理</span>
                     </router-link>
                 </div>
-                
-                
             <!-- </div> -->
-            <!-- <div class="doctorManagement_screening"> -->
-                <div class="doctorManagement_screening_options">
+            <!-- <div class="userManagement_screening"> -->
+                <div class="userManagement_screening_options">
                     <span>关键字：</span>
                     <el-input v-model="kw" placeholder="请输入"></el-input>
                 </div>
-                <div class="doctorManagement_screening_options">
+                <div class="userManagement_screening_options">
                     <el-date-picker
                         v-model="timeSearch"
                         type="datetimerange"
@@ -29,9 +28,9 @@
                         :default-time="['00:00:00','23:59:59']">
                     </el-date-picker>
                 </div>
-                <div class="doctorManagement_screening_options">
-                    <span>科室：</span>
-                    <el-select v-model="officeId" placeholder="请选择">
+                <div class="userManagement_screening_options">
+                    <span>类型：</span>
+                    <el-select v-model="typeSelectValue" placeholder="请选择">
                         <el-option
                         v-for="item in typeOptions"
                         :key="item.value"
@@ -40,73 +39,62 @@
                         </el-option>
                     </el-select>
                 </div>
-                <!-- <div class="doctorManagement_screening_options">
-                    <span>医生：</span>
-                    <el-select v-model="doctorSelectValue" placeholder="请选择">
-                        <el-option
-                        v-for="item in doctorOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                        </el-option>
-                    </el-select>
-                </div> -->
                 <el-button style="margin-top: 10px;" type="primary" @click="searchFn">查 询</el-button>
                 <el-button type="info" @click="resertSearchFn">重 置</el-button>
                 <div style="height: 40px;line-height: 40px;">总数：{{tabelSum}}</div>
             </div>
         </div>
-        <div class="doctorManagement_table">
-            <div class="doctorManagement_table_box">
+        <div class="userManagement_table">
+            <div class="userManagement_table_box">
+                <!-- @current-change="handleCurrentChange" -->
                 <el-button type="primary" @click="addFn()">+ 新 建</el-button>
-                  <!-- <canvas  width="40" height="60" style="display:block;" id="canvassss"></canvas> -->
                 <el-table ref="singleTable" :data="tableDataList" highlight-current-row  
                     style="width: 100%" 
                     >
-                    <el-table-column prop="serialNumber" width="70"></el-table-column>
-                    <el-table-column prop="cover" width="62">
+                    <el-table-column label="序号" prop="serialNumber"  width="70"></el-table-column>
+                    <el-table-column label="昵称">
+                         <template slot-scope="scope" >
+                             <div class="line-1" :title="scope.row.name">
+                                {{scope.row.name}}
+                             </div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="头像" prop="cover" width="143">
                         <template slot-scope="scope">
                             <img :src="scope.row.cover" style="cursor: pointer;" alt="" @click="enlargeImagesFn(scope.row.cover)">
                         </template>
-                    </el-table-column> 
-                    <el-table-column>
+                    </el-table-column>  
+                    <el-table-column label="类型" width="137">
                         <template slot-scope="scope">
-                            <div class="line-1">{{scope.row.name}}</div>
-                            <div class="line-2">{{scope.row.intro}}</div>
+                            <!-- + (scope.row.type == 2? '医护':'') -->
+                            {{(scope.row.type == 0? '普通':'') + (scope.row.type == 1? '医生':'' ) }}
                         </template>
                     </el-table-column>
-                    <el-table-column >
+                    <el-table-column label="医院" >
                         <template slot-scope="scope">
-                            <img :src="scope.row.qrcode" alt="" style="height:84px;width:70px" @click="qrCodeImagesFn(scope.row.qrcode)">
+                            <div class="line-2" :title="scope.row.hospitalName">{{scope.row.hospitalName}}</div>
                         </template>
                     </el-table-column>
-                    
-                    <el-table-column>
-                        <template slot-scope="scope" >
-                            <div>标签</div>
-                            <div class="line-1">{{scope.row.tag}}</div>
-                        </template>
-                    </el-table-column>
-                    <el-table-column>
-                        <template slot-scope="scope" >
-                            <div>创建时间</div>
-                            <div>{{scope.row.nowCreateTime}}</div>
-                        </template>
-                    </el-table-column>
-                    <el-table-column prop="修改" width="100">
+                    <el-table-column label="备注">
                         <template slot-scope="scope">
-                           <span style="cursor: pointer;color: #1890FF" @click="modifyFn(scope.row)">修改</span>
+                            <div class="line-2" :title="scope.row.remark">{{scope.row.remark}}</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="创建时间" prop="nowCreateTime" ></el-table-column>
+                    <el-table-column label="操作" prop="修改" width="114">
+                        <template slot-scope="scope">
+                           <span style="cursor: pointer;color: #1890FF" @click="modifyFn(scope.row)" title="修改此用户信息">修改</span>
                            <span style="color : #E9E9E9"> | </span>
-                           <span style="cursor: pointer;color: #FF1A2E" @click="modifySubmitDialogShowFn(false,scope.row)">删除</span>
+                           <span style="cursor: pointer;color: #FF1A2E" @click="modifySubmitDialogShowFn(false,scope.row)" title="删除此用户">删除</span>
                         </template>
                     </el-table-column>
                 </el-table>
             </div>
-            <div class="doctorManagement_table_page">
+            <div class="userManagement_table_page">
                 <el-pagination
                     :hide-on-single-page = "hideOnSinglePageValue"
                     background
-                    :current-page.sync ="tabelNowPage"
+                    :current-page.sync="tabelNowPage"
                     layout="prev, pager, next,jumper"
                     @current-change = "pageFn"
                     :total="tabelSum">
@@ -124,17 +112,9 @@
                     <img :src="enlargeImagesSrc" alt="">
                 </div>
             </el-dialog>
-            <el-dialog :visible.sync="qrCodeValue" class="enlargeImagesBox">
-                <div slot="title">
-                </div>
-                <div class="qrCodeImagesClass">
-                    <img :src="qrCodeSrc" alt="">
-                </div>
-            </el-dialog>
             <!-- 新增/修改用户列表 -->
-            <el-dialog :visible.sync="modifyState" class="modifyDialog" width="62.2%"
-            @closed="addSubmitDialogState = false;modifyState = false"
-            >
+            <el-dialog class="modifyHospitalDialog" :visible.sync="modifyState"  width="62.2%"
+            @closed="addSubmitDialogState = false;modifyState = false">
                 <div slot="title">
                     <div class="modifyBoxTitle">
                     <h3>修改信息</h3>
@@ -143,108 +123,111 @@
                 </div>
                 <div class="modifyBox"> 
                     <ul>
-                        <li>
-                            <span>医生名称：</span>
-                            <input v-model="modifyData.name" type="text">
-                        </li>
-                        <li>
-                            <span>标签：</span>
-                            <input v-model="modifyData.tag" type="text">
-                        </li>
-                        <li>
-                            <span>简介：</span>
-                            <input v-model="modifyData.intro" type="text">
-                        </li>
+                    <li>
+                        <span>用户名称：</span>
+                        <input v-model="modifyData.name" type="text">
+                    </li>
+                    <li>
+                        <span>手机：</span>
+                        <input v-model="modifyData.phone" type="number">
+                    </li>
+                    <li>
+                        <div class="modifySelectClass">
+                            <span>类型：</span>
+                            <el-select v-model="modifyData.type" placeholder="请选择" @change="uesrTypeChooseFn">
+                                <el-option
+                                v-for="item in typeOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </div>
+                        <div class="modifySelectClass" style="float: right;">
+                            <span>医生：</span>
+                            <el-select v-model="modifyData.type1DoctorId" placeholder="请选择" @change="uesrDoctorChooseFn">
+                                <el-option
+                                v-for="item in doctorOptions"
+                                :key="item.doctorId"
+                                :label="item.label"
+                                :value="item.doctorId">
+                                </el-option>
+                            </el-select>
+                        </div>
+                    </li>
+                    <li v-if="!userState">
+                        <span>创建时间：</span>
+                        <input v-model="modifyData.nowCreateTime" readonly="readonly" style="cursor: not-allowed;" type="text">
+                        <!-- <el-date-picker
+                            v-model="modifyData.createTime"
+                            type="date"
+                            placeholder="选择日期"
+                            @change="checkoutTime">
+                        </el-date-picker> -->
+                    </li>
+                    <li>
+                        <span>头像：</span>
+                        <div class="hospitalCover">
+                        <img :src="modifyData.cover" alt="" @click="enlargeImagesFn(modifyData.cover)">
+                        <div class="hospitalCoverBox">
+                            <i class="el-icon-more"></i>
+                            <input type="file" class="upload" ref="inputer" accept="image/png,image/jpeg,image/gif,image/jpg"
+                                multiple @change="addImg($event)"/>
+                        </div>
                         
-                        <li v-if="!userState">
-                            <span>创建时间：</span>
-                            <input v-model="modifyData.nowCreateTime" readonly="readonly" style="cursor: not-allowed;" type="text">
-                            <!-- <el-date-picker
-                                v-model="modifyData.createTime"
-                                type="date"
-                                placeholder="选择日期"
-                                @change="checkoutTime">
-                            </el-date-picker> -->
-                        </li>
-                        <li>
-                            <span>头像：</span>
-                            <div class="hospitalCover">
-                            <img :src="modifyData.cover" alt="" @click="enlargeImagesFn(modifyData.cover)">
-                            <div class="hospitalCoverBox">
-                                <i class="el-icon-more"></i>
-                                <input type="file" class="upload" ref="inputer" accept="image/png,image/jpeg,image/gif,image/jpg"
-                                    multiple @change="addImg($event)"/>
-                            </div>
-                            
-                            </div>
-                        </li>
-
-                        <li>
-                            <div class="modifySelectClass">
-                                <span>科室：</span>
-                                <el-select v-model="modifyData.officeId" placeholder="请选择">
-                                    <el-option
-                                    v-for="item in typeOptions"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                                    </el-option>
-                                </el-select>
-                            </div>
-                            <!-- <div class="modifySelectClass" style="float: right;">
-                                <span>医生：</span>
-                                <el-select v-model="typeSelectValue" placeholder="请选择">
-                                    <el-option
-                                    v-for="item in typeOptions"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                                    </el-option>
-                                </el-select>
-                            </div> -->
-                        </li>
-                        
-                        
-                        <li>
-                            <span>备注：</span>
-                            <textarea v-model="modifyData.remark" name="" id="" cols="30" rows="10" class="scrollStyle"></textarea>
-                        </li>
+                        </div>
+                    </li>
+                    <li>
+                        <span>备注：</span>
+                        <textarea v-model="modifyData.remark" name="" id="" cols="30" rows="10" class="scrollStyle"></textarea>
+                    </li>
                     </ul>
                     <div class="modifyBoxFooter">
-                    <button @click="modifyState = false;addSubmitDialogState = false" style="cursor:pointer;">取消</button>
+                    <button @click="addSubmitDialogState = false;modifyState = false" style="cursor:pointer;">取消</button>
                     <button @click="modifySubmitDialogShowFn(true,'')" style="cursor:pointer;">提交</button>
                     </div>
                 </div>
             </el-dialog>
+
+            <el-dialog
+                class="modifySubmitDialog"
+                :visible.sync="modifySubmitState"
+                width="30%"
+                center>
+                <img style="height:22px;width:22px;float:left;margin-right:16px" src="../../../assets/detele.png" alt="">
+                <span style="font-size:18px">{{modifySubmitStateMessage}}</span>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="modifySubmitState = false">取 消</el-button>
+                    <el-button class="modifySubmitDialogSubmit" @click="modifySubmitDialogFn">确 定</el-button>
+                </span>
+            </el-dialog>
         <!-- </div> -->
-        <el-dialog
-            class="modifySubmitDialog"
-            :visible.sync="modifySubmitState"
-            width="30%"
-            center>
-            <img style="height:22px;width:22px;float:left;margin-right:16px" src="../../../assets/detele.png" alt="">
-            <span style="font-size:18px">{{modifySubmitStateMessage}}</span>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="modifySubmitState = false">取 消</el-button>
-                <el-button class="modifySubmitDialogSubmit" @click="modifySubmitDialogFn">确 定</el-button>
-            </span>
-        </el-dialog>
+        
     </div>
 </template>
 <script>
 export default {
-    name : 'doctorManagement',
+    name : 'userManagement',
     data(){
         return {
-            query:'',
             hideOnSinglePageValue:true,
+            query:'',
             typeSelectValue:null,
-            officeSelectValue:[],
-            typeOptions:[],
-            doctorOptions:[
-                {}
+            typeOptions:[
+                {
+                    value : 0,
+                    label : '普通'
+                },
+                {
+                    value : 1,
+                    label : '医生'
+                },
+                // {
+                //     value : 2,
+                //     label : '医护'
+                // },
             ],
-            
+            doctorOptions:[],
             tabelSum:0,
             tabelNowPage:1,
             tableDataList:[],
@@ -252,17 +235,15 @@ export default {
             modifyData:{},
             enlargeImagesValue:false,
             enlargeImagesSrc:'',
-            qrCodeValue:false,
-            qrCodeSrc:'',
             userState:true,
-            kw:'',
+            modifyShow:false,
             modifySubmitState:false,
             modifySubmitStateMessage:'',
             modifySubmitDialogState:false,
-            addSubmitDialogState:false,
             modifySubmitDialogData:{},
-            timeSearch:'',
-            officeId:''
+            addSubmitDialogState:false,
+            kw:'',
+            timeSearch:''
         }
     },
     activated(){
@@ -271,28 +252,11 @@ export default {
             this.$common.checkLogin(this.$route.query.hospitalId)
             this.query = JSON.stringify(this.$route.query);
             this.getDataSum();
-            this.getOfficeFn()
         }
     },
     methods:{
         initData(){
             Object.assign(this.$data, this.$options.data());
-        },
-        getOfficeFn(_value){
-            this.$axios.get('/ypt/hospital-maintain/office-list')
-            .then(res => {
-                if(res.data.codeMsg){
-                    this.$message(res.data.codeMsg)
-                }
-                if(res.data.code == 0){
-                    for(let i in res.data.data.rows){
-                        this.typeOptions.push({
-                            value : res.data.data.rows[i].officeId,
-                            label : res.data.data.rows[i].name
-                        })
-                    }
-                }
-            })
         },
         getData(_page){
             let createTimeFrom = '';
@@ -301,13 +265,13 @@ export default {
                 createTimeFrom = this.moment(this.timeSearch[0]).valueOf()
                 createTimeTo = this.moment(this.timeSearch[1]).valueOf()
             }
-            this.$axios.get('/ypt/hospital-maintain/doctors?' + this.$qs.stringify({
+            this.$axios.get('/ypt/hospital-maintain/users?' + this.$qs.stringify({
                 kw : this.kw,
                 ps : 10,
                 pn : _page,
                 createTimeFrom : createTimeFrom,
                 createTimeTo : createTimeTo,
-                officeId : this.officeId,
+                type: this.typeSelectValue,
             }))
             .then(res => {
                 if(res.data.codeMsg){
@@ -318,92 +282,25 @@ export default {
                     for(let i in res.data.data.rows){
                         // res.data.data.rows[i].createTime = this.moment(res.data.data.rows[i].createTime).format('YYYY-MM-DD HH-mm-ss')
                         // res.data.data.rows[i].updateTime = this.moment(res.data.data.rows[i].updateTime).format('YYYY-MM-DD HH-mm-ss')
-                        // let cQ = $(`<canvas  width="280" height="340" style="display:block;"></canvas>`).appendTo('body');
-                        let dataUrl = null;
-                        // this.$nextTick(()=>{
-                        let cQ= $('<canvas  width="280" height="340" style="display:block;"></canvas>').appendTo('body');
-                        // this.
-                        let c=cQ[0];
-                        let ctx=c.getContext("2d");
-                        ctx.clearRect(0,0,c.width,c.height);  
-                        ctx.fillStyle="#FFFFFF";
-                        ctx.fillRect(0,0,280,340);
-
-                        res.data.data.rows[i].cover = res.data.data.rows[i].cover? res.data.data.rows[i].cover: require("../../../assets/head.png")
-                        let coverImg = $('<img src='+res.data.data.rows[i].cover+' style="display:none;" />').appendTo('body')
-                        debugger
-                        if(coverImg[0]){
-                            ctx.drawImage(coverImg[0],5,10,30,30);
-                            coverImg.remove()
-                        }
-                        
-                        ctx.fillStyle="#000000";
-                        if(res.data.data.rows[i].name)
-                            ctx.fillText(res.data.data.rows[i].name,50,20);
-                        
-                        ctx.fillStyle="#000000";
-                        if(res.data.data.rows[i].hospitalName)
-                        ctx.fillText(res.data.data.rows[i].hospitalName,50,40);
-
-                        ctx.moveTo (0,60);       //设置起点状态
-                        ctx.lineTo (280,60);       //设置末端状态
-                        ctx.lineWidth = 1;          //设置线宽状态
-                        ctx.strokeStyle = '#e6e6e6' ;  //设置线的颜色状态
-                        ctx.stroke();
-                        // let qrCodeImg = $(`<img src="/wxminqrcode?path=${
-                        // encodeURIComponent('pages/evaNowShare/evaNowShare?type=1&isfrom=1&id='
-                        // +res.data.data.rows[i].doctorId
-                        // +'&hospitalid='+res.data.data.rows[i].hospitalId)
-                        // }&width=280" style="display:none;"/>`).appendTo('body')
-                        let getUrl = '/wxminqrcode?path=' + encodeURIComponent('pages/evaNowShare/evaNowShare?type=1&isfrom=1&id='
-                        +res.data.data.rows[i].doctorId +'&hospitalid='+res.data.data.rows[i].hospitalId)+'&width=280'
-                        Promise.all([
-                        new Promise((resolve)=>{
-                            const img = new Image();
-                            img.src = getUrl;
-                            img.onload = ()=>resolve(img);
-                        })
-                        ]).then((imgs)=>{
-                            console.dir(imgs[0])
-                            let qrCodeImg = $('<img src="'+imgs[0].src+'" style="display:none;"/>').appendTo('body')
-                            ctx.drawImage(qrCodeImg[0],0,60,280,280);
-                            try{
-                                dataUrl =  c.toDataURL("image/jpeg", 1.0)
-                            }catch (e) {
-                            }
-                            qrCodeImg.remove()
-                            cQ.remove()  
-                            this.tableDataList[i].qrcode = dataUrl
-                        })
                         this.tableDataList.push({
-                            qrcode:dataUrl,
-                            serialNumber:(_page - 1) * 10 + parseInt(i)+1,
-                            doctorId: res.data.data.rows[i].doctorId,
-                            name: res.data.data.rows[i].name,
-                            hospitalId: res.data.data.rows[i].hospitalId,
-                            hospitalName: res.data.data.rows[i].hospitalName,
-                            cover: res.data.data.rows[i].cover,
-                            tag: res.data.data.rows[i].tag,
-                            intro: res.data.data.rows[i].intro,
-                            createTime: res.data.data.rows[i].createTime,
-                            nowCreateTime: this.moment(res.data.data.rows[i].createTime).format('YYYY-MM-DD HH:mm:ss'),
-                            updateTime: res.data.data.rows[i].updateTime,
-                            nowUpdateTime: this.moment(res.data.data.rows[i].updateTime).format('YYYY-MM-DD HH:mm:ss'),
-                            frozen: res.data.data.rows[i].frozen,
-                            remark: res.data.data.rows[i].remark,
-                            orderNo: res.data.data.rows[i].orderNo,
+                           serialNumber:(_page - 1) * 10 + parseInt(i)+1,
+                           userId: res.data.data.rows[i].userId,
+                           name: res.data.data.rows[i].name,
+                           hospitalId: res.data.data.rows[i].hospitalId,
+                           hospitalName: res.data.data.rows[i].hospitalName,
+                           phone: res.data.data.rows[i].phone,
+                           cover: res.data.data.rows[i].cover,
+                           money: res.data.data.rows[i].money,
+                           point: res.data.data.rows[i].point,
+                           type: res.data.data.rows[i].type,
+                           createTime: res.data.data.rows[i].createTime,
+                           nowCreateTime: this.moment(res.data.data.rows[i].createTime).format('YYYY-MM-DD HH:mm:ss'),
+                           updateTime: res.data.data.rows[i].updateTime,
+                           nowUpdateTime: this.moment(res.data.data.rows[i].updateTime).format('YYYY-MM-DD HH:mm:ss'),
+                           frozen: res.data.data.rows[i].frozen,
+                           remark: res.data.data.rows[i].remark,
+                           orderNo: res.data.data.rows[i].orderNo,
                         })
-
-                        // ctx.drawImage(qrCodeImg[0],0,60,280,280);
-                        // qrCodeImg.remove()
-                        // try{
-                        //     dataUrl =  c.toDataURL("image/jpeg", 1.0)
-                        // }catch (e) {
-
-                        // }
-                        // console.log(dataUrl)
-                        // cQ.remove()                        
-                        
                     }
                     console.log(this.tableDataList)
                 }
@@ -416,11 +313,11 @@ export default {
                 createTimeFrom = this.moment(this.timeSearch[0]).valueOf()
                 createTimeTo = this.moment(this.timeSearch[1]).valueOf()
             }
-            this.$axios.get('/ypt/hospital-maintain/doctors-sum?'+ this.$qs.stringify({
+            this.$axios.get('/ypt/hospital-maintain/users-sum?'+ this.$qs.stringify({
                 kw : this.kw,
                 createTimeFrom : createTimeFrom,
                 createTimeTo : createTimeTo,
-                officeId : this.officeId,
+                type: this.typeSelectValue,
             }))
             .then(res => {
                 if(res.data.codeMsg){
@@ -438,37 +335,60 @@ export default {
                     if(this.tabelSum > 0){
                         this.pageFn(1)
                     }
+                    
                 }
             })
         },
         getModifyDetails(_value){
-            this.$axios.get('/ypt/hospital-maintain/doctor-'+_value.doctorId)
+            this.$axios.get('/ypt/hospital-maintain/user-'+_value.userId)
             .then(res =>{
                 if(res.data.codeMsg){
                     this.$message(res.data.codeMsg)
                 }
                 if(res.data.code == 0){
                     this.modifyData = {
-                        doctorId:res.data.data.doctorId,
+                        userId:res.data.data.userId,
                         name: res.data.data.name,
+                        phone: res.data.data.phone,
                         cover: res.data.data.cover,
-                        video: res.data.data.video,
+                        point: res.data.data.point,
+                        money: res.data.data.money,
                         hospitalId: res.data.data.hospitalId,
                         hospitalName: res.data.data.hospitalName,
-                        tag: res.data.data.tag,
-                        intro: res.data.data.intro,
-                        officeId:res.data.data.officeId,
-                        officeName:res.data.data.officeName,
+                        type: res.data.data.type,
+                        type1DoctorId: res.data.data.type1DoctorId,
+                        type1DoctorName:res.data.data.type1DoctorName,
+                        type2NurseId:res.data.data.type2NurseId,
+                        type2NurseName:res.data.data.type2NurseName,
                         createTime: res.data.data.createTime,
                         nowCreateTime: this.moment(res.data.data.createTime).format('YYYY-MM-DD HH-mm-ss'),
                         updateTime: res.data.data.updateTime,
                         nowUpdateTime: this.moment(res.data.data.updateTime).format('YYYY-MM-DD HH-mm-ss'),
-                        orderNo: res.data.data.orderNo,
                         frozen: res.data.data.frozen,
                         frozenReason: res.data.data.frozenReason,
                         remark: res.data.data.remark,
                     }
                 }
+            })
+        },
+        getDoctor(_value){
+            this.$axios.get('/ypt/hospital-maintain/doctors' )
+            .then(res=>{
+                 if(res.data.codeMsg){
+                    this.$message(res.data.codeMsg)
+                }
+                if(res.data.code == 0){
+                    this.doctorOptions = []
+                    for(let i in res.data.data.rows)
+                    this.doctorOptions.push({
+                        doctorId:res.data.data.rows[i].doctorId,
+                        label:res.data.data.rows[i].name,
+                    })
+                }
+                if(_value){
+                    this.getModifyDetails(_value)
+                }
+                
             })
         },
         pageFn(_value){
@@ -479,28 +399,30 @@ export default {
         searchFn(){
             this.tabelNowPage = 1
             this.getDataSum();
+            
         },
         resertSearchFn(){
             this.kw = '';
-            this.officeId = '';
+            this.timeSearch = [];
             this.timeSearch = '';
+            this.typeSelectValue = ''
             this.tabelNowPage = 1
             this.getDataSum()
         },
         modifyFn(_value){
+            this.doctorOptions = []
+            // this.getDoctor();
             console.log(_value)
-            this.query = JSON.stringify(this.$route.query);
-            
-            // this.modifyData =  JSON.parse(JSON.stringify(_value));
+            // this.modifyData = _value;
+            this.getDoctor(_value);
+            this.modifyData = JSON.parse(JSON.stringify(_value));
             this.modifyState = true;
             this.userState = false;
-            this.getModifyDetails(_value)
-            // this.typeOptions=[]
         },
         delFn(_value){
             if(_value){
-                this.$axios.post('/ypt/hospital-maintain/update-doctors',this.$qs.stringify({
-                    doctorId : _value.doctorId,
+                this.$axios.post('/ypt/hospital-maintain/update-users',this.$qs.stringify({
+                    userId : _value.userId,
                     delNew : '1',
                     expectedRowCount:'1'
                 }))
@@ -526,10 +448,10 @@ export default {
                 createTime : '',
                 remark : '',
             }
+            this.getDoctor();
+            this.addSubmitDialogState = true;
             this.modifyState = true;
             this.userState = true;
-            // this.typeOptions=[]
-            this.addSubmitDialogState = true;
         },
         handleCurrentChange(_value){
             this.modifyData = _value
@@ -539,11 +461,14 @@ export default {
                 this.enlargeImagesValue = true
                 this.enlargeImagesSrc = _value
             }
-            
         },
-        qrCodeImagesFn(_value){
-            this.qrCodeValue = true
-            this.qrCodeSrc = _value
+        uesrTypeChooseFn(_value){
+            if(_value == 0){
+                this.modifyData.type1DoctorId = ''
+            }
+        },
+        uesrDoctorChooseFn(_value){
+            this.modifyData.type = 1
         },
         addImg(_fileLIst){
 			var file = _fileLIst.target.files[0]
@@ -551,7 +476,7 @@ export default {
 			if(file.type.indexOf('image') > -1){
 				let formData = new FormData();
 				formData.append('file', file)
-				this.$axios.post('/upload-file',formData,{headers: {'Content-Type': 'multipart/form-data'
+				this.$axios.post('/ypt/upload-file',formData,{headers: {'Content-Type': 'multipart/form-data'
 				}})
 				.then(res =>{
 					if(!res.data.codeMsg){
@@ -572,6 +497,7 @@ export default {
         modifySubmitDialogShowFn(_valueData,_value){
             if(this.addSubmitDialogState){
                 
+                this.tableDataList = [];
                 this.modifySubmitFn()
                 return ''
             }
@@ -586,6 +512,7 @@ export default {
         },
         modifySubmitDialogFn(){
             if(this.modifySubmitDialogState){
+                this.tableDataList = [];
                 this.modifySubmitFn();
             }else{
                 this.delFn(this.modifySubmitDialogData)
@@ -593,20 +520,15 @@ export default {
             this.modifySubmitState = false;
         },
         modifySubmitFn(){
-            let offic = ''
-            if(this.modifyData.officeId)
-                offic = this.typeOptions.find(res => this.modifyData.officeId == res.value);
             if(this.userState){
-
-                this.$axios.post('/ypt/hospital-maintain/create-doctor',this.$qs.stringify({
+                this.$axios.post('/ypt/hospital-maintain/create-user',this.$qs.stringify({
                     name : this.modifyData.name,
-                    tag : this.modifyData.tag,
-                    intro : this.modifyData.intro,
-                    createTime : this.modifyData.createTime,
+                    phone : this.modifyData.phone,
                     cover : this.modifyData.cover,
-                    officeId : this.modifyData.officeId,
-                    officeName : offic.label,
-                    remark:this.modifyData.remark,
+                    type : this.modifyData.type,
+                    type1DoctorId:this.modifyData.type1DoctorId,
+                    createTime : new Date().getTime(),
+                    remark : this.modifyData.remark,
                 }))
                 .then(res => {
                     if(res.data.codeMsg){
@@ -614,34 +536,32 @@ export default {
                     }
                     if(res.data.code == 0){
                         this.modifyState = false;
+                        this.modifySubmitState = false;
+                        this.tableDataList = [];
                         this.addSubmitDialogState = false;
-                        this.tableDataList = []
-                        this.getDataSum();
                         this.$message("操作成功")
+                        this.getDataSum();
                     }
                 })
             }else{
-                // console.dir(this.modifyData)
-                this.$axios.post('/ypt/hospital-maintain/update-doctor',this.$qs.stringify({
-                    doctorId : this.modifyData.doctorId,
+                this.$axios.post('/ypt/hospital-maintain/update-user',this.$qs.stringify({
+                    userId : this.modifyData.userId,
                     name : this.modifyData.name,
-                    tag : this.modifyData.tag,
-                    intro : this.modifyData.intro,
-                    createTime : this.modifyData.createTime,
+                    phone : this.modifyData.phone,
                     cover : this.modifyData.cover,
-                    officeId : this.modifyData.officeId,
-                    officeName : offic.label,
-                    remark:this.modifyData.remark,
+                    type1DoctorId:this.modifyData.type1DoctorId,
+                    type : this.modifyData.type,
+                    createTime : this.modifyData.createTime,
+                    remark : this.modifyData.remark,
                 }))
                 .then(res => {
                     if(res.data.codeMsg){
                         this.$message(res.data.codeMsg)
                     }
                     if(res.data.code == 0){
-                        this.modifyState = false;
-                        this.tableDataList = []
-                        this.getDataSum();
+                        this.modifyState = false
                         this.$message("操作成功")
+                        this.getDataSum();
                     }
                 })
             }
@@ -650,7 +570,7 @@ export default {
 }
 </script>
 <style scoped>
-.doctorManagement {
+.userManagement {
     background: rgba(240, 242, 245, 1);
     /* width: calc(100% - 200px); */
     width: 100%;
@@ -666,27 +586,27 @@ export default {
     height: 100vh;
     width: 100vh;
 }
-.doctorManagement_topTitle{
+.userManagement_topTitle{
     height: auto;
     width: 100%;
     position: relative;
 }
-.doctorManagement_top {
+.userManagement_top {
     width: 100%;
     height: 64px;
     line-height: 64px;
     background: rgba(255, 255, 255, 1);
     box-shadow: 0px 1px 4px 0px rgba(0, 21, 41, 0.12);
 }
-.doctorManagement_top i {
+.userManagement_top i {
     width: 20px;
     height: 20px;
     padding: 22px 24px;
     box-sizing: border-box;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
-.doctorManagement_top span {
+.userManagement_top span {
     float: right;
     font-size: 14px;
     font-family: PingFangSC-Regular, PingFang SC;
@@ -694,7 +614,7 @@ export default {
     color: rgba(0, 0, 0, 0.45);
     margin-right: 32px;
 }
-.doctorManagement_title{
+.userManagement_title{
     width: 100%;
     height: auto;
     background: rgba(255, 255, 255, 1);
@@ -703,23 +623,25 @@ export default {
     padding: 16px 32px 19px;
     box-sizing: border-box
 }
-.doctorManagement_title>span{
+.userManagement_title>span{
     color: #000000;
     cursor: pointer;
 }
-.doctorManagement_screening{
+.userManagement_screening{
     position: absolute;
     bottom: 19px;
     left: 32px;
+    
 }
-.doctorManagement_screening_options{
+.userManagement_screening_options{
     display: inline-block;
     margin-right: 20px;
+    margin-top: 10px;
 }
-.doctorManagement_screening_options >>>.el-input{
+.userManagement_screening_options >>>.el-input{
     width: 180px
 }
-.doctorManagement_table{
+.userManagement_table{
     height: calc(100% - 214px);
     width: 100%;
     padding: 25px 24px 61px;
@@ -734,11 +656,11 @@ export default {
 >>>.btn-next,>>>.btn-prev{
     background-color: #ffffff!important
 }
-.doctorManagement_table{
+.userManagement_table{
     width: 100%;
     height: 658px;
 }
-.doctorManagement_table_box{
+.userManagement_table_box{
     box-sizing: border-box;
     padding: 32px;
     background-color: #ffffff
@@ -746,7 +668,7 @@ export default {
 >>>.has-gutter{
     background-color: #FAFAFA
 }
-.doctorManagement_table_page{
+.userManagement_table_page{
     margin: 40px 0px 61px;
     float: right;
 
@@ -755,10 +677,10 @@ export default {
     cursor: pointer;
     color: #1890FF
 }
->>>.el-table__row td:nth-child(2){
+>>>.el-table__row td:nth-child(3){
     padding: 0px
 }
->>>.el-table__row td:nth-child(2) img{
+>>>.el-table__row td:nth-child(3) img{
     height: 41px;
     width: 41px;
 }
@@ -770,7 +692,7 @@ export default {
   word-break: break-all;
   word-wrap: break-word;
 }
-.modifyDialog >>>.el-dialog{
+.modifyHospitalDialog >>>.el-dialog{
     position: absolute;
     top: 0;
     bottom: 0;
@@ -780,13 +702,13 @@ export default {
     height: 673px;
     min-width: 670px;
 }
-.modifyDialog >>>.el-dialog__header,.modifySubmitDialog >>>.el-dialog__header{
+.modifyHospitalDialog >>>.el-dialog__header{
   padding:0px;
 }
-.modifyDialog >>>.el-dialog__headerbtn,.modifySubmitDialog >>>.el-dialog__header{
+.modifyHospitalDialog >>>.el-dialog__headerbtn{
   display: none;
 }
-.modifyDialog >>>.el-dialog__body{
+.modifyHospitalDialog >>>.el-dialog__body{
   padding:0px
   
 }
@@ -828,7 +750,7 @@ export default {
 }
 .modifyBox>ul>li:last-child{
   line-height: 32px;
-  height: 133px;
+  height: 224px;
   margin-bottom: 0px;
 }
 .modifyBox>ul>li:last-child>span{
@@ -897,7 +819,7 @@ export default {
   height: 14px;
 }
 .modifyBox>ul>li>textarea{
-  height: 133px;
+  height: 224px;
   padding: 5px 8px 21px 12px;
   box-sizing: border-box
 }
@@ -935,8 +857,8 @@ export default {
     float: left;
 }
 .modifySelectClass >>>.el-input{
-    width: 520px;
-    min-width: 468px;
+    /* width: 520px; */
+    /* min-width: 468px; */
     height: 32px;
 }
 .modifySelectClass >>>.el-input input{
@@ -961,20 +883,17 @@ export default {
 .enlargeImagesBox >>>.el-dialog{
     background-color: transparent;
     box-shadow:none;
-    height: 417px;
-    width: 343px;
+    width: 410px;
+    height: 410px;
     /* min-width: 410px; */
-}
->>>.el-dialog__headerbtn{
-    display: none;
 }
 .enlargeImagesBox >>>.el-dialog__header{
     padding: 0px;
 }
 .enlargeImagesBox >>>.el-dialog__body{
-    height: 417px;
-    width: 343px;
-    padding: 0px
+    height: 410px;
+    width: 410px;
+    padding: 0px;
 }
 .enlargeImagesClass{
     position: relative;
@@ -991,21 +910,6 @@ export default {
     left: 0;
     margin: auto;
 }
-.qrCodeImagesClass{
-    position: relative;
-    height: 417px;
-    width: 343px;
-}
-.qrCodeImagesClass>img{
-    height: 417px;
-    width: 343px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto;
-}
 .modifySubmitDialogSubmit{
   color: #F5222D;
 }
@@ -1013,5 +917,15 @@ export default {
     color: #F5222D;
     border-color: #ffb3b7;
     background-color: #ffefef;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+input[type="number"]{
+    -moz-appearance: textfield;
+}
+>>>.el-range-editor{
+    width: 380px;
 }
 </style>

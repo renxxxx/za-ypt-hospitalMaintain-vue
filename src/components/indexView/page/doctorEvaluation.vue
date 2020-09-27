@@ -3,11 +3,12 @@
       <div class="doctorEvaluation_topTitle">
           <div class="doctorEvaluation_top">
               <i class="el-icon-s-fold"></i>
+              <div style="display: inline;">姓名：{{$store.state.user.account.name}}&nbsp;&nbsp;&nbsp;&nbsp;手机号：{{$store.state.user.account.phone}}</div>
               <span>创建时间: {{$store.state.common.hospitalAboutData.createTime || ''}}</span>
           </div>
           <div class="doctorEvaluation_title">
               <div>
-                  <router-link :to="{path: '/adminView/doctorEvaluation',query:{time:new Date().getTime().toString()}}">
+                  <router-link :to="{path: '/index/doctorEvaluation',query:{time:new Date().getTime().toString()}}">
                     <span>医生评价</span>
                 </router-link>
               </div>
@@ -73,27 +74,27 @@
                   </el-table-column>
                   <el-table-column label="医生">
                       <template slot-scope="scope">
-                            <div class="line-1">{{scope.row.doctorName}}</div>
+                            <div class="line-1" :title="scope.row.doctorName">{{scope.row.doctorName}}</div>
                         </template>
                   </el-table-column>
                   <el-table-column label="用户">
                       <template slot-scope="scope">
-                            <div class="line-1">{{scope.row.userName}}</div>
+                            <div class="line-1" :title="scope.row.userName">{{scope.row.userName}}</div>
                         </template>
                   </el-table-column>
                   <el-table-column label="医院">
                       <template slot-scope="scope">
-                            <div class="line-1">{{scope.row.hospitalName}}</div>
+                            <div class="line-1" :title="scope.row.hospitalName">{{scope.row.hospitalName}}</div>
                         </template>
                   </el-table-column>
                   <el-table-column label="评价内容">
                       <template slot-scope="scope">
-                            <div class="line-2">{{scope.row.content}}</div>
+                            <div class="line-2" :title="scope.row.content">{{scope.row.content}}</div>
                         </template>
                   </el-table-column>
                   <el-table-column label="创建时间">
                       <template slot-scope="scope">
-                            <div class="line-1">{{scope.row.nowCreateTime}}</div>
+                            <div class="line-1" :title="scope.row.nowCreateTime">{{scope.row.nowCreateTime}}</div>
                         </template>
                   </el-table-column>
               </el-table>
@@ -348,7 +349,7 @@ export default {
     height: 20px;
     padding: 22px 24px;
     box-sizing: border-box;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 .doctorEvaluation_top span {

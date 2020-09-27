@@ -29,7 +29,7 @@
           </div>
           <div class="login_line">
             <i class="el-icon-unlock"></i>
-            <el-input show-password  v-model="loginData.pwd" placeholder="请输入密码" clearable></el-input>
+            <el-input show-password  v-model="loginData.pwd" placeholder="请输入密码" @autofocus="false"  clearable ></el-input>
 
           </div>
           <div class="login_submit">
@@ -124,8 +124,8 @@ export default {
               }
               if(res.data.code == 0){
                 
-                this.$store.state.account = res.data.data;
-                this.$router.push({path:'adminView/index',query:{hospitalId:this.loginData.hospitalId,time : new Date().getTime()}})
+                this.$store.state.user.account = res.data.data;
+                this.$router.push({path:'index/index',query:{hospitalId:this.loginData.hospitalId,time : new Date().getTime()}})
               }
 
           })

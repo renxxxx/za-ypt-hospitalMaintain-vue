@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import leftNav  from  './adminView/functionComponents/leftNav.vue'
+import leftNav  from  './indexView/functionComponents/leftNav.vue'
 export default {
   name: 'view',
   components:{

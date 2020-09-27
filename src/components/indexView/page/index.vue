@@ -2,18 +2,19 @@
   <div id='index_contain' class="scrollStyle">
     <div class="index_top">
       <i class="el-icon-s-fold"></i>
+      <div style="display: inline;">姓名：{{$store.state.user.account.name}}&nbsp;&nbsp;&nbsp;&nbsp;手机号：{{$store.state.user.account.phone}}</div>
       <span>创建时间: {{hospitalAboutData.createTime || ''}}</span>
     </div>
     <div class="index_title">
       <el-breadcrumb class="index_title_bread" separator="/">
-        <el-breadcrumb-item :to="{ path: '/adminView/index',query:{time:new Date().getTime().toString()}}"><span style="cursor: pointer;">医院信息</span> </el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/index/index',query:{time:new Date().getTime().toString()}}"><span style="cursor: pointer;">医院信息</span> </el-breadcrumb-item>
         <!-- <el-breadcrumb-item><a href="/">用户管理</a></el-breadcrumb-item> -->
       </el-breadcrumb>
       <div class="index_title_div">
         <img src="../../../assets/Bitmap.svg" alt="">
         <div class="index_title_nameIntro">
-          <h3>{{hospitalAboutData.name||''}}</h3>
-          <div><span v-if="hospitalAboutDataShowData[0]">{{hospitalAboutDataShowData[0]}}</span><span v-if="hospitalAboutDataShowData[1]">{{hospitalAboutDataShowData[1]}}</span></div>
+          <h3 :title="hospitalAboutData.name">{{hospitalAboutData.name||''}}</h3>
+          <div><span :title="hospitalAboutDataShowData[0]" v-if="hospitalAboutDataShowData[0]">{{hospitalAboutDataShowData[0]}}</span><span :title="hospitalAboutDataShowData[1]" v-if="hospitalAboutDataShowData[1]">{{hospitalAboutDataShowData[1]}}</span></div>
         </div>
         <img class="hospitalQrCode" @click="qrCodeImagesFn(hospitalQrCode)" :src="hospitalQrCode" alt="">
         <div class="index_title_vistorNum">
@@ -66,10 +67,10 @@
               <p>医生团队</p>
               <div>
                 <ul>
-                  <router-link :to="{path:'/adminView/doctorManagement',query:{time:new Date().getTime().toString()}}" v-for="(item,inx) in doctorList" :key="inx">
+                  <router-link :to="{path:'/index/doctorManagement',query:{time:new Date().getTime().toString()}}" v-for="(item,inx) in doctorList" :key="inx">
                     <li  >
                       <img :src="item.cover" alt="">
-                      <span class="line-1">{{item.name}}</span>
+                      <span class="line-1" :title="item.name">{{item.name}}</span>
                     </li>
                   </router-link>
                 </ul>
@@ -256,7 +257,7 @@ export default {
             ctx.lineWidth = 1;          //设置线宽状态
             ctx.strokeStyle = '#e6e6e6' ;  //设置线的颜色状态
             ctx.stroke();
-            let getUrl = '/wxminqrcode?path=' + encodeURIComponent('pages/index/index?hospitalid='+res.data.data.hospitalId
+            let getUrl = '/ypt/wxminqrcode?path=' + encodeURIComponent('pages/index/index?hospitalid='+res.data.data.hospitalId
             +'&hospitalname='+res.data.data.hospitalname)+'&width=280'
             Promise.all([
               new Promise((resolve)=>{
@@ -334,7 +335,7 @@ export default {
 			if(file.type.indexOf('image') > -1){
 				let formData = new FormData();
 				formData.append('file', file)
-				this.$axios.post('/upload-file',formData,{headers: {'Content-Type': 'multipart/form-data'
+				this.$axios.post('/ypt/upload-file',formData,{headers: {'Content-Type': 'multipart/form-data'
 				}})
 				.then(res =>{
 					if(!res.data.codeMsg){
@@ -425,7 +426,7 @@ export default {
   width: 20px;
   height: 20px;
   padding: 22px 24px;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 .index_top span {
@@ -505,7 +506,7 @@ export default {
 .index_title_vistorNum>div {
   display: inline-block;
   text-align: center;
-  width: 118px;
+  width: 108px;
 }
 
 .index_title_vistorNum>div p:first-child {

@@ -26,40 +26,40 @@ const globalRoutes = [
 //页面
 const mainRoutes = [
   {
-    path: '/adminView',
-    name: 'adminView',
-    component: _import( 'adminView/adminView'),
+    path: '/index',
+    name: 'index',
+    component: _import( 'indexView/index'),
     meta: {auth:true},
-    redirect:'/adminView/index',
+    redirect:'/index/index',
     children:[
       {
         path: 'index',
         name: 'index',
-        component: _import( 'adminView/page/index'),
+        component: _import( 'indexView/page/index'),
         meta: {auth:true,indexHide:true},
       },
       {
         path: 'userManagement',
         name: 'userManagement',
-        component: _import( 'adminView/page/userManagement'),
+        component: _import( 'indexView/page/userManagement'),
         meta: {auth:true,indexHide:true},
       },
       {
         path: 'managementDepartment',
         name: 'managementDepartment',
-        component: _import( 'adminView/page/managementDepartment'),
+        component: _import( 'indexView/page/managementDepartment'),
         meta: {auth:true,indexHide:true},
       },
       {
         path: 'doctorManagement',
         name: 'doctorManagement',
-        component: _import( 'adminView/page/doctorManagement'),
+        component: _import( 'indexView/page/doctorManagement'),
         meta: {auth:true,indexHide:true},
       },
       {
         path: 'doctorEvaluation',
         name: 'doctorEvaluation',
-        component: _import( 'adminView/page/doctorEvaluation'),
+        component: _import( 'indexView/page/doctorEvaluation'),
         meta: {auth:true,indexHide:true},
       },
       

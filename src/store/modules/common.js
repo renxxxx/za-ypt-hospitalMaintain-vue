@@ -7,7 +7,8 @@ const state={
 	nowRouter:{
 		to:'',
 		from:'',
-	}
+	},
+	loginData:''
 }
 const getters={
 }

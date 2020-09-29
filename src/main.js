@@ -12,7 +12,7 @@ import axios from 'axios'
 import qs from 'qs';  
 moment.locale('zh-cn');
 Vue.prototype.moment = moment;
-Vue.prototype.$version = '1.0.2009191450'
+Vue.prototype.$version = '1.0.1.2009291440'
 // import VueAxios from 'vue-axios'
 
 // Vue.use(VueAxios,axios);

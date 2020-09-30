@@ -60,7 +60,7 @@ export default {
 		}
 	},
 	computed:{
-		
+
 	},
 	components:{
 
@@ -184,7 +184,7 @@ export default {
           if(res.data.codeMsg)
             this.$message(res.data.codeMsg);
           if(res.data.data.rows.length>0){
-            
+
             for(let i in res.data.data.rows){
               this.searchResultsList.push({
                 value:res.data.data.rows[i].name,
@@ -192,7 +192,7 @@ export default {
                 cover:res.data.data.rows[i].cover,
               })
             }
-           
+
           }
         })
     }
@@ -264,7 +264,7 @@ export default {
     width:84px;
     height:3px;
     background:rgba(24,144,255,1);
-    margin: 5px auto;
+    margin: 5px auto 60px;
   }
   .login_line{
     max-width: 352px;
@@ -276,7 +276,7 @@ export default {
     border-bottom: 1px solid rgba(0,0,0,0.35);
   }
    >>>.el-input{
-     width:80% 
+     width:80%
    }
   >>>.el-input input{
     width: 100%;
@@ -291,7 +291,7 @@ export default {
   >>>.el-input__suffix-inner{
     width: 50px;
     display: inline-block;
-  } 
+  }
   >>>.el-autocomplete{
     width: 80%
   }
@@ -324,7 +324,7 @@ export default {
     margin-block-start: 0px;
     margin-block-end: 0px;
     padding-inline-start: 0px;
-  } 
+  }
   .searchResults ul li {
     list-style: none;
     height: 38px;

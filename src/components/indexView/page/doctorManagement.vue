@@ -745,7 +745,6 @@ export default {
                     _this.$nextTick(()=>{
                         _this.$message('下载失败，请重试')
                     })  
-                    this.$message('请求频繁，请重试')
                 }
                 ++_page;
             }

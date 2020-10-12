@@ -257,6 +257,7 @@ export default {
             ctx.lineWidth = 1;          //设置线宽状态
             ctx.strokeStyle = '#e6e6e6' ;  //设置线的颜色状态
             ctx.stroke();
+            // let getUrl = '/ypt/wx-mapp-qrcode-unlimit?path=' + 'pages/index/index'+'&scene='+encodeURIComponent('&hospitalname='+res.data.data.hospitalname)+'&width=280'
             let getUrl = '/ypt/wxminqrcode?path=' + encodeURIComponent('pages/index/index?hospitalid='+res.data.data.hospitalId
             +'&hospitalname='+res.data.data.hospitalname)+'&width=280'
             Promise.all([

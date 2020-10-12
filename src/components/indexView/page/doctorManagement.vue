@@ -53,7 +53,7 @@
                     </el-select>
                 </div> -->
                 <el-button style="margin-top: 10px;" type="primary" @click="searchFn">查 询</el-button>
-                <el-button type="info" @click="resertSearchFn">重 置</el-button>
+                <el-button style="margin-top: 10px;" type="info" @click="resertSearchFn">重 置</el-button>
                 <div style="height: 40px;line-height: 40px;">总数：{{tabelSum}}</div>
             </div>
         </div>

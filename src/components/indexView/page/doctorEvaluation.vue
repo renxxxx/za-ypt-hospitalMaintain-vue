@@ -1,117 +1,142 @@
 <template>
-  <div class="doctorEvaluation scrollStyle">
-      <div class="doctorEvaluation_topTitle">
-          <div class="doctorEvaluation_top">
-              <i class="el-icon-s-fold"></i>
-              <div style="display: inline;">姓名：{{$store.state.user.account.name}}&nbsp;&nbsp;&nbsp;&nbsp;手机号：{{$store.state.user.account.phone}}</div>
-              <span>创建时间: {{$store.state.common.hospitalAboutData.createTime || ''}}</span>
-          </div>
-          <div class="doctorEvaluation_title">
-              <div>
-                  <router-link :to="{path: '/index/doctorEvaluation',query:{time:new Date().getTime().toString()}}">
-                    <span>医生评价</span>
-                </router-link>
-              </div>
-              
-              
-          <!-- </div> -->
-          <!-- <div class="doctorEvaluation_screening"> -->
-              <div class="doctorEvaluation_screening_options">
-                  <span>关键字：</span>
-                  <el-input v-model="kw" placeholder="请输入"></el-input>
-              </div>
-              <div class="doctorEvaluation_screening_options">
-                <el-date-picker
-                    v-model="timeSearch"
-                    type="datetimerange"
-                    range-separator="至"
-                    start-placeholder="开始时间"
-                    end-placeholder="结束时间"
-                    :default-time="['00:00:00','23:59:59']">
-                </el-date-picker>
-              </div>
-              <div class="doctorEvaluation_screening_options">
-                  <span>医生：</span>
-                  <el-select v-model="doctorId" placeholder="请选择">
-                      <el-option
-                      v-for="item in doctorOptions"
-                      :key="item.doctorId"
-                      :label="item.label"
-                      :value="item.doctorId">
-                      </el-option>
-                  </el-select>
-              </div>
-              
-              <!-- <div class="doctorEvaluation_screening_options">
-                  <span>科室：</span>
-                  <el-select v-model="officeId" placeholder="请选择">
-                      <el-option
-                      v-for="item in officeSelectValue"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                      </el-option>
-                  </el-select>
-              </div> -->
-              <el-button style="margin-top: 10px;" type="primary" @click="searchFn">查 询</el-button>
-              <el-button type="info" @click="resertSearchFn">重 置</el-button>
-                <div style="height: 40px;line-height: 40px;">总数：{{tabelSum}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;评价总分：{{totalStar}}</div>
+    <div class="doctorEvaluation scrollStyle">
+        <div class="doctorEvaluation_topTitle">
+            <div class="doctorEvaluation_top">
+                <i class="el-icon-s-fold"></i>
+                <div style="display: inline;">姓名：{{$store.state.user.account.name}}&nbsp;&nbsp;&nbsp;&nbsp;手机号：{{$store.state.user.account.phone}}</div>
+                <span>创建时间: {{$store.state.common.hospitalAboutData.createTime || ''}}</span>
+            </div>
+            <div class="doctorEvaluation_title">
+                <div>
+                    <router-link :to="{path: '/index/doctorEvaluation',query:{time:new Date().getTime().toString()}}">
+                        <span>医生评价</span>
+                    </router-link>
+                </div>
+            <!-- </div> -->
+            <!-- <div class="doctorEvaluation_screening"> -->
+                <div class="doctorEvaluation_screening_options">
+                    <span>关键字：</span>
+                    <el-input v-model="kw" placeholder="请输入"></el-input>
+                </div>
+                <div class="doctorEvaluation_screening_options">
+                    <el-date-picker
+                        v-model="timeSearch"
+                        type="datetimerange"
+                        range-separator="至"
+                        start-placeholder="开始时间"
+                        end-placeholder="结束时间"
+                        :default-time="['00:00:00','23:59:59']">
+                    </el-date-picker>
+                </div>
+                <div class="doctorEvaluation_screening_options">
+                    <span>医生：</span>
+                    <el-select v-model="doctorId" placeholder="请选择">
+                        <el-option
+                        v-for="item in doctorOptions"
+                        :key="item.doctorId"
+                        :label="item.label"
+                        :value="item.doctorId">
+                        </el-option>
+                    </el-select>
+                </div>
                 
-          </div>
-      </div>
-      <div class="doctorEvaluation_table">
-          <div class="doctorEvaluation_table_box">
-              <el-table ref="singleTable" :data="tableDataList" highlight-current-row  
-                  style="width: 100%" 
-                  >
-                  <el-table-column label="序号" prop="serialNumber" width="80"></el-table-column>
-                  <el-table-column label="评价结果">
+                <!-- <div class="doctorEvaluation_screening_options">
+                    <span>科室：</span>
+                    <el-select v-model="officeId" placeholder="请选择">
+                        <el-option
+                        v-for="item in officeSelectValue"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div> -->
+                <el-button style="margin-top: 10px;" type="primary" @click="searchFn">查 询</el-button>
+                <el-button style="margin-top: 10px;" type="info" @click="resertSearchFn">重 置</el-button>
+                    <div style="height: 40px;line-height: 40px;">总数：{{tabelSum}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;评价总分：{{totalStar}}</div>
+                    
+            </div>
+        </div>
+        <div class="doctorEvaluation_table">
+            <div class="doctorEvaluation_table_box">
+                <el-table ref="singleTable" :data="tableDataList" highlight-current-row  
+                    style="width: 100%" 
+                    >
+                    <el-table-column label="序号" prop="serialNumber" width="80"></el-table-column>
+                    <el-table-column label="评价结果">
+                            <template slot-scope="scope">
+                                <div class="line-1 starClass" >
+                                    <img src="../../../assets/star.png" alt="" v-for="(item,inx) in scope.row.star" :key="inx">
+                                </div>
+                            </template>
+                    </el-table-column>
+                    <el-table-column label="医生">
                         <template slot-scope="scope">
-                            <div class="line-1 starClass" >
-                                <img src="../../../assets/star.png" alt="" v-for="(item,inx) in scope.row.star" :key="inx">
+                                <div class="line-1" :title="scope.row.doctorName">{{scope.row.doctorName}}</div>
+                            </template>
+                    </el-table-column>
+                    <el-table-column label="用户">
+                        <template slot-scope="scope">
+                                <div class="line-1" :title="scope.row.userName">{{scope.row.userName}}</div>
+                            </template>
+                    </el-table-column>
+                    <el-table-column label="医院">
+                        <template slot-scope="scope">
+                                <div class="line-1" :title="scope.row.hospitalName">{{scope.row.hospitalName}}</div>
+                            </template>
+                    </el-table-column>
+                    <el-table-column label="评价内容">
+                        <template slot-scope="scope">
+                                <div class="line-2" :title="scope.row.content">{{scope.row.content}}</div>
+                            </template>
+                    </el-table-column>
+                    <el-table-column label="图片">
+                        <template slot-scope="scope" v-if="scope.row.image[0]">
+                            <div class="line-2" :title="scope.row.image[0]">
+                                <!-- <img :src="scope.row.image[0]" v-if="!enlargeImagesValue" style="height: 40px;width: 40px;" alt=""> -->
+                                <viewer :images="scope.row.image[0]" style="display: inline;">
+                                    <img
+                                        v-for="(src,index) in scope.row.image"
+                                        :src="src"
+                                        :key="index" :style="{'height' : '40px','width' : '40px','display': index!=0? 'none':''}">
+                                </viewer>
+                                <!-- <img style="height: 40px;width: 40px;" :src="scope.row.image[0]" @click="enlargeImagesFn(scope.row.image)" alt=""> -->
+                                <i v-if="scope.row.image.length>=2" class="el-icon-more-outline"></i>
                             </div>
                         </template>
-                  </el-table-column>
-                  <el-table-column label="医生">
-                      <template slot-scope="scope">
-                            <div class="line-1" :title="scope.row.doctorName">{{scope.row.doctorName}}</div>
-                        </template>
-                  </el-table-column>
-                  <el-table-column label="用户">
-                      <template slot-scope="scope">
-                            <div class="line-1" :title="scope.row.userName">{{scope.row.userName}}</div>
-                        </template>
-                  </el-table-column>
-                  <el-table-column label="医院">
-                      <template slot-scope="scope">
-                            <div class="line-1" :title="scope.row.hospitalName">{{scope.row.hospitalName}}</div>
-                        </template>
-                  </el-table-column>
-                  <el-table-column label="评价内容">
-                      <template slot-scope="scope">
-                            <div class="line-2" :title="scope.row.content">{{scope.row.content}}</div>
-                        </template>
-                  </el-table-column>
-                  <el-table-column label="创建时间">
-                      <template slot-scope="scope">
-                            <div class="line-1" :title="scope.row.nowCreateTime">{{scope.row.nowCreateTime}}</div>
-                        </template>
-                  </el-table-column>
-              </el-table>
-          </div>
-          <div class="doctorEvaluation_table_page">
-              <el-pagination
-                  :hide-on-single-page = "hideOnSinglePageValue"
-                  background
-                  :current-page.sync = "tabelNowPage"
-                  layout="prev, pager, next,jumper"
-                  @current-change = "pageFn"
-                  :total="tabelSum">
-              </el-pagination>
-          </div>
+                    </el-table-column>
+                    <el-table-column label="创建时间">
+                        <template slot-scope="scope">
+                                <div class="line-1" :title="scope.row.nowCreateTime">{{scope.row.nowCreateTime}}</div>
+                            </template>
+                    </el-table-column>
+                </el-table>
+            </div>
+            <div class="doctorEvaluation_table_page">
+                <el-pagination
+                    :hide-on-single-page = "hideOnSinglePageValue"
+                    background
+                    :current-page.sync = "tabelNowPage"
+                    layout="prev, pager, next,jumper"
+                    @current-change = "pageFn"
+                    :total="tabelSum">
+                </el-pagination>
+            </div>
         </div>
+        <!-- <el-dialog :visible.sync="enlargeImagesValue" class="enlargeImagesBox" style="margin:auto">
+            <div slot="title">
+            </div>
+            <div class="enlargeImagesClass">
+                <el-carousel :interval="4000" type="card" height="200px">
+                    <el-carousel-item v-for="item in enlargeImagesSrc" :key="item">
+                        <img :src="item" alt="" style="width:100%">
+                    </el-carousel-item>
+                </el-carousel>
+            </div>
+        </el-dialog> -->
+       
     </div>          
-  </div>
+    <!-- </div> -->
 </template>
 <script>
 export default {
@@ -132,7 +157,9 @@ export default {
             kw:'',
             sum:0,
             timeSearch:'',
-            totalStar:0
+            totalStar:0,
+            enlargeImagesValue:false,
+            enlargeImagesSrc:[]
         }
     },
     activated(){
@@ -173,6 +200,11 @@ export default {
                     for(let i in res.data.data.rows){
                         // res.data.data.rows[i].createTime = this.moment(res.data.data.rows[i].createTime).format('YYYY-MM-DD HH-mm-ss')
                         // res.data.data.rows[i].updateTime = this.moment(res.data.data.rows[i].updateTime).format('YYYY-MM-DD HH-mm-ss')
+                        let img = []
+                        if(res.data.data.rows[i].image){
+                            img = res.data.data.rows[i].image.split(',')
+                        }
+                        console.log(img)
                         this.tableDataList.push({
                             serialNumber:(_page - 1) * 10 + parseInt(i)+1,
                             doctorCommentId: res.data.data.rows[i].doctorCommentId,
@@ -183,7 +215,7 @@ export default {
                             hospitalId: res.data.data.rows[i].hospitalId,
                             hospitalName: res.data.data.rows[i].hospitalName,
                             content: res.data.data.rows[i].content,
-                            image: res.data.data.rows[i].image,
+                            image: img,
                             video: res.data.data.rows[i].video,
                             star: res.data.data.rows[i].star,
                             createTime: res.data.data.rows[i].createTime,
@@ -276,6 +308,10 @@ export default {
                 }
                 
             })
+        },
+        enlargeImagesFn(_value){
+            this.enlargeImagesValue = true
+            this.enlargeImagesSrc = _value
         },
         pageFn(_value){
             // console.log(_value);
@@ -440,4 +476,47 @@ export default {
     width: 20px!important;
     height: 20px!important;
 }
+>>>.el-table__row{
+    height: 85px;
+}
+/* .enlargeImagesBox >>>.el-dialog{
+    background-color: transparent;
+    box-shadow:none;
+    height: 100%;
+    width: 600px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    height: 231px;
+    margin: auto!important
+}
+>>>.el-dialog__headerbtn{
+    display: none;
+}
+.enlargeImagesBox >>>.el-dialog__header{
+    padding: 0px;
+}
+.enlargeImagesBox >>>.el-dialog__body{
+    height: 231px;
+    width: 600px;
+    padding: 0px
+}
+.enlargeImagesClass{
+    position: relative;
+    height: 231px;
+    width: 600px;
+}
+.enlargeImagesClass img{
+    height: 231px;
+    width: 600px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+} */
 </style>

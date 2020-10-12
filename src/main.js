@@ -1,6 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+Vue.prototype.$version = '20.10.12.3'
 import App from './App'
 import router from './router'
 import store from './store'
@@ -18,7 +19,6 @@ Viewer.setDefaults({
 })
 moment.locale('zh-cn');
 Vue.prototype.moment = moment;
-Vue.prototype.$version = '1.0.1.2009291440'
 // import VueAxios from 'vue-axios'
 
 // Vue.use(VueAxios,axios);

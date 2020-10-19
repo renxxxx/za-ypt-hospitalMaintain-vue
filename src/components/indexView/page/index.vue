@@ -277,8 +277,8 @@ export default {
               }catch (e) {
 
               }
-              // qrCodeImg.remove()
-              // cQ.remove()  
+              qrCodeImg.remove()
+              cQ.remove()  
             })
             
           }

@@ -340,8 +340,8 @@ export default {
             
             ctx.fillStyle="#000000";
             ctx.font="18px Arial";
-            if(_resValue.hospitalName)
-            ctx.fillText(_resValue.hospitalName,100,80);
+            // if(_resValue.hospitalName)
+            // ctx.fillText(_resValue.hospitalName,100,80);
             
             ctx.moveTo (0,120);       //设置起点状态
             ctx.lineTo (560,120);       //设置末端状态
@@ -438,8 +438,8 @@ export default {
             
             ctx.fillStyle="#000000";
             ctx.font="18px Arial";
-            if(_resValue.hospitalName)
-            ctx.fillText(_resValue.hospitalName,100,80);
+            // if(_resValue.hospitalName)
+            // ctx.fillText(_resValue.hospitalName,100,80);
 
             ctx.moveTo (0,120);       //设置起点状态
             ctx.lineTo (560,120);       //设置末端状态

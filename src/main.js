@@ -18,7 +18,7 @@ Viewer.setDefaults({
 })
 moment.locale('zh-cn');
 Vue.prototype.moment = moment;
-Vue.prototype.$version = '1.0.2010191526'
+Vue.prototype.$version = '1.0.2010191341'
 // import VueAxios from 'vue-axios'
 
 // Vue.use(VueAxios,axios);

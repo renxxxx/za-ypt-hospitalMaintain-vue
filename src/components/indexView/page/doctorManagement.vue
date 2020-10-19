@@ -340,8 +340,8 @@ export default {
             
             ctx.fillStyle="#000000";
             ctx.font="18px Arial";
-            // if(_resValue.hospitalName)
-            // ctx.fillText(_resValue.hospitalName,100,80);
+            if(_resValue.hospitalName)
+            ctx.fillText(_resValue.hospitalName,100,80);
             
             ctx.moveTo (0,120);       //设置起点状态
             ctx.lineTo (560,120);       //设置末端状态
@@ -438,8 +438,8 @@ export default {
             
             ctx.fillStyle="#000000";
             ctx.font="18px Arial";
-            // if(_resValue.hospitalName)
-            // ctx.fillText(_resValue.hospitalName,100,80);
+            if(_resValue.hospitalName)
+            ctx.fillText(_resValue.hospitalName,100,80);
 
             ctx.moveTo (0,120);       //设置起点状态
             ctx.lineTo (560,120);       //设置末端状态
@@ -777,22 +777,30 @@ export default {
             let cache = {}
             let promises = []
             let _this = this;
+            let _num = 0;
             await data.forEach(item => {
                 debugger
                 let _item = item;
-                let promise = _this.getFile(item.wxMappQrcode).then(data => { // 下载文件, 并存成ArrayBuffer对象
-                debugger
-                let _data = data
-                let file_type = item.wxMappQrcode.split(".")[1];
-                let file_name = _item.name + '-' + _item.hospitalName + '-' + _item.doctorId + '.' + file_type
-                    zip.file(file_name, data, {
-                        binary: true
-                    }) 
-                    // 逐个添加文件
-                    cache[file_name] = data
-                })
-                promises.push(promise)
+                if(item.wxMappQrcode){
+                    let promise = _this.getFile(item.wxMappQrcode).then(data => { // 下载文件, 并存成ArrayBuffer对象
+                    debugger
+                    let _data = data
+                    let file_type = item.wxMappQrcode.split(".")[1];
+                    let file_name = _item.name + '-' + _item.doctorId.substring(0,15) + '.' + file_type
+                        zip.file(file_name, data, {
+                            binary: true
+                        }) 
+                        // 逐个添加文件
+                        cache[file_name] = data
+                    })
+                    promises.push(promise)
+                }else{
+                    _num++
+                }
+                
             })
+            
+            
             Promise.all(promises).then(() => {
                 zip.generateAsync({
                     type: "blob"
@@ -800,8 +808,14 @@ export default {
                     // 生成二进制流
                     _this.allDownloadShowState = false;
                     clearTimeout(_this.allDownTimeoutHandling)
+                    debugger
+                    console.log(data.length)
                     _this.$nextTick(()=>{
-                        _this.$message('下载成功,请注意查看')
+                        if(_num){
+                            _this.$message('下载成功'+data.length-num+',请注意查看')
+                        }else{
+                            _this.$message('下载成功,请注意查看')
+                        }
                     })
                     console.log(_this.$store.state.common.hospitalAboutData.name)
                     FileSaver.saveAs(content, _this.$store.state.common.hospitalAboutData.name+ '--' + _this.moment().format('YYYY-MM-DD HH-mm-ss') + ".zip") // 利用file-saver保存文件

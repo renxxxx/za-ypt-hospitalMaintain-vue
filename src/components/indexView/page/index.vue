@@ -229,37 +229,39 @@ export default {
             }
             this.$store.state.common.hospitalAboutData = this.hospitalAboutData
             localStorage.setItem('hospital',JSON.stringify(this.$store.state.common.hospitalAboutData))
-            let cQ= $('<canvas  width="280" height="340" style="display:block;"></canvas>').appendTo('body');
+            let cQ= $('<canvas  width="560" height="680" style="display:block;"></canvas>').appendTo('body');
             let c=cQ[0];
             let ctx=c.getContext("2d");
             ctx.clearRect(0,0,c.width,c.height);  
             ctx.fillStyle="#FFFFFF";
-            ctx.fillRect(0,0,280,340);
+            ctx.fillRect(0,0,560,680);
 
             res.data.data.cover = res.data.data.cover? res.data.data.cover: require("../../../assets/Bitmap.svg")
             let coverImg = $('<img src='+res.data.data.cover+' style="display:none;" />').appendTo('body')
             debugger
             if(coverImg[0]){
-                ctx.drawImage(coverImg[0],5,10,30,30);
+                ctx.drawImage(coverImg[0],10,20,70,70);
                 coverImg.remove()
             }
             
             ctx.fillStyle="#000000";
-            if(res.data.data.name)
-                ctx.fillText(res.data.data.name,50,20);
+            ctx.font="24px Arial";
+            if(this.$store.state.user.account.name)
+                ctx.fillText(this.$store.state.user.account.name,100,40);
             
             ctx.fillStyle="#000000";
-            if(res.data.data.hospitalName)
-            ctx.fillText(res.data.data.hospitalName,50,40);
+            ctx.font="18px Arial";
+            if(this.$store.state.user.account.hospitalName)
+            ctx.fillText(this.$store.state.user.account.hospitalName,100,80);
 
-            ctx.moveTo (0,60);       //设置起点状态
-            ctx.lineTo (280,60);       //设置末端状态
+            ctx.moveTo (0,120);       //设置起点状态
+            ctx.lineTo (560,120);       //设置末端状态
             ctx.lineWidth = 1;          //设置线宽状态
             ctx.strokeStyle = '#e6e6e6' ;  //设置线的颜色状态
             ctx.stroke();
             // let getUrl = '/ypt/wx-mapp-qrcode-unlimit?path=' + 'pages/index/index'+'&scene='+encodeURIComponent('&hospitalname='+res.data.data.hospitalname)+'&width=280'
             let getUrl = '/ypt/wxminqrcode?path=' + encodeURIComponent('pages/index/index?hospitalid='+res.data.data.hospitalId
-            +'&hospitalname='+res.data.data.hospitalname)+'&width=280'
+            +'&hospitalname='+res.data.data.hospitalname)+'&width=560'
             Promise.all([
               new Promise((resolve)=>{
                 const img = new Image();
@@ -269,14 +271,14 @@ export default {
             ]).then((imgs)=>{
               console.dir(imgs[0])
               let qrCodeImg = $('<img src="'+imgs[0].src+'" style="display:none;"/>').appendTo('body')
-              ctx.drawImage(qrCodeImg[0],0,60,280,280);
+              ctx.drawImage(qrCodeImg[0],0,120,560,560);
               try{
                   this.hospitalQrCode =  c.toDataURL("image/jpeg", 1.0)
               }catch (e) {
 
               }
-              qrCodeImg.remove()
-              cQ.remove()  
+              // qrCodeImg.remove()
+              // cQ.remove()  
             })
             
           }
@@ -715,6 +717,14 @@ ul,li{
     height: 340px;
     padding: 0px;
     
+}
+.qrCodeImagesClass{
+  width: 100%;
+  height: 100%;
+}
+.qrCodeImagesClass>img{
+  width: 100%;
+  height: 100%;
 }
 >>>.el-dialog__headerbtn{
   display: none;

@@ -318,31 +318,33 @@ export default {
         getWxminQrcode(_resValue,inx,_state){
             let dataUrl = null;
             // this.$nextTick(()=>{
-            let cQ= $('<canvas  width="280" height="340" style="display:block;"></canvas>').appendTo('body');
+            let cQ= $('<canvas  width="560" height="680" style="display:block;"></canvas>').appendTo('body');
             // this.
             let c=cQ[0];
             let ctx=c.getContext("2d");
             ctx.clearRect(0,0,c.width,c.height);  
             ctx.fillStyle="#FFFFFF";
-            ctx.fillRect(0,0,280,340);
+            ctx.fillRect(0,0,560,680);
 
             _resValue.cover = _resValue.cover? _resValue.cover: require("../../../assets/head.png")
             let coverImg = $('<img src='+_resValue.cover+' style="display:none;" />').appendTo('body')
             if(coverImg[0]){
-                ctx.drawImage(coverImg[0],5,10,30,30);
+                ctx.drawImage(coverImg[0],10,20,70,70);
                 coverImg.remove()
             }
             
             ctx.fillStyle="#000000";
+            ctx.font="24px Arial";
             if(_resValue.name)
-                ctx.fillText(_resValue.name,50,20);
+                ctx.fillText(_resValue.name,100,40);
             
             ctx.fillStyle="#000000";
+            ctx.font="18px Arial";
             if(_resValue.hospitalName)
-            ctx.fillText(_resValue.hospitalName,50,40);
-
-            ctx.moveTo (0,60);       //设置起点状态
-            ctx.lineTo (280,60);       //设置末端状态
+            ctx.fillText(_resValue.hospitalName,100,80);
+            
+            ctx.moveTo (0,120);       //设置起点状态
+            ctx.lineTo (560,120);       //设置末端状态
             ctx.lineWidth = 1;          //设置线宽状态
             ctx.strokeStyle = '#e6e6e6' ;  //设置线的颜色状态
             ctx.stroke();
@@ -350,9 +352,9 @@ export default {
             // encodeURIComponent('pages/evaNowShare/evaNowShare?type=1&isfrom=1&id='
             // +_resValue.doctorId
             // +'&hospitalid='+_resValue.hospitalId)
-            // }&width=280" style="display:none;"/>`).appendTo('body')
+            // }&width=560" style="display:none;"/>`).appendTo('body')
             let getUrl = '/ypt/wxminqrcode?path=' + encodeURIComponent('pages/evaNowShare/evaNowShare?type=1&isfrom=1&id='
-            +_resValue.doctorId +'&hospitalid='+_resValue.hospitalId)+'&width=280'
+            +_resValue.doctorId +'&hospitalid='+_resValue.hospitalId)+'&width=560'
             Promise.all([
                 new Promise((resolve)=>{
                     const img = new Image();
@@ -362,7 +364,7 @@ export default {
             ]).then((imgs)=>{
                 console.dir(imgs[0])
                 let qrCodeImg = $('<img src="'+imgs[0].src+'" style="display:none;"/>').appendTo('body')
-                ctx.drawImage(qrCodeImg[0],0,60,280,280);
+                ctx.drawImage(qrCodeImg[0],0,120,560,560);
                 let base64Url
                 try{
                     base64Url = c.toDataURL("image/jpeg", 1.0)
@@ -414,31 +416,33 @@ export default {
         modifyWxminQrcode(_resValue,inx,offic){
             let dataUrl = null;
             // this.$nextTick(()=>{
-            let cQ= $('<canvas  width="280" height="340" style="display:block;"></canvas>').appendTo('body');
+            let cQ= $('<canvas  width="560" height="680" style="display:block;"></canvas>').appendTo('body');
             // this.
             let c=cQ[0];
             let ctx=c.getContext("2d");
             ctx.clearRect(0,0,c.width,c.height);  
             ctx.fillStyle="#FFFFFF";
-            ctx.fillRect(0,0,280,340);
+            ctx.fillRect(0,0,560,680);
 
             _resValue.cover = _resValue.cover? _resValue.cover: require("../../../assets/head.png")
             let coverImg = $('<img src='+_resValue.cover+' style="display:none;" />').appendTo('body')
             if(coverImg[0]){
-                ctx.drawImage(coverImg[0],5,10,30,30);
+                ctx.drawImage(coverImg[0],10,20,70,70);
                 coverImg.remove()
             }
             
             ctx.fillStyle="#000000";
+            ctx.font="24px Arial";
             if(_resValue.name)
-                ctx.fillText(_resValue.name,50,20);
+                ctx.fillText(_resValue.name,100,40);
             
             ctx.fillStyle="#000000";
+            ctx.font="18px Arial";
             if(_resValue.hospitalName)
-            ctx.fillText(_resValue.hospitalName,50,40);
+            ctx.fillText(_resValue.hospitalName,100,80);
 
-            ctx.moveTo (0,60);       //设置起点状态
-            ctx.lineTo (280,60);       //设置末端状态
+            ctx.moveTo (0,120);       //设置起点状态
+            ctx.lineTo (560,120);       //设置末端状态
             ctx.lineWidth = 1;          //设置线宽状态
             ctx.strokeStyle = '#e6e6e6' ;  //设置线的颜色状态
             ctx.stroke();
@@ -448,7 +452,7 @@ export default {
             // +'&hospitalid='+_resValue.hospitalId)
             // }&width=280" style="display:none;"/>`).appendTo('body')
             let getUrl = '/ypt/wxminqrcode?path=' + encodeURIComponent('pages/evaNowShare/evaNowShare?type=1&isfrom=1&id='
-            +_resValue.doctorId +'&hospitalid='+_resValue.hospitalId)+'&width=280'
+            +_resValue.doctorId +'&hospitalid='+_resValue.hospitalId)+'&width=560'
             Promise.all([
                 new Promise((resolve)=>{
                     const img = new Image();
@@ -458,7 +462,7 @@ export default {
             ]).then((imgs)=>{
                 console.dir(imgs[0])
                 let qrCodeImg = $('<img src="'+imgs[0].src+'" style="display:none;"/>').appendTo('body')
-                ctx.drawImage(qrCodeImg[0],0,60,280,280);
+                ctx.drawImage(qrCodeImg[0],0,120,560,560);
                 let base64Url
                 try{
                     base64Url = c.toDataURL("image/jpeg", 1.0)

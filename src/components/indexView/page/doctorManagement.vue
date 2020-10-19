@@ -715,7 +715,7 @@ export default {
                     _this.$message('下载失败，请重试')
                     return
                 })  
-            },50000)
+            },100000)
             let downloadList = [];
             let addState = true;
             // let _page = Math.ceil(_this.tabelSum/2);

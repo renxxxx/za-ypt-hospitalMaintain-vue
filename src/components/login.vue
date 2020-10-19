@@ -72,9 +72,13 @@ export default {
 
 	},
 	mounted(){
-    console.log('-------------')
-    console.log(window.location.href.split('?'))
+    // console.log('-------------')
+    // console.log(window.location.href.split('?'))
     if(window.location.href.split('?').length>1){
+      // if(window.location.href.split('?')[1].split('&')[0].split('=')[0] == 'hId'){
+
+      //   return
+      // }
       if(window.location.href.split('?')[1].split('&')[0].split('=')[0] == 'hospitalId' || window.location.href.split('?')[1].split('&')[0].split('=')[0] == 'loginHospitalId'){
         this.loginData.hospitalId = window.location.href.split('?')[1].split('&')[0].split('=')[1]
         this.getData()
@@ -93,6 +97,12 @@ export default {
 		
 	},
 	methods: {
+    // getId(){
+    //   this.$axios.get('/ypt/cache/get')
+    //     .then(res =>{
+    //       console.log()
+    //     })
+    // },
     getData(){
       this.$axios.get('/ypt/hospital-maintain/hospital-name?'+this.$qs.stringify({
         hospitalId:this.loginData.hospitalId

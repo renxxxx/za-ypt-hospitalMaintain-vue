@@ -713,8 +713,9 @@ export default {
                 _this.allDownloadShowState = false;
                 _this.$nextTick(()=>{
                     _this.$message('下载失败，请重试')
+                    return
                 })  
-            },5000)
+            },100000)
             let downloadList = [];
             let addState = true;
             // let _page = Math.ceil(_this.tabelSum/2);
@@ -748,6 +749,7 @@ export default {
                     clearTimeout(_this.allDownTimeoutHandling)
                     _this.$nextTick(()=>{
                         _this.$message('下载失败，请重试')
+                        return
                     })  
                 }
                 ++_page;
@@ -786,7 +788,7 @@ export default {
                     debugger
                     let _data = data
                     let file_type = item.wxMappQrcode.split(".")[1];
-                    let file_name = _item.name + '-' + _item.doctorId.substring(0,15) + '.' + file_type
+                    let file_name = _item.name + '-' + _item.doctorId.substring(_item.doctorId.length-15,_item.doctorId.length) + '.' + file_type
                         zip.file(file_name, data, {
                             binary: true
                         }) 
@@ -809,10 +811,10 @@ export default {
                     _this.allDownloadShowState = false;
                     clearTimeout(_this.allDownTimeoutHandling)
                     debugger
-                    console.log(data.length)
+                    // console.log(data.length)
                     _this.$nextTick(()=>{
                         if(_num){
-                            _this.$message('下载成功'+data.length-num+',请注意查看')
+                            _this.$message('已下载'+data.length-num+',请注意查看')
                         }else{
                             _this.$message('下载成功,请注意查看')
                         }

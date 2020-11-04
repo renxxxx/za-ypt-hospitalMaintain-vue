@@ -811,7 +811,7 @@ export default {
                     _this.allDownloadShowState = false;
                     clearTimeout(_this.allDownTimeoutHandling)
                     debugger
-                    console.log(data.length)
+                    // console.log(data.length)
                     _this.$nextTick(()=>{
                         if(_num){
                             _this.$message('已下载'+data.length-num+',请注意查看')

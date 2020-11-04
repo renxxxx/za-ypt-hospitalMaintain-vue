@@ -39,6 +39,17 @@
                         </el-option>
                     </el-select>
                 </div>
+                 <div class="userManagement_screening_options">
+                    <span>医院运维：</span>
+                    <el-select v-model="hospitalMaintainIsValue" placeholder="请选择">
+                        <el-option
+                        v-for="item in hospitalMaintainIsOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
                 <el-button style="margin-top: 10px;" type="primary" @click="searchFn">查 询</el-button>
                 <el-button style="margin-top: 10px;" type="info" @click="resertSearchFn">重 置</el-button>
                 <div style="height: 40px;line-height: 40px;">总数：{{tabelSum}}</div>
@@ -154,6 +165,23 @@
                                 </el-option>
                             </el-select>
                         </div>
+                        
+                    </li>
+                    
+                    <li>
+                        <div class="modifySelectClass">
+                            <span>医院运维：</span>
+                            <el-select v-model="modifyData.hospitalMaintainIs" placeholder="请选择" @change="uesrDoctorChooseFn">
+                                <el-option
+                                v-for="item in hospitalMaintainIsOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                            </el-select>
+                            
+                        </div>  
+                        
                     </li>
                     <li v-if="!userState">
                         <span>创建时间：</span>
@@ -213,6 +241,7 @@ export default {
             hideOnSinglePageValue:true,
             query:'',
             typeSelectValue:null,
+            hospitalMaintainIsValue:'',
             typeOptions:[
                 {
                     value : 0,
@@ -222,10 +251,16 @@ export default {
                     value : 1,
                     label : '医生'
                 },
-                // {
-                //     value : 2,
-                //     label : '医护'
-                // },
+            ],
+            hospitalMaintainIsOptions:[
+                {
+                    value : 0,
+                    label : '否'
+                },
+                {
+                    value : 1,
+                    label : '是'
+                },
             ],
             doctorOptions:[],
             tabelSum:0,
@@ -272,6 +307,7 @@ export default {
                 createTimeFrom : createTimeFrom,
                 createTimeTo : createTimeTo,
                 type: this.typeSelectValue,
+                hospitalMaintainIs:this.hospitalMaintainIsValue
             }))
             .then(res => {
                 if(res.data.codeMsg){
@@ -312,12 +348,13 @@ export default {
             if(this.timeSearch){
                 createTimeFrom = this.moment(this.timeSearch[0]).valueOf()
                 createTimeTo = this.moment(this.timeSearch[1]).valueOf()
-            }
+            }   
             this.$axios.get('/ypt/hospital-maintain/users-sum?'+ this.$qs.stringify({
                 kw : this.kw,
                 createTimeFrom : createTimeFrom,
                 createTimeTo : createTimeTo,
                 type: this.typeSelectValue,
+                hospitalMaintainIs:this.hospitalMaintainIsValue
             }))
             .then(res => {
                 if(res.data.codeMsg){
@@ -367,6 +404,7 @@ export default {
                         frozen: res.data.data.frozen,
                         frozenReason: res.data.data.frozenReason,
                         remark: res.data.data.remark,
+                        hospitalMaintainIs:res.data.data.hospitalMaintainIs,
                     }
                 }
             })
@@ -406,7 +444,8 @@ export default {
             this.timeSearch = [];
             this.timeSearch = '';
             this.typeSelectValue = ''
-            this.tabelNowPage = 1
+            this.tabelNowPage = 1;
+            this.hospitalMaintainIsValue = '';
             this.getDataSum()
         },
         modifyFn(_value){
@@ -445,8 +484,9 @@ export default {
                 phone : '',
                 cover : '',
                 type : '',
+                hospitalMaintainIs : '',
                 createTime : '',
-                remark : '',
+                remark : ''
             }
             this.getDoctor();
             this.addSubmitDialogState = true;
@@ -526,6 +566,7 @@ export default {
                     phone : this.modifyData.phone,
                     cover : this.modifyData.cover,
                     type : this.modifyData.type,
+                    hospitalMaintainIs:this.modifyData.hospitalMaintainIs,
                     type1DoctorId:this.modifyData.type1DoctorId,
                     createTime : new Date().getTime(),
                     remark : this.modifyData.remark,
@@ -550,6 +591,7 @@ export default {
                     phone : this.modifyData.phone,
                     cover : this.modifyData.cover,
                     type1DoctorId:this.modifyData.type1DoctorId,
+                    hospitalMaintainIs:this.modifyData.hospitalMaintainIs,
                     type : this.modifyData.type,
                     createTime : this.modifyData.createTime,
                     remark : this.modifyData.remark,
@@ -750,7 +792,7 @@ export default {
 }
 .modifyBox>ul>li:last-child{
   line-height: 32px;
-  height: 224px;
+  height: 172px;
   margin-bottom: 0px;
 }
 .modifyBox>ul>li:last-child>span{
@@ -819,7 +861,7 @@ export default {
   height: 14px;
 }
 .modifyBox>ul>li>textarea{
-  height: 224px;
+  height: 172px;
   padding: 5px 8px 21px 12px;
   box-sizing: border-box
 }
@@ -867,7 +909,7 @@ export default {
 .modifySelectClass >>>.el-input__icon{
     line-height: 100%;
 }
-.modifyBox>ul>li:nth-child(4) >>>.el-input{
+/* .modifyBox>ul>li:nth-child(4) >>>.el-input{
     width: 520px;
     min-width: 468px;
     height: 30px;
@@ -878,7 +920,7 @@ export default {
 }
 .modifyBox>ul>li:nth-child(4) >>>.el-input__icon{
     line-height: 100%
-}
+} */
 
 .enlargeImagesBox >>>.el-dialog{
     background-color: transparent;

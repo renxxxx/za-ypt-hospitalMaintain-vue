@@ -28,7 +28,7 @@
             <el-input v-model="loginData.account" placeholder="请输入账号" clearable></el-input>
           </div>
           <div class="login_line">
-            <i class="el-icon-unlock"></i>
+            <i class="el-icon-unlock" ></i>
             <el-input show-password  v-model="loginData.pwd" placeholder="请输入密码" @autofocus="false"  clearable ></el-input>
 
           </div>
@@ -301,13 +301,19 @@ export default {
   >>>.el-input__suffix-inner{
     width: 50px;
     display: inline-block;
+    text-align: right;
   } 
   >>>.el-autocomplete{
     width: 80%
   }
   >>>.el-icon-circle-close{
     float: right;
+    padding-top: 2px;
+    box-sizing: border-box;
   }
+  /* >>>.el-icon-view{
+    float:left;
+  } */
   >>>.popper__arrow{
     display: none;
   }

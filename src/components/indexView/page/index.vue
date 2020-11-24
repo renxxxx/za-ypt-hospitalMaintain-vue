@@ -347,12 +347,12 @@ export default {
 				})
 				.catch(err =>{})
 			 }else{
-				this.$toast('请选择图片')
+				this.$message('请选择图片')
 				return false;
 			}
     },
     modifySubmitFn(){
-      this.$axios.post('/update-hospital',this.$qs.stringify({
+      this.$axios.post('/ypt/update-hospital',this.$qs.stringify({
         name:this.modifyData.name,
         panoramaVrUrl:this.modifyData.panoramaVrUrl,
         tag:this.modifyData.tag,

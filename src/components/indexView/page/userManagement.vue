@@ -198,9 +198,21 @@
                         <div class="hospitalCover">
                         <img :src="modifyData.cover" alt="" @click="enlargeImagesFn(modifyData.cover)">
                         <div class="hospitalCoverBox">
-                            <i class="el-icon-more"></i>
-                            <input type="file" class="upload" ref="inputer" accept="image/png,image/jpeg,image/gif,image/jpg"
-                                multiple @change="addImg($event)"/>
+                            
+                            <!-- <input type="file" class="upload" ref="inputer" accept="image/png,image/jpeg,image/gif,image/jpg"
+                                multiple @change="addImg($event)"/> -->
+                            <el-upload
+                                class="upload-demo"
+                                action="/ypt/upload-file"
+                                multiple
+                                :limit="1"
+                                :on-success="uploadSuccessFn"
+                                :on-error="uploaErrorFn"
+                                :on-exceed="exceedFn"
+                                :file-list="fileList">
+                                <i class="el-icon-more"></i>
+                                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                            </el-upload>
                         </div>
                         
                         </div>
@@ -268,6 +280,7 @@ export default {
             tableDataList:[],
             modifyState:false,
             modifyData:{},
+            fileList:[],
             enlargeImagesValue:false,
             enlargeImagesSrc:'',
             userState:true,
@@ -510,24 +523,46 @@ export default {
         uesrDoctorChooseFn(_value){
             this.modifyData.type = 1
         },
-        addImg(_fileLIst){
-			var file = _fileLIst.target.files[0]
-			// 
-			if(file.type.indexOf('image') > -1){
-				let formData = new FormData();
-				formData.append('file', file)
-				this.$axios.post('/ypt/upload-file',formData,{headers: {'Content-Type': 'multipart/form-data'
-				}})
-				.then(res =>{
-					if(!res.data.codeMsg){
-						this.modifyData.cover=res.data.data.url
-					}
-				})
-				.catch(err =>{})
-			 }else{
-				this.$toast('请选择图片')
-				return false;
-			}
+        // addImg(_fileLIst){
+		// 	var file = _fileLIst.target.files[0]
+		// 	// 
+		// 	if(file.type.indexOf('image') > -1){
+		// 		let formData = new FormData();
+		// 		formData.append('file', file)
+		// 		this.$axios.post('/ypt/upload-file',formData,{headers: {'Content-Type': 'multipart/form-data'
+		// 		}})
+		// 		.then(res =>{
+		// 			if(!res.data.codeMsg){
+		// 				this.modifyData.cover=res.data.data.url
+		// 			}
+		// 		})
+		// 		.catch(err =>{})
+		// 	 }else{
+		// 		this.$message('请选择图片')
+		// 		return false;
+		// 	}
+        // },
+        uploadSuccessFn(response, file, fileList){
+            // console.log('/***********Success***********/')
+            this.$message('操作成功')
+            this.fileList = []
+            // console.log(response)
+            this.modifyData.cover = response.data.url
+            // console.log(file)
+            // console.log(fileList)
+        },
+        uploaErrorFn(err, file, fileList){
+            this.$message('操作失败')
+            // console.log('/***********err***********/')
+            // console.log(err)
+            // console.log(file)
+            // console.log(fileList)
+        },
+        exceedFn(files, fileList){
+            this.$message('请单个上传图片')
+            // console.log(files)
+            // console.log(fileList)
+            // console.log(this.fileList)
         },
         checkoutTime(_value){
             // console.log(this.moment(_value).format('YYYY-MM-DD HH-mm-ss'))
@@ -537,7 +572,7 @@ export default {
         modifySubmitDialogShowFn(_valueData,_value){
             if(this.addSubmitDialogState){
                 
-                this.tableDataList = [];
+                // this.tableDataList = [];
                 this.modifySubmitFn()
                 return ''
             }
@@ -552,7 +587,7 @@ export default {
         },
         modifySubmitDialogFn(){
             if(this.modifySubmitDialogState){
-                this.tableDataList = [];
+                // this.tableDataList = [];
                 this.modifySubmitFn();
             }else{
                 this.delFn(this.modifySubmitDialogData)

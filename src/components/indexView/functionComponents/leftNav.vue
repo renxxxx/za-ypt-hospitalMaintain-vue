@@ -1,47 +1,46 @@
 <template>
   <div id='index_contain' >
     <el-container style="height: 100vh; border: 1px solid #eee">
-      <el-aside width="200px">
-         <el-col style="width: 100%;">
-            <div class="index_logo">
-              <img src="../../../assets/logo.svg" alt="">
-              <!-- <span>医品通</span> -->
-            </div>
-            <el-menu
-              background-color="#001529"
-              text-color="#ffffff"
-              class="el-menu-vertical-demo"
-              active-text-color="#e91e63"
-              >
-              <el-menu-item  :class="[reversedMessage == '/index/index'? 'menuColor':'']" @click="select('/index/index')">
-                <!-- <template slot="title"> -->
-                  <i class="el-icon-odometer"></i>
-                  <span>医院信息</span>
-                <!-- </template> -->
-              </el-menu-item>
-              <el-menu-item index="1" :class="[reversedMessage == '/index/userManagement'? 'menuColor':'']" @click="select('/index/userManagement')">
-                <i class="el-icon-edit-outline"></i>
-                <span slot="title">用户管理</span>
-              </el-menu-item>
-              <el-menu-item index="2" :class="[reversedMessage == '/index/managementDepartment'? 'menuColor':'']" @click="select('/index/managementDepartment')">
-                <i class="el-icon-edit-outline"></i>
-                <span slot="title">科室管理</span>
-              </el-menu-item>
-              <el-menu-item index="3" :class="[reversedMessage == '/index/doctorManagement'? 'menuColor':'']" @click="select('/index/doctorManagement')">
-                <i class="el-icon-edit-outline"></i>
-                <span slot="title">医生管理</span>
-              </el-menu-item>
-              <el-menu-item index="4" :class="[reversedMessage == '/index/doctorEvaluation'? 'menuColor':'']" @click="select('/index/doctorEvaluation')">
-                <i class="el-icon-chat-line-square"></i>
-                <span slot="title">医生评价</span>
-              </el-menu-item>
-              <el-menu-item index="5" @click="exitDialogFn">
-                <i class="el-icon-user"></i>
-                <span slot="title">退出登录</span>
-              </el-menu-item>
-            </el-menu>
-          </el-col>
-          
+      <el-aside width="200px" style="z-index:9999">
+          <div class="index_logo">
+            <img src="../../../assets/logo.svg" alt="">
+            <!-- <span>医品通</span> -->  
+          </div>
+          <el-menu
+            background-color="#001529"
+            width="200px"
+            text-color="#ffffff"
+            class="el-menu-vertical-demo"
+            active-text-color="#e91e63"
+            
+            >
+            <el-menu-item style="width:200px" index="1" :class="[reversedMessage == '/index/index'? 'menuColor':'']" @click="select('/index/index')">
+              <!-- <template slot="title"> -->
+                <i class="el-icon-odometer"></i>
+                <span>医院信息</span>
+              <!-- </template> -->
+            </el-menu-item>
+            <el-menu-item style="width:200px" index="2" :class="[reversedMessage == '/index/userManagement'? 'menuColor':'']" @click="select('/index/userManagement')">
+              <i class="el-icon-edit-outline"></i>
+              <span slot="title">用户管理</span>
+            </el-menu-item>
+            <el-menu-item style="width:200px" index="3" :class="[reversedMessage == '/index/managementDepartment'? 'menuColor':'']" @click="select('/index/managementDepartment')">
+              <i class="el-icon-edit-outline"></i>
+              <span slot="title">科室管理</span>
+            </el-menu-item>
+            <el-menu-item style="width:200px" index="4" :class="[reversedMessage == '/index/doctorManagement'? 'menuColor':'']" @click="select('/index/doctorManagement')">
+              <i class="el-icon-edit-outline"></i>
+              <span slot="title">医生管理</span>
+            </el-menu-item>
+            <el-menu-item style="width:200px" index="5" :class="[reversedMessage == '/index/doctorEvaluation'? 'menuColor':'']" @click="select('/index/doctorEvaluation')">
+              <i class="el-icon-chat-line-square"></i>
+              <span slot="title">医生评价</span>
+            </el-menu-item>
+            <el-menu-item style="width:200px" index="6" @click="exitDialogFn">
+              <i class="el-icon-user"></i>
+              <span slot="title">退出登录</span>
+            </el-menu-item>
+          </el-menu>
       </el-aside>
       <!-- <el-main>Main</el-main> -->
     </el-container>
@@ -153,7 +152,7 @@ export default {
   /* border: 0; */
 }
 >>>.el-menu-item{
-  padding: 0 0 0 20px !important;
+  /* padding: 0 0 0 20px !important; */
   text-align: left !important;
   height: 54px;
   line-height: 54px;

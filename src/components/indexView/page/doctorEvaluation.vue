@@ -63,7 +63,7 @@
                     style="width: 100%" 
                     >
                     <el-table-column label="序号" prop="serialNumber" width="80"></el-table-column>
-                    <el-table-column label="评价结果">
+                    <el-table-column label="评价结果" width="100">
                             <template slot-scope="scope">
                                 <div class="line-1 starClass" >
                                     <img src="../../../assets/star.png" alt="" v-for="(item,inx) in scope.row.star" :key="inx">
@@ -71,7 +71,7 @@
                             </template>
                     </el-table-column>
                     <el-table-column label="医生">
-                        <template slot-scope="scope">
+                        <template slot-scope="scope" >
                                 <div class="line-1" :title="scope.row.doctorName">{{scope.row.doctorName}}</div>
                             </template>
                     </el-table-column>
@@ -85,23 +85,23 @@
                                 <div class="line-1" :title="scope.row.hospitalName">{{scope.row.hospitalName}}</div>
                             </template>
                     </el-table-column>
-                    <el-table-column label="评价内容">
+                    <el-table-column label="评价内容" width="160">
                         <template slot-scope="scope">
                                 <div class="line-2" :title="scope.row.content">{{scope.row.content}}</div>
                             </template>
                     </el-table-column>
-                    <el-table-column label="图片">
+                    <el-table-column label="图片" width="100">
                         <template slot-scope="scope" v-if="scope.row.image[0]">
-                            <div class="line-2" :title="scope.row.image[0]">
+                            <div class="line-2" :title="scope.row.image[0]" ref="preview" v-viewer="{movable:false}">
                                 <!-- <img :src="scope.row.image[0]" v-if="!enlargeImagesValue" style="height: 40px;width: 40px;" alt=""> -->
-                                <viewer :images="scope.row.image[0]" style="display: inline;">
+                                <!-- <viewer :images="scope.row.image[0]" style="display: inline;"> -->
                                     <img
                                         v-for="(src,index) in scope.row.image"
                                         :src="src"
                                         :key="index" :style="{'height' : '40px','width' : '40px','display': index!=0? 'none':''}">
-                                </viewer>
+                                <!-- </viewer> -->
+                                <i v-if="scope.row.image.length>=2" class="el-icon-more-outline" @click="$refs.preview.$viewer.show()" style="cursor: pointer;"></i>
                                 <!-- <img style="height: 40px;width: 40px;" :src="scope.row.image[0]" @click="enlargeImagesFn(scope.row.image)" alt=""> -->
-                                <i v-if="scope.row.image.length>=2" class="el-icon-more-outline"></i>
                             </div>
                         </template>
                     </el-table-column>

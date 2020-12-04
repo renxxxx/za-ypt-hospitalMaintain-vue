@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state={
-	account:''
+	account:'',
 	
 }
 const getters={

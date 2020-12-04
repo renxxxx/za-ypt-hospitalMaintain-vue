@@ -8,7 +8,8 @@ const state={
 		to:'',
 		from:'',
 	},
-	loginData:''
+	loginData:'',
+	transitionName:'slide-top',
 }
 const getters={
 }

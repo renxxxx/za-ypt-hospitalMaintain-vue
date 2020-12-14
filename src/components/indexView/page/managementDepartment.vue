@@ -717,7 +717,7 @@ export default {
 }
 >>>.el-icon-more{
   width: 15px;
-  height: 14px;
+  /* height: 14px; */
 }
 .modifyBox>ul>li>textarea{
   height: 224px;

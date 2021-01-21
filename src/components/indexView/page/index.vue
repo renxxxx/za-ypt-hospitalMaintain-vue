@@ -207,6 +207,7 @@ export default {
       Object.assign(this.$data, this.$options.data());
     },
     getData(){
+      debugger
       this.$axios.get('/ypt/hospital-maintain/hospital')
       .then(res=>{
         if(res.data.codeMsg){
@@ -831,7 +832,7 @@ ul,li{
 }
 >>>.el-icon-more{
   width: 15px;
-  height: 14px;
+  /* height: 14px; */
 }
 .modifyBox>ul>li>textarea{
   height: 224px;

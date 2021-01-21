@@ -65,7 +65,8 @@ export default {
   inject: ['reload'],
   data(){
     return {
-      exitState:false
+      exitState:false,
+      nowValue:1,
     }
   },
    computed: {
@@ -96,7 +97,8 @@ export default {
     },
     select(_value){
       let that = this
-      console.dir(_value)
+      console.dir(_value);
+      
       if(_value)
         that.activityPageState = {
         doctorEvaluation : false,
@@ -105,22 +107,37 @@ export default {
         managementDepartment : false,
         userManagement : false,
       }
+      let _num = "";
       switch(_value){
         case "/index/index":
+          _num = 1
           that.$router.push({path:'/index/index',query:{hospitalId:this.$route.query.hospitalId,time:new Date().getTime().toString()}})
         break;
         case "/index/userManagement":
+           _num = 2
           that.$router.push({path:'/index/userManagement',query:{hospitalId:this.$route.query.hospitalId,time:new Date().getTime().toString()}})
         break;
         case "/index/managementDepartment":
+           _num = 3
           that.$router.push({path:'/index/managementDepartment',query:{hospitalId:this.$route.query.hospitalId,time:new Date().getTime().toString()}})
         break;
         case "/index/doctorManagement":
+           _num = 4
           that.$router.push({path:'/index/doctorManagement',query:{hospitalId:this.$route.query.hospitalId,time:new Date().getTime().toString()}})
         break;
         case "/index/doctorEvaluation":
+           _num = 5
           that.$router.push({path:'/index/doctorEvaluation',query:{hospitalId:this.$route.query.hospitalId,time:new Date().getTime().toString()}})
         break;
+      }
+      if(this.nowValue>_num){
+        this.nowValue = _num  
+        console.log("top",this.nowValue,_num)
+        this.$store.state.common.transitionName = 'slide-bottom'
+      }else{
+        this.nowValue = _num
+        console.log("bottom",this.nowValue,_num)
+        this.$store.state.common.transitionName = 'slide-top'
       }
     }
   }
@@ -131,8 +148,8 @@ export default {
 #index_contain{
   width:200px;
   height: 100%;
-  float: left;
-  position: relative;
+  /* float: left; */
+  /* position: relative; */
   /* min-width: 1200px; */
 }
 .el-aside {

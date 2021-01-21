@@ -29,7 +29,7 @@
           </div>
           <div class="login_line">
             <i class="el-icon-unlock" ></i>
-            <el-input show-password  v-model="loginData.pwd" placeholder="请输入密码" @autofocus="false"  clearable ></el-input>
+            <el-input show-password  v-model="loginData.pwd" placeholder="请输入密码" @change="submitFn" @autofocus="false"  clearable ></el-input>
 
           </div>
           <div class="login_submit">

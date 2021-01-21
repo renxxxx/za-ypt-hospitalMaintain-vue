@@ -212,6 +212,7 @@ export default {
             doctorOptions:[
                 {}
             ],
+            fileList:[],
             tabelSum:0,
             tabelNowPage:1,
             tableDataList:[],

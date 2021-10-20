@@ -29,7 +29,7 @@
           </div>
           <div class="login_line">
             <i class="el-icon-unlock" ></i>
-            <el-input show-password  v-model="loginData.pwd" placeholder="请输入密码" @change="submitFn" @autofocus="false"  clearable ></el-input>
+            <el-input show-password  v-model="loginData.pwd" placeholder="请输入密码" @autofocus="false"  clearable ></el-input>
 
           </div>
           <div class="login_submit">
@@ -79,7 +79,7 @@ export default {
 
       //   return
       // }
-      if(window.location.href.split('?')[1].split('&')[0].split('=')[0] == 'hospitalId' || window.location.href.split('?')[1].split('&')[0].split('=')[0] == 'loginHospitalId'){
+      if(window.location.href.split('?')[1].split('&')[0].split('=')[0] == 'hId'){
         this.loginData.hospitalId = window.location.href.split('?')[1].split('&')[0].split('=')[1]
         this.getData()
       }else{

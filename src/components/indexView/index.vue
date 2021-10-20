@@ -28,10 +28,10 @@ export default {
     components:{
         leftNav
     },
-    mounted(){
+    async mounted(){
         this.$store.state.common.hospitalAboutData = JSON.parse(localStorage.getItem('hospital'))
         if(!this.$store.state.common.account){
-            this.$common.checkLogin(this.$route.query.account)
+            await this.$common.checkLogin(this.$route.query.account)
         }
     },
     activated(){

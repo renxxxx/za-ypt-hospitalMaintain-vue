@@ -20,19 +20,19 @@
         <div class="index_title_vistorNum">
           <div>
             <p>近一小时访问</p>
-            <p>{{overviewDate.requestCountOfOneHourRecently}}</p>
+            <p>{{overviewDate.visitorCountOfOneHourRecently}}</p>
           </div>
           <div>
             <p>近一天访问</p>
-            <p>{{overviewDate.requestCountOfOneDayRecently}}</p>
+            <p>{{overviewDate.visitorCountOfOneDayRecently}}</p>
           </div>
           <div>
             <p>近一周访问</p>
-            <p>{{overviewDate.requestCountOfOneWeekRecently}}</p>
+            <p>{{overviewDate.visitorCountOfOneWeekRecently}}</p>
           </div>
           <div>
             <p>历史访问</p>
-            <p>{{overviewDate.requestCountOfHistory}}</p>
+            <p>{{overviewDate.visitorCountOfHistory}}</p>
           </div>
         </div>
       </div>
@@ -186,17 +186,17 @@ export default {
       qrCodeValue:false,
       qrCodeSrc:'',
       overviewDate:{
-        requestCountOfOneWeekRecently:'',
-        requestCountOfOneWeekRecently:'',
-        requestCountOfOneHourRecently:'',
-        requestCountOfHistory:''
+        visitorCountOfOneWeekRecently:'',
+        visitorCountOfOneWeekRecently:'',
+        visitorCountOfOneHourRecently:'',
+        visitorCountOfHistory:''
       }
     }
   },
-  activated(){
+  async activated(){
     if(this.query != JSON.stringify(this.$route.query)){
       this.initData();
-      this.$common.checkLogin(this.$route.query.hospitalId)
+      //await this.$common.checkLogin(this.$route.query.hospitalId)
       this.query = JSON.stringify(this.$route.query);
       this.getData();
     }
@@ -312,10 +312,10 @@ export default {
         }
         if(res.data.code == 0){
           this.overviewDate = {
-            requestCountOfOneWeekRecently : res.data.data.requestCountOfOneWeekRecently,
-            requestCountOfOneDayRecently : res.data.data.requestCountOfOneDayRecently,
-            requestCountOfOneHourRecently : res.data.data.requestCountOfOneHourRecently,
-            requestCountOfHistory : res.data.data.requestCountOfHistory,
+            visitorCountOfOneWeekRecently : res.data.data.visitorCountOfOneWeekRecently,
+            visitorCountOfOneDayRecently : res.data.data.visitorCountOfOneDayRecently,
+            visitorCountOfOneHourRecently : res.data.data.visitorCountOfOneHourRecently,
+            visitorCountOfHistory : res.data.data.visitorCountOfHistory,
           }
         }
       })

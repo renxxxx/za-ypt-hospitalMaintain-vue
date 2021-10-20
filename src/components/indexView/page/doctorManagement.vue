@@ -77,7 +77,7 @@
                     </el-table-column> 
                     <el-table-column>
                         <template slot-scope="scope">
-                            <div :title="scope.row.name" class="line-1">{{scope.row.name}}</div>
+                            <div :title="scope.row.name" class="line-1">{{scope.row.name}}&nbsp;&nbsp;&nbsp;{{scope.row.phone}}</div>
                             <div :title="scope.row.intro" class="line-2">{{scope.row.intro}}</div>
                         </template>
                     </el-table-column>
@@ -153,8 +153,12 @@
                 <div class="modifyBox"> 
                     <ul>
                         <li>
-                            <span>医生名称：</span>
+                            <span>医生姓名：</span>
                             <input v-model="modifyData.name" type="text">
+                        </li>
+                        <li>
+                            <span>手机号：</span>
+                            <input v-model="modifyData.phone" type="text">
                         </li>
                         <li>
                             <span>标签：</span>
@@ -299,10 +303,10 @@ export default {
             allDownTimeoutHandling : '',
         }
     },
-    activated(){
+    async activated(){
         if(this.query != JSON.stringify(this.$route.query)){
             this.initData();
-            this.$common.checkLogin(this.$route.query.hospitalId)
+            //await this.$common.checkLogin(this.$route.query.hospitalId)
             this.query = JSON.stringify(this.$route.query);
             this.getDataSum();
             this.getOfficeFn()
@@ -509,6 +513,7 @@ export default {
                                 doctorId : _resValue.doctorId,
                                 wxMappQrcode : res.data.data.url,
                                 name : thisV.modifyData.name,
+                                phone : thisV.modifyData.phone,
                                 tag : thisV.modifyData.tag,
                                 intro : thisV.modifyData.intro,
                                 createTime : thisV.modifyData.createTime,
@@ -569,6 +574,7 @@ export default {
                             doctorId: res.data.data.rows[i].doctorId,
                             wxMappQrcode: res.data.data.rows[i].wxMappQrcode,
                             name: res.data.data.rows[i].name,
+                            phone: res.data.data.rows[i].phone,
                             hospitalId: res.data.data.rows[i].hospitalId,
                             hospitalName: res.data.data.rows[i].hospitalName,
                             cover: res.data.data.rows[i].cover,
@@ -640,6 +646,7 @@ export default {
                         doctorId:res.data.data.doctorId,
                         name: res.data.data.name,
                         cover: res.data.data.cover,
+                        phone: res.data.data.phone,
                         video: res.data.data.video,
                         hospitalId: res.data.data.hospitalId,
                         hospitalName: res.data.data.hospitalName,
@@ -945,6 +952,7 @@ export default {
             if(this.userState){
                 this.$axios.post('/ypt/hospital-maintain/create-doctor',this.$qs.stringify({
                     name : this.modifyData.name,
+                    phone : this.modifyData.phone,
                     tag : this.modifyData.tag,
                     intro : this.modifyData.intro,
                     createTime : this.modifyData.createTime,

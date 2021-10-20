@@ -20,10 +20,10 @@
                 <span>医院信息</span>
               <!-- </template> -->
             </el-menu-item>
-            <el-menu-item style="width:200px" index="2" :class="[reversedMessage == '/index/userManagement'? 'menuColor':'']" @click="select('/index/userManagement')">
+            <!-- <el-menu-item style="width:200px" index="2" :class="[reversedMessage == '/index/userManagement'? 'menuColor':'']" @click="select('/index/userManagement')">
               <i class="el-icon-edit-outline"></i>
               <span slot="title">用户管理</span>
-            </el-menu-item>
+            </el-menu-item> -->
             <el-menu-item style="width:200px" index="3" :class="[reversedMessage == '/index/managementDepartment'? 'menuColor':'']" @click="select('/index/managementDepartment')">
               <i class="el-icon-edit-outline"></i>
               <span slot="title">科室管理</span>
@@ -90,7 +90,7 @@ export default {
         }
         if(res.data.code == 0){ 
           
-          this.$router.push({path:'/login',query:{hospitalId:this.$route.query.hospitalId}})
+          this.$router.push({path:'/login',query:{hId:this.$route.query.hospitalId}})
           this.reload();
         }
       })

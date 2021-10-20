@@ -135,7 +135,7 @@ export default {
               if(res.data.code == 0){
                 
                 this.$store.state.user.account = res.data.data;
-                this.$router.push({path:'index/index',query:{hospitalId:this.loginData.hospitalId,time : new Date().getTime()}})
+                this.$router.push({path:'/index/index',query:{hospitalId:this.loginData.hospitalId,time : new Date().getTime()}})
               }
 
           })
